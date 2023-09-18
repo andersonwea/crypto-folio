@@ -1,0 +1,67 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum TYPE {
+  BUY
+  SELL
+}
+
+model User {
+  id            String   @id @default(uuid())
+  nickname      String   @unique
+  email         String   @unique
+  password_hash String
+  created_at    DateTime @default(now())
+
+  Watchlist Watchlist[]
+  Currency  Currency[]
+
+  @@map("users")
+}
+
+model Watchlist {
+  id          String @id @default(uuid())
+  currency_id Int
+
+  user    User   @relation(fields: [user_id], references: [id])
+  user_id String
+
+  @@map("watchlist")
+}
+
+model Currency {
+  id     Int     @id
+  name   String
+  slug   String
+  symbol String
+  amount Decimal
+
+  user    User   @relation(fields: [user_id], references: [id])
+  user_id String
+
+  Transaction Transaction[]
+
+  @@map("currencies")
+}
+
+model Transaction {
+  id         String   @id @default(uuid())
+  type       TYPE
+  value      Int
+  amount     Decimal
+  created_at DateTime @default(now())
+
+  currency    Currency @relation(fields: [currency_id], references: [id], onDelete: Cascade)
+  currency_id Int
+
+  @@map("transactions")
+}
