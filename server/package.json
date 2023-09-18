@@ -6,13 +6,15 @@
   "scripts": {
     "start:dev": "tsx --watch src/server.ts",
     "start": "node build/server.js",
-    "build": "tsup src --out-dir build"
+    "build": "tsup src --out-dir build",
+    "test": "vitest --run"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@rocketseat/eslint-config": "^2.1.0",
+    "@types/bcryptjs": "2.4.4",
     "@types/node": "^20.6.2",
     "eslint": "^8.49.0",
     "prisma": "5.3.1",
@@ -22,8 +24,11 @@
   },
   "dependencies": {
     "@prisma/client": "5.3.1",
+    "bcryptjs": "2.4.3",
     "dotenv": "16.3.1",
     "fastify": "^4.23.2",
+    "vite-tsconfig-paths": "4.2.1",
+    "vitest": "0.34.4",
     "zod": "3.22.2"
   }
 }
