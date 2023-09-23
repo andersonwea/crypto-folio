@@ -5,8 +5,8 @@ Crypto Folio app
 ## RFs (Requisitos funcionais)
 
 - [x] Deve ser possível se cadastrar;
-- [ ] Deve ser possível se autenticar;
-- [ ] Deve ser possível adicionar uma crypto à lista de interesse;
+- [x] Deve ser possível se autenticar;
+- [x] Deve ser possível adicionar uma crypto à lista de interesse;
 - [ ] Deve ser possível obter o perfil do usuário logado;
 - [ ] Deve ser possível detalhar uma crypto;
 - [ ] Deve ser possível o usuário filtrar seus ativos;
