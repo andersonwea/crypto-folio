@@ -7,7 +7,7 @@ Crypto Folio app
 - [x] Deve ser possível se cadastrar;
 - [x] Deve ser possível se autenticar;
 - [x] Deve ser possível adicionar uma crypto à lista de interesse;
-- [ ] Deve ser possível obter o perfil do usuário logado;
+- [x] Deve ser possível obter o perfil do usuário logado;
 - [ ] Deve ser possível detalhar uma crypto;
 - [ ] Deve ser possível o usuário filtrar seus ativos;
 - [ ] Deve ser possível o usuário atualizar seu perfil;
