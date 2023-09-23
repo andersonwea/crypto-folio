@@ -3,6 +3,7 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import { AuthenticateUseCase } from './authenticate'
 import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository'
 import { hash } from 'bcryptjs'
+import { InvalidCredentialsError } from './errors/invalid-credentials-error'
 
 describe('Authenticate Use Case', () => {
   let usersRepository: UsersRepository
@@ -31,5 +32,20 @@ describe('Authenticate Use Case', () => {
         nickname: 'john',
       }),
     )
+  })
+
+  it('should not be able to authenticate with wrong password', async () => {
+    await usersRepository.create({
+      nickname: 'john',
+      email: 'johndoe@example.com',
+      password_hash: await hash('123456', 6),
+    })
+
+    await expect(() =>
+      sut.execute({
+        email: 'johndoe@example.com',
+        password: '123',
+      }),
+    ).rejects.toBeInstanceOf(InvalidCredentialsError)
   })
 })
