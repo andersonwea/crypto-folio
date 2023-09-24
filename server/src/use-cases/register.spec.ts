@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import { RegisterUseCase } from './register'
 import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository'
 import { compare, hash } from 'bcryptjs'
-import { UserAlreadyExitsError } from './errors/user-already-exists-error'
+import { ResourceAlreadyExitsError } from './errors/resource-already-exists-error'
 
 describe('Register Use Case', () => {
   let usersRepository: UsersRepository
@@ -54,6 +54,6 @@ describe('Register Use Case', () => {
         email: 'johndoe@example.com',
         password: '123456',
       }),
-    ).rejects.toBeInstanceOf(UserAlreadyExitsError)
+    ).rejects.toBeInstanceOf(ResourceAlreadyExitsError)
   })
 })

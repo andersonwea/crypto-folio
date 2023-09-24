@@ -1,7 +1,7 @@
 import { UsersRepository } from '@/repositories/users-repository'
 import { User } from '@prisma/client'
 import { hash } from 'bcryptjs'
-import { UserAlreadyExitsError } from './errors/user-already-exists-error'
+import { ResourceAlreadyExitsError } from './errors/resource-already-exists-error'
 
 interface RegisterUseCaseRequest {
   nickname: string
@@ -24,7 +24,7 @@ export class RegisterUseCase {
     const isUserAlreadyExists = await this.usersRepository.findByEmail(email)
 
     if (isUserAlreadyExists) {
-      throw new UserAlreadyExitsError()
+      throw new ResourceAlreadyExitsError()
     }
 
     const password_hash = await hash(password, 6)
