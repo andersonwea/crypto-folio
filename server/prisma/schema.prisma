@@ -11,8 +11,8 @@ datasource db {
 }
 
 enum TYPE {
-  BUY
-  SELL
+  buy
+  sell
 }
 
 model User {
