@@ -1,22 +1,26 @@
 import { ApiService } from '@/adapters/api-service'
 import { beforeEach, describe, expect, it } from 'vitest'
-import { FetchCurrencies } from './fetch-currencies'
 import { AxiosApiService } from '@/adapters/axios/axios-api-service'
+import { FetchCurrency } from './fetch-currency'
 
 describe('Fetch Currenties Use Case', () => {
   let apiService: ApiService
-  let sut: FetchCurrencies
+  let sut: FetchCurrency
 
   beforeEach(() => {
     apiService = new AxiosApiService()
-    sut = new FetchCurrencies(apiService)
+    sut = new FetchCurrency(apiService)
   })
 
-  it('should be able to fetch pagineted currencies', async () => {
-    const { currencies } = await sut.execute({
-      page: 1,
+  it('should be able to fetch a currency', async () => {
+    const { currency } = await sut.execute({
+      id: 1,
     })
 
-    expect(currencies).toHaveLength(7)
+    expect(currency).toEqual(
+      expect.objectContaining({
+        id: 1,
+      }),
+    )
   })
 })
