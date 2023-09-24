@@ -8,10 +8,10 @@ Crypto Folio app
 - [x] Deve ser possível se autenticar;
 - [x] Deve ser possível adicionar uma crypto à lista de interesse;
 - [x] Deve ser possível obter o perfil do usuário logado;
-- [ ] Deve ser possível detalhar uma crypto;
+- [x] Deve ser possível detalhar uma crypto;
 - [ ] Deve ser possível o usuário filtrar seus ativos;
 - [ ] Deve ser possível o usuário atualizar seu perfil;
-- [ ] Deve ser possível o usuário criar uma transação de compra ou venda;
+- [x] Deve ser possível o usuário criar uma transação de compra ou venda;
 - [ ] Deve ser possível o usuário obter seu histórico de transações;
 - [ ] Deve ser possível o usuário obter o resumo do seu portfolio;
 
@@ -26,3 +26,4 @@ Crypto Folio app
 - [ ] Os dados da aplicação precisam estar persistidos em um banco PostgreSQL;
 - [ ] O usuário deve se identificado por um JWT (JSON Web Token);
 - [ ] Os dados dos ativos virão de uma API externa;
+- [ ] Dar update no amount da model currencies com o valor total dos amounts da model transaction
