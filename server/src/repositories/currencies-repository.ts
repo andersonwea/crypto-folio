@@ -1,6 +1,19 @@
-import { Currency, Prisma } from '@prisma/client'
+import { Currency, Prisma, Transaction } from '@prisma/client'
+
+export interface CurrencyWithTransactions extends Currency {
+  transactions: Transaction[]
+}
 
 export interface CurrenciesRepository {
   create(data: Prisma.CurrencyUncheckedCreateInput): Promise<Currency>
-  findById(id: number): Promise<Currency | null>
+  findById(id: string): Promise<Currency | null>
+  findByCryptocurrencyIdAndUserId(
+    cryptocurrencyId: number,
+    userId: string,
+  ): Promise<Currency | null>
+  findByIdWithTransactions(
+    id: string,
+    page: number,
+  ): Promise<CurrencyWithTransactions | null>
+  findByUserId(userId: string): Promise<Currency | null>
 }
