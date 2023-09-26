@@ -12,7 +12,7 @@ Crypto Folio app
 - [ ] Deve ser possível o usuário filtrar seus ativos;
 - [ ] Deve ser possível o usuário atualizar seu perfil;
 - [x] Deve ser possível o usuário criar uma transação de compra ou venda;
-- [ ] Deve ser possível o usuário obter seu histórico de transações;
+- [x] Deve ser possível o usuário obter seu histórico de transações;
 - [ ] Deve ser possível o usuário obter o resumo do seu portfolio;
 
 ## Rns (Regra de negócio)
