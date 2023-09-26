@@ -39,11 +39,12 @@ model Watchlist {
 }
 
 model Currency {
-  id     Int     @id
-  name   String
-  slug   String
-  symbol String
-  amount Decimal
+  id                String  @id @default(uuid())
+  cryptocurrency_id Int
+  name              String
+  slug              String
+  symbol            String
+  amount            Decimal
 
   user    User   @relation(fields: [user_id], references: [id])
   user_id String
@@ -61,7 +62,7 @@ model Transaction {
   created_at DateTime @default(now())
 
   currency    Currency @relation(fields: [currency_id], references: [id], onDelete: Cascade)
-  currency_id Int
+  currency_id String
 
   @@map("transactions")
 }
