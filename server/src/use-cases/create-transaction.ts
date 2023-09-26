@@ -7,7 +7,7 @@ interface CreateTransactionUseCaseRequest {
   type: 'buy' | 'sell'
   value: number
   amount: number
-  currencyId: number
+  currencyId: string
 }
 
 interface CreateTransactionUseCaseResponse {

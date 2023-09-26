@@ -1,4 +1,4 @@
-import { ApiService, Currency, Currency } from '../api-service'
+import { ApiService, Currency } from '../api-service'
 import axios, { AxiosInstance } from 'axios'
 import { env } from '@/env'
 

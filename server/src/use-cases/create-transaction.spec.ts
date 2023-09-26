@@ -21,8 +21,8 @@ describe('Create Transaction Use Case', () => {
   })
 
   it('should be able to create a transaction', async () => {
-    await currenciesRepository.create({
-      id: 1,
+    const currency = await currenciesRepository.create({
+      cryptocurrency_id: 1,
       amount: 0.5,
       name: 'Bitcoin',
       slug: 'bitcoin',
@@ -32,14 +32,14 @@ describe('Create Transaction Use Case', () => {
 
     const { transaction } = await sut.execute({
       amount: 0.5,
-      currencyId: 1,
+      currencyId: currency.id,
       type: 'buy',
       value: 13000000,
     })
 
     expect(transaction).toEqual(
       expect.objectContaining({
-        currency_id: 1,
+        type: 'buy',
         value: 13000000,
       }),
     )
@@ -49,7 +49,7 @@ describe('Create Transaction Use Case', () => {
     await expect(() =>
       sut.execute({
         amount: 0.5,
-        currencyId: 1,
+        currencyId: 'inesxisting-currency-id',
         type: 'buy',
         value: 13000000,
       }),

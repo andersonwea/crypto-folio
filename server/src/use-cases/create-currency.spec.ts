@@ -14,7 +14,7 @@ describe('Create Currency Use Case', () => {
 
   it('should be able to create a currency', async () => {
     const { currency } = await sut.execute({
-      id: 1,
+      cryptocurrencyId: 1,
       amount: 0.5,
       name: 'Bitcoin',
       slug: 'bitcoin',
@@ -24,7 +24,7 @@ describe('Create Currency Use Case', () => {
 
     expect(currency).toEqual(
       expect.objectContaining({
-        id: 1,
+        cryptocurrency_id: 1,
         name: 'Bitcoin',
       }),
     )
@@ -32,7 +32,7 @@ describe('Create Currency Use Case', () => {
 
   it('should not be able to create a currency that already exists', async () => {
     await sut.execute({
-      id: 1,
+      cryptocurrencyId: 1,
       amount: 0.5,
       name: 'Bitcoin',
       slug: 'bitcoin',
@@ -42,7 +42,7 @@ describe('Create Currency Use Case', () => {
 
     await expect(() =>
       sut.execute({
-        id: 1,
+        cryptocurrencyId: 1,
         amount: 0.5,
         name: 'Bitcoin',
         slug: 'bitcoin',
