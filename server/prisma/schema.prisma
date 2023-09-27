@@ -20,6 +20,7 @@ model User {
   nickname      String   @unique
   email         String   @unique
   password_hash String
+  avatarUrl     String?
   created_at    DateTime @default(now())
 
   Watchlist Watchlist[]

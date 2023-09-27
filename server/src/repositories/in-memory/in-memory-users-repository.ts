@@ -14,6 +14,16 @@ export class InMemoryUsersRepository implements UsersRepository {
     return user
   }
 
+  async findByNickname(nickname: string) {
+    const user = this.items.find((item) => item.nickname === nickname)
+
+    if (!user) {
+      return null
+    }
+
+    return user
+  }
+
   async findByEmail(email: string) {
     const user = this.items.find((item) => item.email === email)
 
@@ -24,10 +34,11 @@ export class InMemoryUsersRepository implements UsersRepository {
     return user
   }
 
-  async create(data: Prisma.UserCreateInput) {
+  async create(data: Prisma.UserUncheckedCreateInput) {
     const user = {
       id: 'user-01',
       nickname: data.nickname,
+      avatarUrl: data.avatarUrl || null,
       email: data.email,
       password_hash: data.password_hash,
       created_at: new Date(),
@@ -36,5 +47,16 @@ export class InMemoryUsersRepository implements UsersRepository {
     this.items.push(user)
 
     return user
+  }
+
+  async update(userId: string, nickname: string, avatarUrl: string) {
+    const userIndex = this.items.findIndex((item) => item.id === userId)
+
+    if (userIndex >= 0) {
+      this.items[userIndex].nickname = nickname
+      this.items[userIndex].avatarUrl = avatarUrl
+    }
+
+    return this.items[userIndex]
   }
 }
