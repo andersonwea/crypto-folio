@@ -3,6 +3,7 @@ import { Currency } from '@prisma/client'
 
 interface FetchUserCurrenciesRequest {
   userId: string
+  search?: string
 }
 
 interface FetchUserCurrenciesResponse {
@@ -14,9 +15,12 @@ export class FetchUserCurrenciesUseCase {
 
   async execute({
     userId,
+    search,
   }: FetchUserCurrenciesRequest): Promise<FetchUserCurrenciesResponse> {
-    const userCurrencies =
-      await this.currenciesRepository.findManyByUserId(userId)
+    const userCurrencies = await this.currenciesRepository.findManyByUserId(
+      userId,
+      search,
+    )
 
     return {
       userCurrencies,
