@@ -1,4 +1,4 @@
-import { ApiService, Currency } from '../api-service'
+import { ApiService, ApiCurrency } from '../api-service'
 import axios, { AxiosInstance } from 'axios'
 import { env } from '@/env'
 
@@ -14,12 +14,12 @@ export class AxiosApiService implements ApiService {
     })
   }
 
-  async fetchById(id: number): Promise<Currency> {
+  async fetchById(id: number): Promise<ApiCurrency> {
     const {
       data: { data },
     } = await this.api.get(`/currencies/${id}`)
 
-    const currency: Currency = {
+    const currency: ApiCurrency = {
       id: data.id,
       rank: data.rank,
       name: data.name,
@@ -40,7 +40,7 @@ export class AxiosApiService implements ApiService {
       `/currencies?optionalFields=images&limit=7&offset=${(page - 1) * 7}`,
     )
 
-    const currencies: Currency[] = data.map((currency: any) => {
+    const currencies: ApiCurrency[] = data.map((currency: any) => {
       return {
         id: currency.id,
         rank: currency.rank,

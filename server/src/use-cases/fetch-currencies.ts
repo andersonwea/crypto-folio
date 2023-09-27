@@ -1,11 +1,11 @@
-import { ApiService, Currency } from '@/adapters/api-service'
+import { ApiService, ApiCurrency } from '@/adapters/api-service'
 
 interface FetchCurrenciesUseCaseRequest {
   page: number
 }
 
 interface FetchCurrenciesUseCaseResponse {
-  currencies: Currency[]
+  currencies: ApiCurrency[]
 }
 
 export class FetchCurrencies {
