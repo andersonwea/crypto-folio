@@ -72,8 +72,6 @@ describe('Fetch User Currencies Use Case', () => {
       search: 'ethereum',
     })
 
-    console.log(userCurrencies)
-
     expect(userCurrencies).toHaveLength(1)
     expect(userCurrencies).toEqual([
       expect.objectContaining({

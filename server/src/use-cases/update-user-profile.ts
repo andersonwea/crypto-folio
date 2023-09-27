@@ -6,8 +6,6 @@ import { ResourceAlreadyExitsError } from './errors/resource-already-exists-erro
 interface UpdateUserProfileUseCaseRequest {
   userId: string
   nickname: string
-  email: string
-  password: string
   avatarUrl?: string | null
 }
 
@@ -32,7 +30,7 @@ export class UpdateUserProfileUseCase {
     const userWithSameNickname =
       await this.usersRepository.findByNickname(nickname)
 
-    if (userWithSameNickname && user.id !== userId) {
+    if (userWithSameNickname && userWithSameNickname.id !== userId) {
       throw new ResourceAlreadyExitsError()
     }
 
