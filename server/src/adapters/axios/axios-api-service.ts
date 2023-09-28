@@ -55,4 +55,27 @@ export class AxiosApiService implements ApiService {
 
     return currencies
   }
+
+  async fetchManyByIds(ids: number[]) {
+    const {
+      data: { data },
+    } = await this.api.get(
+      `/currencies?optionalFields=images&ids=${ids.toString()}`,
+    )
+
+    const currencies: ApiCurrency[] = data.map((currency: any) => {
+      return {
+        id: currency.id,
+        rank: currency.rank,
+        name: currency.name,
+        symbol: currency.symbol,
+        image: currency.images['60x60'],
+        values: currency.values.USD,
+        maxSupply: currency.maxSupply,
+        circulatingSupply: currency.circulatingSupply,
+      }
+    })
+
+    return currencies
+  }
 }
