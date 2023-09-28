@@ -22,6 +22,18 @@ export class InMemoryCurrenciesRepository implements CurrenciesRepository {
     return currency
   }
 
+  async save(currencyId: string, amount: number) {
+    const currencyIndex = this.currencies.findIndex(
+      (currency) => currency.id === currencyId,
+    )
+
+    if (currencyIndex >= 0) {
+      this.currencies[currencyIndex].amount = new Prisma.Decimal(amount)
+    }
+
+    return this.currencies[currencyIndex]
+  }
+
   async findById(id: string) {
     const currency = this.currencies.find((currency) => currency.id === id)
 

@@ -24,7 +24,6 @@ export class FetchUserCurrenciesUseCase {
     const userCryptocurrenciesIds = userCurrencies.map(
       (currencies) => currencies.cryptocurrency_id,
     )
-    console.log(userCurrencies)
 
     let userApiCurrencies: ApiCurrency[] = []
 

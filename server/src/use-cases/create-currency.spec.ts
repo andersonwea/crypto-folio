@@ -29,26 +29,4 @@ describe('Create Currency Use Case', () => {
       }),
     )
   })
-
-  it('should not be able to create a currency that already exists', async () => {
-    await sut.execute({
-      cryptocurrencyId: 1,
-      amount: 0.5,
-      name: 'Bitcoin',
-      slug: 'bitcoin',
-      symbol: 'BTC',
-      userId: 'user-01',
-    })
-
-    await expect(() =>
-      sut.execute({
-        cryptocurrencyId: 1,
-        amount: 0.5,
-        name: 'Bitcoin',
-        slug: 'bitcoin',
-        symbol: 'BTC',
-        userId: 'user-01',
-      }),
-    ).rejects.toBeInstanceOf(ResourceAlreadyExitsError)
-  })
 })

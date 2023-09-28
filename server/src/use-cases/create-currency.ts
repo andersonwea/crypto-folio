@@ -1,6 +1,5 @@
 import { CurrenciesRepository } from '@/repositories/currencies-repository'
 import { Currency } from '@prisma/client'
-import { ResourceAlreadyExitsError } from './errors/resource-already-exists-error'
 
 interface CreateCurrencyUseCaseRequest {
   cryptocurrencyId: number
@@ -33,7 +32,9 @@ export class CreateCurrencyUseCase {
       )
 
     if (isCurrencyAreadyExists) {
-      throw new ResourceAlreadyExitsError()
+      return {
+        currency: isCurrencyAreadyExists,
+      }
     }
 
     const currency = await this.currenciesRespository.create({

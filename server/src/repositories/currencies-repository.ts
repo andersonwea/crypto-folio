@@ -6,6 +6,7 @@ export interface CurrencyWithTransactions extends Currency {
 
 export interface CurrenciesRepository {
   create(data: Prisma.CurrencyUncheckedCreateInput): Promise<Currency>
+  save(currendyId: string, amount: number): Promise<Currency>
   findById(id: string): Promise<Currency | null>
   findByCryptocurrencyIdAndUserId(
     cryptocurrencyId: number,
