@@ -11,7 +11,7 @@ type Values = {
   percentChange6m: number
 }
 
-export interface Currency {
+export interface ApiCurrency {
   id: number
   rank: number
   name: string
@@ -23,6 +23,7 @@ export interface Currency {
 }
 
 export interface ApiService {
-  fetchMany(page: number): Promise<Currency[]>
-  fetchById(id: number): Promise<Currency>
+  fetchMany(page: number): Promise<ApiCurrency[]>
+  fetchById(id: number): Promise<ApiCurrency>
+  fetchManyByIds(ids: number[]): Promise<ApiCurrency[]>
 }
