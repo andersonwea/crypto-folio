@@ -66,8 +66,16 @@ export class InMemoryCurrenciesRepository implements CurrenciesRepository {
     }
   }
 
-  async findManyByUserId(userId: string) {
-    const currencies = this.currencies.filter((item) => item.user_id === userId)
+  async findManyByUserId(userId: string, query?: string) {
+    let currencies: Currency[] = []
+
+    if (query) {
+      currencies = this.currencies.filter(
+        (item) => item.user_id === userId && item.slug.includes(query),
+      )
+    } else {
+      currencies = this.currencies.filter((item) => item.user_id === userId)
+    }
 
     return currencies
   }

@@ -15,5 +15,5 @@ export interface CurrenciesRepository {
     id: string,
     page: number,
   ): Promise<CurrencyWithTransactions | null>
-  findManyByUserId(userId: string): Promise<Currency[]>
+  findManyByUserId(userId: string, query?: string): Promise<Currency[]>
 }
