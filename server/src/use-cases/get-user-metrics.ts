@@ -3,11 +3,7 @@ import { TransactionsRepository } from '@/repositories/transactions-repository'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
 import { AxiosApiService } from '@/adapters/axios/axios-api-service'
 import { string } from 'zod'
-
-interface UserCurrencyPrice {
-  id: string
-  price: number
-}
+import { calculateUserCurrenciesPrice } from '@/utils/calculate-user-currencies-price'
 
 interface GetUserMetricsUseCaseRequest {
   userId: string
@@ -58,23 +54,9 @@ export class GetUserMetricsUseCase {
       userCryptocurrenciesIds,
     )
 
-    const userCurrenciesActualPrice = userCurrenciesWithTransactions.reduce(
-      (acc, userCurrency) => {
-        for (const userApiCurrency of userApiCurrencies) {
-          if (userApiCurrency.id === userCurrency.cryptocurrency_id) {
-            const currencyValue =
-              userApiCurrency.values.price * userCurrency.amount.toNumber()
-
-            acc.push({
-              id: userCurrency.id,
-              price: currencyValue,
-            })
-          }
-        }
-
-        return acc
-      },
-      [] as UserCurrencyPrice[],
+    const { userCurrenciesActualPrice } = calculateUserCurrenciesPrice(
+      userApiCurrencies,
+      userCurrenciesWithTransactions,
     )
 
     const totalBalance = userCurrenciesActualPrice.reduce(
