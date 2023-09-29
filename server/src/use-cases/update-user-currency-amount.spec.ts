@@ -37,7 +37,7 @@ describe('Update User Currency Amount Use Case', () => {
     })
 
     await transactionsRepository.create({
-      amount: -1,
+      amount: 1,
       currency_id: userCurrency.id,
       type: 'sell',
       value: 850000000,

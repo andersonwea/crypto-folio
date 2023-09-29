@@ -5,6 +5,7 @@ import { CreateTransactionUseCase } from './create-transaction'
 import { InMemoryTransactionsRepository } from '@/repositories/in-memory/in-memory-transactions-repository'
 import { InMemoryCurrenciesRepository } from '@/repositories/in-memory/in-memory-currencies-repository'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
+import { InvalidTransactionError } from './errors/invalid-transaction-error'
 
 describe('Create Transaction Use Case', () => {
   let transactionsRepository: TransactionsRepository
@@ -54,5 +55,25 @@ describe('Create Transaction Use Case', () => {
         value: 13000000,
       }),
     ).rejects.toBeInstanceOf(ResourceNotFoundError)
+  })
+
+  it('should not be able to create a sell transaction to user currency amount smaller than transaction amount', async () => {
+    const currency = await currenciesRepository.create({
+      cryptocurrency_id: 1,
+      amount: 0,
+      name: 'Bitcoin',
+      slug: 'bitcoin',
+      symbol: 'BTC',
+      user_id: 'user-01',
+    })
+
+    await expect(() =>
+      sut.execute({
+        amount: 0.5,
+        currencyId: currency.id,
+        type: 'sell',
+        value: 13000000,
+      }),
+    ).rejects.toBeInstanceOf(InvalidTransactionError)
   })
 })
