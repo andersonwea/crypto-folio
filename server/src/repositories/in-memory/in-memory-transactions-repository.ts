@@ -22,6 +22,22 @@ export class InMemoryTransactionsRepository implements TransactionsRepository {
     return transaction
   }
 
+  async findById(id: string) {
+    const transaction = this.items.find((item) => item.id === id)
+
+    if (!transaction) {
+      return null
+    }
+
+    return transaction
+  }
+
+  async deleteById(id: string) {
+    const transactionIndex = this.items.findIndex((item) => item.id === id)
+
+    this.items.splice(transactionIndex, 1)
+  }
+
   async findManyByCurrencyId(currencyId: string, page: number) {
     const transactions = this.items.filter(
       (item) => item.currency_id === currencyId,

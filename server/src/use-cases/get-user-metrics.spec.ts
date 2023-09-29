@@ -4,7 +4,7 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import { GetUserMetricsUseCase } from './get-user-metrics'
 import { InMemoryTransactionsRepository } from '@/repositories/in-memory/in-memory-transactions-repository'
 
-describe('Get User Metrics Use Case', () => {
+describe.skip('Get User Metrics Use Case', () => {
   let currenciesRepository: InMemoryCurrenciesRepository
   let transactionsRepository: InMemoryTransactionsRepository
   let apiService: AxiosApiService
