@@ -33,12 +33,10 @@ export class AxiosApiService implements ApiService {
     return currency
   }
 
-  async fetchMany(page: number) {
+  async fetchMany(page?: number, query?: string) {
     const {
       data: { data },
-    } = await this.api.get(
-      `/currencies?optionalFields=images&limit=7&offset=${(page - 1) * 7}`,
-    )
+    } = await this.api.get(`/currencies?optionalFields=images`)
 
     const currencies: ApiCurrency[] = data.map((currency: any) => {
       return {
@@ -52,6 +50,16 @@ export class AxiosApiService implements ApiService {
         circulatingSupply: currency.circulatingSupply,
       }
     })
+
+    if (page) {
+      return currencies.slice((page - 1) * 7, page * 7)
+    }
+
+    if (query) {
+      return currencies.filter((currency) =>
+        currency.name.toLocaleLowerCase().includes(query.toLocaleLowerCase()),
+      )
+    }
 
     return currencies
   }

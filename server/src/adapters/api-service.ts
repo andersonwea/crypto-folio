@@ -23,7 +23,7 @@ export interface ApiCurrency {
 }
 
 export interface ApiService {
-  fetchMany(page: number): Promise<ApiCurrency[]>
+  fetchMany(page?: number, query?: string): Promise<ApiCurrency[]>
   fetchById(id: number): Promise<ApiCurrency>
   fetchManyByIds(ids: number[]): Promise<ApiCurrency[]>
 }
