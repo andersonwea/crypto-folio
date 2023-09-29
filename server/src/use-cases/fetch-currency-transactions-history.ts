@@ -6,7 +6,6 @@ import { ResourceNotFoundError } from './errors/resource-not-found-error'
 
 interface FetchCurrencyTransactionsHistoryRequest {
   currencyId: string
-  page: number
 }
 
 interface FetchCurrencyTransactionsHistoryResponse {
@@ -18,10 +17,9 @@ export class FetchCurrencyTransactionsHistoryUseCase {
 
   async execute({
     currencyId,
-    page,
   }: FetchCurrencyTransactionsHistoryRequest): Promise<FetchCurrencyTransactionsHistoryResponse> {
     const currencyWithTransactions =
-      await this.currenciesRepository.findByIdWithTransactions(currencyId, page)
+      await this.currenciesRepository.findByIdWithTransactions(currencyId)
 
     if (!currencyWithTransactions) {
       throw new ResourceNotFoundError()

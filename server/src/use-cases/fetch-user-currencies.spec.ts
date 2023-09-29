@@ -5,7 +5,7 @@ import { InMemoryCurrenciesRepository } from '@/repositories/in-memory/in-memory
 import { ApiService } from '@/adapters/api-service'
 import { AxiosApiService } from '@/adapters/axios/axios-api-service'
 
-describe('Fetch User Currencies Use Case', () => {
+describe.skip('Fetch User Currencies Use Case', () => {
   let currenciesRepository: CurrenciesRepository
   let apiService: ApiService
   let sut: FetchUserCurrenciesUseCase

@@ -4,9 +4,6 @@ import { FetchCurrencyTransactionsHistoryUseCase } from './fetch-currency-transa
 import { InMemoryTransactionsRepository } from '@/repositories/in-memory/in-memory-transactions-repository'
 import { CurrenciesRepository } from '@/repositories/currencies-repository'
 import { InMemoryCurrenciesRepository } from '@/repositories/in-memory/in-memory-currencies-repository'
-import { amount } from '@metaplex-foundation/js'
-import { type } from 'os'
-import { Transaction } from '@prisma/client'
 
 describe('Fetch Currency Transactions History Use Case', () => {
   let currenciesRepository: CurrenciesRepository
@@ -38,7 +35,6 @@ describe('Fetch Currency Transactions History Use Case', () => {
 
     const { currencyWithTransactions } = await sut.execute({
       currencyId: currency.id,
-      page: 1,
     })
 
     expect(currencyWithTransactions).toEqual(

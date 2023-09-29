@@ -12,9 +12,9 @@ export interface CurrenciesRepository {
     cryptocurrencyId: number,
     userId: string,
   ): Promise<Currency | null>
-  findByIdWithTransactions(
-    id: string,
-    page: number,
-  ): Promise<CurrencyWithTransactions | null>
+  findByIdWithTransactions(id: string): Promise<CurrencyWithTransactions | null>
+  findManyWithTransactionsOnUserId(
+    userId: string,
+  ): Promise<CurrencyWithTransactions[]>
   findManyByUserId(userId: string, query?: string): Promise<Currency[]>
 }

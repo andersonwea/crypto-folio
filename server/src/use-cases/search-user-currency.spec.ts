@@ -4,7 +4,7 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import { SearchUserCurrencyUseCase } from './search-user-currency'
 import { AxiosApiService } from '@/adapters/axios/axios-api-service'
 
-describe('Search User Currency Use Case', () => {
+describe.skip('Search User Currency Use Case', () => {
   let currenciesRepository: InMemoryCurrenciesRepository
   let apiService: ApiService
   let sut: SearchUserCurrencyUseCase

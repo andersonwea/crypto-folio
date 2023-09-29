@@ -47,8 +47,6 @@ describe('Update User Currency Amount Use Case', () => {
       userCurrencyId: userCurrency.id,
     })
 
-    console.log(updatedUserCurrency)
-
     expect(updatedUserCurrency).toEqual(
       expect.objectContaining({
         name: 'Bitcoin',

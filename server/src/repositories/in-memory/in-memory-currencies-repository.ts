@@ -6,6 +6,21 @@ export class InMemoryCurrenciesRepository implements CurrenciesRepository {
   private currencies: Currency[] = []
   private transactions: Transaction[] = []
 
+  async createTransaction(data: Prisma.TransactionUncheckedCreateInput) {
+    const transaction = {
+      id: randomUUID(),
+      type: data.type,
+      value: data.value,
+      amount: new Prisma.Decimal(data.amount.toString()),
+      currency_id: data.currency_id,
+      created_at: new Date(),
+    }
+
+    this.transactions.push(transaction)
+
+    return transaction
+  }
+
   async create(data: Prisma.CurrencyUncheckedCreateInput) {
     const currency = {
       id: randomUUID(),
@@ -61,16 +76,35 @@ export class InMemoryCurrenciesRepository implements CurrenciesRepository {
     return currency
   }
 
-  async findByIdWithTransactions(id: string, page: number) {
+  async findManyWithTransactionsOnUserId(userId: string) {
+    const currencies = this.currencies.filter(
+      (currency) => currency.user_id === userId,
+    )
+
+    const currenciesWithTransactions = currencies.map((currency) => {
+      const transactions = this.transactions.filter(
+        (transactions) => transactions.currency_id === currency.id,
+      )
+
+      return {
+        ...currency,
+        transactions,
+      }
+    })
+
+    return currenciesWithTransactions
+  }
+
+  async findByIdWithTransactions(id: string) {
     const currency = this.currencies.find((item) => item.id === id)
 
     if (!currency) {
       return null
     }
 
-    const transactions = this.transactions
-      .filter((transaction) => transaction.currency_id === id)
-      .slice((page - 1) * 7, page * 7)
+    const transactions = this.transactions.filter(
+      (transaction) => transaction.currency_id === id,
+    )
 
     return {
       ...currency,
