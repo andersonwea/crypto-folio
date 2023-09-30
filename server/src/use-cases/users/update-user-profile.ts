@@ -1,7 +1,7 @@
 import { UsersRepository } from '@/repositories/users-repository'
 import { User } from '@prisma/client'
-import { ResourceNotFoundError } from './errors/resource-not-found-error'
-import { ResourceAlreadyExitsError } from './errors/resource-already-exists-error'
+import { ResourceNotFoundError } from '../errors/resource-not-found-error'
+import { ResourceAlreadyExitsError } from '../errors/resource-already-exists-error'
 
 interface UpdateUserProfileUseCaseRequest {
   userId: string

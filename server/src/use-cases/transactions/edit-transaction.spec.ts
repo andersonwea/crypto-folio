@@ -3,7 +3,7 @@ import { InMemoryTransactionsRepository } from '@/repositories/in-memory/in-memo
 import { beforeEach, describe, expect, it } from 'vitest'
 import { EditTransactionUseCase } from './edit-transaction'
 import { Prisma } from '@prisma/client'
-import { ResourceNotFoundError } from './errors/resource-not-found-error'
+import { ResourceNotFoundError } from '../errors/resource-not-found-error'
 
 describe('Edit Transaction Use Case', () => {
   let transactionsRepository: InMemoryTransactionsRepository

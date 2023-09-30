@@ -4,8 +4,8 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import { CreateTransactionUseCase } from './create-transaction'
 import { InMemoryTransactionsRepository } from '@/repositories/in-memory/in-memory-transactions-repository'
 import { InMemoryCurrenciesRepository } from '@/repositories/in-memory/in-memory-currencies-repository'
-import { ResourceNotFoundError } from './errors/resource-not-found-error'
-import { InvalidTransactionError } from './errors/invalid-transaction-error'
+import { ResourceNotFoundError } from '../errors/resource-not-found-error'
+import { InvalidTransactionError } from '../errors/invalid-transaction-error'
 
 describe('Create Transaction Use Case', () => {
   let transactionsRepository: TransactionsRepository

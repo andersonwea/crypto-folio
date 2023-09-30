@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import { RegisterUseCase } from './register'
 import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository'
 import { compare, hash } from 'bcryptjs'
-import { ResourceAlreadyExitsError } from './errors/resource-already-exists-error'
+import { ResourceAlreadyExitsError } from '../errors/resource-already-exists-error'
 
 describe('Register Use Case', () => {
   let usersRepository: UsersRepository

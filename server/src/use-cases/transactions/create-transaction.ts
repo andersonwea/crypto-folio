@@ -1,8 +1,8 @@
 import { CurrenciesRepository } from '@/repositories/currencies-repository'
 import { TransactionsRepository } from '@/repositories/transactions-repository'
 import { Transaction } from '@prisma/client'
-import { ResourceNotFoundError } from './errors/resource-not-found-error'
-import { InvalidTransactionError } from './errors/invalid-transaction-error'
+import { ResourceNotFoundError } from '../errors/resource-not-found-error'
+import { InvalidTransactionError } from '../errors/invalid-transaction-error'
 
 interface CreateTransactionUseCaseRequest {
   type: 'buy' | 'sell'

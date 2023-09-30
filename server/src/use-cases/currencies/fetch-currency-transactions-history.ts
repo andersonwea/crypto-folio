@@ -2,7 +2,7 @@ import {
   CurrenciesRepository,
   CurrencyWithTransactions,
 } from '@/repositories/currencies-repository'
-import { ResourceNotFoundError } from './errors/resource-not-found-error'
+import { ResourceNotFoundError } from '../errors/resource-not-found-error'
 
 interface FetchCurrencyTransactionsHistoryRequest {
   currencyId: string

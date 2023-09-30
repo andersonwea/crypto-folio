@@ -2,7 +2,7 @@ import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-user
 import { beforeEach, describe, expect, it } from 'vitest'
 import { UpdateUserProfileUseCase } from './update-user-profile'
 import { hash } from 'bcryptjs'
-import { ResourceAlreadyExitsError } from './errors/resource-already-exists-error'
+import { ResourceAlreadyExitsError } from '../errors/resource-already-exists-error'
 
 describe('Update User Profile Use Case', () => {
   let usersRepository: InMemoryUsersRepository

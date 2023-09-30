@@ -1,7 +1,7 @@
 import { InMemoryCurrenciesRepository } from '@/repositories/in-memory/in-memory-currencies-repository'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { CreateCurrencyUseCase } from './create-currency'
-import { ResourceAlreadyExitsError } from './errors/resource-already-exists-error'
+import { ResourceAlreadyExitsError } from '../errors/resource-already-exists-error'
 
 describe('Create Currency Use Case', () => {
   let currenciesRepository: InMemoryCurrenciesRepository
