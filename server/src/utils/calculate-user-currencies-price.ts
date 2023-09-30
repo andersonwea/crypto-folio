@@ -19,7 +19,7 @@ export function calculateUserCurrenciesPrice(
 
           acc.push({
             id: userCurrency.id,
-            price: currencyValue,
+            price: Number(currencyValue.toFixed(2)),
           })
         }
       }
