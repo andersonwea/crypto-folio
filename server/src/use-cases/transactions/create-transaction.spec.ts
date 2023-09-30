@@ -27,6 +27,7 @@ describe('Create Transaction Use Case', () => {
       amount: 0.5,
       name: 'Bitcoin',
       slug: 'bitcoin',
+      image: 'crypto-image',
       symbol: 'BTC',
       user_id: 'user-01',
     })
@@ -63,6 +64,7 @@ describe('Create Transaction Use Case', () => {
       amount: 0,
       name: 'Bitcoin',
       slug: 'bitcoin',
+      image: 'crypto-image',
       symbol: 'BTC',
       user_id: 'user-01',
     })

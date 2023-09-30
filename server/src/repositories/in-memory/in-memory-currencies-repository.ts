@@ -27,6 +27,7 @@ export class InMemoryCurrenciesRepository implements CurrenciesRepository {
       cryptocurrency_id: data.cryptocurrency_id,
       name: data.name,
       slug: data.slug,
+      image: data.image,
       symbol: data.symbol,
       amount: new Prisma.Decimal(data.amount.toString()),
       user_id: data.user_id,

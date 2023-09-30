@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import { AxiosApiService } from '@/adapters/axios/axios-api-service'
 import { FetchCurrency } from './fetch-currency'
 
-describe.skip('Fetch Currenties Use Case', () => {
+describe('Fetch Currenties Use Case', () => {
   let apiService: ApiService
   let sut: FetchCurrency
 

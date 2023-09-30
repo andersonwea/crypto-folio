@@ -4,7 +4,6 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import { FetchUserTransactionsHistoryUseCase } from './fetch-user-transactions-history'
 import { InMemoryTransactionsRepository } from '@/repositories/in-memory/in-memory-transactions-repository'
 import { InMemoryCurrenciesRepository } from '@/repositories/in-memory/in-memory-currencies-repository'
-import { i } from 'vitest/dist/reporters-cb94c88b'
 
 describe('Fetch User Transactions History Use Case', () => {
   let transactionsRepository: TransactionsRepository
@@ -26,6 +25,7 @@ describe('Fetch User Transactions History Use Case', () => {
       cryptocurrency_id: 1,
       name: 'Bitcoin',
       slug: 'bitcoin',
+      image: 'crypto-image',
       symbol: 'BTC',
       user_id: 'user-01',
     })
@@ -66,6 +66,7 @@ describe('Fetch User Transactions History Use Case', () => {
       cryptocurrency_id: 1,
       name: 'Bitcoin',
       slug: 'bitcoin',
+      image: 'crypto-image',
       symbol: 'BTC',
       user_id: 'user-01',
     })

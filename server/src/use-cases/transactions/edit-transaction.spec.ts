@@ -22,6 +22,7 @@ describe('Edit Transaction Use Case', () => {
       cryptocurrency_id: 1,
       name: 'Bitcoin',
       slug: 'bitcoin',
+      image: 'crypto-image',
       symbol: 'BTC',
       user_id: 'user-01',
     })

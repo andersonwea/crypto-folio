@@ -3,7 +3,6 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import { DeleteTransactionUseCase } from './delete-transaction'
 import { CurrenciesRepository } from '@/repositories/currencies-repository'
 import { InMemoryCurrenciesRepository } from '@/repositories/in-memory/in-memory-currencies-repository'
-import { ResourceNotFoundError } from '../errors/resource-not-found-error'
 
 describe('Delete Transaction Use Case', () => {
   let currenciesRepository: CurrenciesRepository
@@ -22,6 +21,7 @@ describe('Delete Transaction Use Case', () => {
       cryptocurrency_id: 1,
       name: 'Bitcoin',
       slug: 'bitcoin',
+      image: 'crypto-image',
       symbol: 'BTC',
       user_id: 'user-01',
     })

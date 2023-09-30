@@ -6,6 +6,7 @@ interface CreateCurrencyUseCaseRequest {
   name: string
   slug: string
   symbol: string
+  image: string
   amount: number
   userId: string
 }
@@ -22,6 +23,7 @@ export class CreateCurrencyUseCase {
     name,
     slug,
     symbol,
+    image,
     amount,
     userId,
   }: CreateCurrencyUseCaseRequest): Promise<CreateCurrencyUseCaseResponse> {
@@ -41,6 +43,7 @@ export class CreateCurrencyUseCase {
       cryptocurrency_id: cryptocurrencyId,
       name,
       slug,
+      image,
       symbol,
       amount,
       user_id: userId,

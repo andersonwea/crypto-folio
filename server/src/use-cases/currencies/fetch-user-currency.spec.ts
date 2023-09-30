@@ -4,7 +4,7 @@ import { FetchUserCurrencyUseCase } from './fetch-user-currency'
 import { AxiosApiService } from '@/adapters/axios/axios-api-service'
 import { Prisma } from '@prisma/client'
 
-describe.skip('Fetch User Currency Use Case', () => {
+describe('Fetch User Currency Use Case', () => {
   let currenciesRepository: InMemoryCurrenciesRepository
   let apiService: AxiosApiService
   let sut: FetchUserCurrencyUseCase
@@ -21,6 +21,7 @@ describe.skip('Fetch User Currency Use Case', () => {
       cryptocurrency_id: 1,
       name: 'Bitcoin',
       slug: 'bitcoin',
+      image: 'crypto-image',
       symbol: 'BTC',
       user_id: 'user-01',
     })

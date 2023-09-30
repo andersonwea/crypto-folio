@@ -5,7 +5,7 @@ import { InMemoryCurrenciesRepository } from '@/repositories/in-memory/in-memory
 import { ApiService } from '@/adapters/api-service'
 import { AxiosApiService } from '@/adapters/axios/axios-api-service'
 
-describe.skip('Fetch User Currencies Use Case', () => {
+describe('Fetch User Currencies Use Case', () => {
   let currenciesRepository: CurrenciesRepository
   let apiService: ApiService
   let sut: FetchUserCurrenciesUseCase
@@ -22,6 +22,7 @@ describe.skip('Fetch User Currencies Use Case', () => {
       cryptocurrency_id: 1,
       name: 'Bitcoin',
       slug: 'bitcoin',
+      image: 'crypto-image',
       symbol: 'BTC',
       user_id: 'user-01',
     })
@@ -31,6 +32,7 @@ describe.skip('Fetch User Currencies Use Case', () => {
       cryptocurrency_id: 3,
       name: 'Ethereum',
       slug: 'etherum',
+      image: 'crypto-image',
       symbol: 'ETH',
       user_id: 'user-01',
     })
@@ -60,6 +62,7 @@ describe.skip('Fetch User Currencies Use Case', () => {
       cryptocurrency_id: 1,
       name: 'Bitcoin',
       slug: 'bitcoin',
+      image: 'crypto-image',
       symbol: 'BTC',
       user_id: 'user-01',
     })

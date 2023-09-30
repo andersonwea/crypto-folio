@@ -44,6 +44,7 @@ model Currency {
   cryptocurrency_id Int
   name              String
   slug              String
+  image             String
   symbol            String
   amount            Decimal
 

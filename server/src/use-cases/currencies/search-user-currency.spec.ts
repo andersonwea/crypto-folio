@@ -4,7 +4,7 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import { SearchUserCurrencyUseCase } from './search-user-currency'
 import { AxiosApiService } from '@/adapters/axios/axios-api-service'
 
-describe.skip('Search User Currency Use Case', () => {
+describe('Search User Currency Use Case', () => {
   let currenciesRepository: InMemoryCurrenciesRepository
   let apiService: ApiService
   let sut: SearchUserCurrencyUseCase
@@ -21,6 +21,7 @@ describe.skip('Search User Currency Use Case', () => {
       cryptocurrency_id: 1,
       name: 'Bitcoin',
       slug: 'bitcoin',
+      image: 'crypto-image',
       symbol: 'BTC',
       user_id: 'user-01',
     })
@@ -30,6 +31,7 @@ describe.skip('Search User Currency Use Case', () => {
       cryptocurrency_id: 3,
       name: 'Ethereum',
       slug: 'ethereum',
+      image: 'crypto-image',
       symbol: 'ETH',
       user_id: 'user-01',
     })
