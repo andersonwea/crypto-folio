@@ -7,11 +7,12 @@ export class InMemoryTransactionsRepository implements TransactionsRepository {
 
   async create(data: Prisma.TransactionUncheckedCreateInput) {
     const amount = data.type === 'buy' ? data.amount : Number(data.amount) * -1
+    const value = data.type === 'buy' ? data.value : Number(data.value) * -1
 
     const transaction = {
       id: randomUUID(),
       type: data.type,
-      value: data.value,
+      value,
       amount: new Prisma.Decimal(amount.toString()),
       currency_id: data.currency_id,
       created_at: new Date(),

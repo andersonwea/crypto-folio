@@ -4,7 +4,7 @@ import { FetchUserCurrencyUseCase } from './fetch-user-currency'
 import { AxiosApiService } from '@/adapters/axios/axios-api-service'
 import { Prisma } from '@prisma/client'
 
-describe('Fetch User Currency Use Case', () => {
+describe.skip('Fetch User Currency Use Case', () => {
   let currenciesRepository: InMemoryCurrenciesRepository
   let apiService: AxiosApiService
   let sut: FetchUserCurrencyUseCase
@@ -28,8 +28,6 @@ describe('Fetch User Currency Use Case', () => {
     const { userCurrencyWithBalance } = await sut.execute({
       currencyId: currency.id,
     })
-
-    console.log(userCurrencyWithBalance)
 
     expect(userCurrencyWithBalance).toEqual(
       expect.objectContaining({

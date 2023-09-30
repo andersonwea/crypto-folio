@@ -35,19 +35,21 @@ describe.skip('Fetch User Currencies Use Case', () => {
       user_id: 'user-01',
     })
 
-    const { userApiCurrencies } = await sut.execute({
+    const { userCurrenciesWithBalance } = await sut.execute({
       userId: 'user-01',
     })
 
-    expect(userApiCurrencies).toHaveLength(2)
-    expect(userApiCurrencies).toEqual([
+    expect(userCurrenciesWithBalance).toHaveLength(2)
+    expect(userCurrenciesWithBalance).toEqual([
       expect.objectContaining({
         name: 'Bitcoin',
-        id: 1,
+        cryptocurrency_id: 1,
+        balance: expect.any(Number),
       }),
       expect.objectContaining({
         name: 'Ethereum',
-        id: 3,
+        cryptocurrency_id: 3,
+        balance: expect.any(Number),
       }),
     ])
   })
@@ -62,15 +64,17 @@ describe.skip('Fetch User Currencies Use Case', () => {
       user_id: 'user-01',
     })
 
-    const { userApiCurrencies } = await sut.execute({
+    const { userCurrenciesWithBalance } = await sut.execute({
       userId: 'user-01',
     })
 
-    expect(userApiCurrencies).toHaveLength(1)
-    expect(userApiCurrencies).toEqual([
+    expect(userCurrenciesWithBalance).toHaveLength(1)
+    expect(userCurrenciesWithBalance).toEqual([
       expect.objectContaining({
         name: 'Bitcoin',
-        id: 1,
+        cryptocurrency_id: 1,
+        balance: expect.any(Number),
+        transactions: [],
       }),
     ])
   })

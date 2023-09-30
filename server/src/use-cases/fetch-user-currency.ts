@@ -3,10 +3,10 @@ import {
   CurrencyWithTransactions,
 } from '@/repositories/currencies-repository'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
-import { calculateUserCurrenciesPrice } from '@/utils/calculate-user-currencies-price'
+import { calculateUserCurrenciesBalance } from '@/utils/calculate-user-currencies-balance'
 import { ApiService } from '@/adapters/api-service'
 
-interface CurrencyWithBalance extends CurrencyWithTransactions {
+export interface UserCurrencyWithBalance extends CurrencyWithTransactions {
   balance: number
 }
 
@@ -15,7 +15,7 @@ interface FetchUserCurrencyUseCaseRequest {
 }
 
 interface FetchUserCurrencyUseCaseResponse {
-  userCurrencyWithBalance: CurrencyWithBalance
+  userCurrencyWithBalance: UserCurrencyWithBalance
 }
 
 export class FetchUserCurrencyUseCase {
@@ -38,18 +38,12 @@ export class FetchUserCurrencyUseCase {
       userCurrency.cryptocurrency_id,
     )
 
-    const { userCurrenciesActualPrice } = calculateUserCurrenciesPrice(
+    const { userCurrenciesWithBalance } = calculateUserCurrenciesBalance(
       [userApiCurrency],
       [userCurrency],
     )
 
-    const balance =
-      Number(userCurrency.amount) * userCurrenciesActualPrice[0].price
-
-    const userCurrencyWithBalance = {
-      ...userCurrency,
-      balance,
-    }
+    const [userCurrencyWithBalance] = userCurrenciesWithBalance
 
     return {
       userCurrencyWithBalance,

@@ -4,7 +4,7 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import { GetUserMetricsUseCase } from './get-user-metrics'
 import { InMemoryTransactionsRepository } from '@/repositories/in-memory/in-memory-transactions-repository'
 
-describe.skip('Get User Metrics Use Case', () => {
+describe('Get User Metrics Use Case', () => {
   let currenciesRepository: InMemoryCurrenciesRepository
   let transactionsRepository: InMemoryTransactionsRepository
   let apiService: AxiosApiService
@@ -28,7 +28,7 @@ describe.skip('Get User Metrics Use Case', () => {
     })
 
     await currenciesRepository.createTransaction({
-      amount: 1.5,
+      amount: 1,
       currency_id: currency.id,
       type: 'buy',
       value: 1000000,
@@ -38,21 +38,21 @@ describe.skip('Get User Metrics Use Case', () => {
       amount: -0.5,
       currency_id: currency.id,
       type: 'sell',
-      value: 1000000,
+      value: -500000,
     })
 
     await transactionsRepository.create({
-      amount: 1.5,
+      amount: 1,
       currency_id: currency.id,
       type: 'buy',
       value: 1000000,
     })
 
     await transactionsRepository.create({
-      amount: -0.5,
+      amount: 0.5,
       currency_id: currency.id,
       type: 'sell',
-      value: 1000000,
+      value: 500000,
     })
 
     const sumAmount = await transactionsRepository.sumAmountByCurrencyId(
@@ -71,7 +71,7 @@ describe.skip('Get User Metrics Use Case', () => {
       totalInvested,
     })
 
-    expect(totalInvested).toEqual(20000)
+    expect(totalInvested).toEqual(5000)
     expect(totalBalance).toEqual(expect.any(Number))
     expect(profitOrLoss).toEqual(expect.any(Number))
   })

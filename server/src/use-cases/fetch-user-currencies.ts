@@ -1,12 +1,14 @@
-import { ApiCurrency, ApiService } from '@/adapters/api-service'
+import { ApiService } from '@/adapters/api-service'
 import { CurrenciesRepository } from '@/repositories/currencies-repository'
+import { calculateUserCurrenciesBalance } from '@/utils/calculate-user-currencies-balance'
+import { UserCurrencyWithBalance } from './fetch-user-currency'
 
 interface FetchUserCurrenciesRequest {
   userId: string
 }
 
 interface FetchUserCurrenciesResponse {
-  userApiCurrencies: ApiCurrency[]
+  userCurrenciesWithBalance: UserCurrencyWithBalance[]
 }
 
 export class FetchUserCurrenciesUseCase {
@@ -19,28 +21,23 @@ export class FetchUserCurrenciesUseCase {
     userId,
   }: FetchUserCurrenciesRequest): Promise<FetchUserCurrenciesResponse> {
     const userCurrencies =
-      await this.currenciesRepository.findManyByUserId(userId)
+      await this.currenciesRepository.findManyWithTransactionsOnUserId(userId)
 
     const userCryptocurrenciesIds = userCurrencies.map(
-      (currencies) => currencies.cryptocurrency_id,
+      (currency) => currency.cryptocurrency_id,
     )
 
-    let userApiCurrencies: ApiCurrency[] = []
+    const userApiCurrencies = await this.apiService.fetchManyByIds(
+      userCryptocurrenciesIds,
+    )
 
-    if (userCryptocurrenciesIds.length === 1) {
-      const currencyId = Number(userCryptocurrenciesIds.toString())
-
-      const userCurrency = await this.apiService.fetchById(currencyId)
-
-      userApiCurrencies.push(userCurrency)
-    } else {
-      userApiCurrencies = await this.apiService.fetchManyByIds(
-        userCryptocurrenciesIds,
-      )
-    }
+    const { userCurrenciesWithBalance } = calculateUserCurrenciesBalance(
+      userApiCurrencies,
+      userCurrencies,
+    )
 
     return {
-      userApiCurrencies,
+      userCurrenciesWithBalance,
     }
   }
 }
