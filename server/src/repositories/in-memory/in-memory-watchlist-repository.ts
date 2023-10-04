@@ -17,9 +17,9 @@ export class InMemoryWatchlistRepository implements WatchlistRepository {
     return currencyInWatchlist
   }
 
-  async delete(watchlistId: string): Promise<void> {
+  async delete(id: string): Promise<void> {
     const currencyInWatchlistIndex = this.watchlist.findIndex(
-      (watchlist) => watchlist.id === watchlistId,
+      (watchlist) => watchlist.id === id,
     )
 
     this.watchlist.splice(currencyInWatchlistIndex, 1)

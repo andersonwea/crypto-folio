@@ -51,7 +51,7 @@ model Currency {
   user    User   @relation(fields: [user_id], references: [id])
   user_id String
 
-  Transaction Transaction[]
+  transactions Transaction[]
 
   @@map("currencies")
 }

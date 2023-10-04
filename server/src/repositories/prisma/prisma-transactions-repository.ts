@@ -1,7 +1,6 @@
 import { Prisma, Transaction } from '@prisma/client'
 import { TransactionsRepository } from '../transactions-repository'
 import { prisma } from '@/lib/prisma'
-import transaction from '@project-serum/anchor/dist/cjs/program/namespace/transaction'
 
 export class PrismaTransactionsRepository implements TransactionsRepository {
   async create(data: Prisma.TransactionUncheckedCreateInput) {

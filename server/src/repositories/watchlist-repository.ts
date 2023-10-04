@@ -6,5 +6,5 @@ export interface WatchlistRepository {
     currencyId: number,
     userId: string,
   ): Promise<Watchlist | null>
-  delete(watchlistId: string): Promise<void>
+  delete(id: string): Promise<void>
 }
