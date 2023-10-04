@@ -1,15 +1,15 @@
 import { ApiService } from '@/adapters/api-service'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { AxiosApiService } from '@/adapters/axios/axios-api-service'
-import { FetchCurrency } from './fetch-api-currency'
+import { FetchApiCurrencyUseCase } from './fetch-api-currency'
 
 describe('Fetch Currenties Use Case', () => {
   let apiService: ApiService
-  let sut: FetchCurrency
+  let sut: FetchApiCurrencyUseCase
 
   beforeEach(() => {
     apiService = new AxiosApiService()
-    sut = new FetchCurrency(apiService)
+    sut = new FetchApiCurrencyUseCase(apiService)
   })
 
   it('should be able to fetch a currency', async () => {

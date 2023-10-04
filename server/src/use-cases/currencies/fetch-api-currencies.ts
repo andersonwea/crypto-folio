@@ -1,19 +1,19 @@
 import { ApiService, ApiCurrency } from '@/adapters/api-service'
 
-interface FetchCurrenciesUseCaseRequest {
+interface FetchApiCurrenciesUseCaseRequest {
   page: number
 }
 
-interface FetchCurrenciesUseCaseResponse {
+interface FetchApiCurrenciesUseCaseResponse {
   currencies: ApiCurrency[]
 }
 
-export class FetchCurrencies {
+export class FetchApiCurrenciesUseCase {
   constructor(private apiService: ApiService) {}
 
   async execute({
     page,
-  }: FetchCurrenciesUseCaseRequest): Promise<FetchCurrenciesUseCaseResponse> {
+  }: FetchApiCurrenciesUseCaseRequest): Promise<FetchApiCurrenciesUseCaseResponse> {
     const currencies = await this.apiService.fetchMany(page)
 
     return {
