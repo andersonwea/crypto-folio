@@ -7,7 +7,7 @@ export interface UsersRepository {
   findById(id: string): Promise<User | null>
   update(
     userId: string,
-    nickanme: string,
+    nickname: string,
     avatarUrl: string | null,
   ): Promise<User>
 }
