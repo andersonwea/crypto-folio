@@ -1,3 +1,4 @@
+import { makeUpdateUserCurrencyAmountUseCase } from '@/use-cases/factories/currencies/make-update-user-currency-amount-use-case'
 import { makeGetUserMetricsUseCase } from '@/use-cases/factories/users/make-get-user-metrics-use-case'
 import { FastifyReply, FastifyRequest } from 'fastify'
 

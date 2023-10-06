@@ -63,7 +63,7 @@ export class GetUserMetricsUseCase {
       0,
     )
 
-    const profitOrLoss = totalBalance / totalInvested - 1
+    const profitOrLoss = Number((totalBalance / totalInvested - 1).toFixed(2))
 
     return {
       totalInvested,

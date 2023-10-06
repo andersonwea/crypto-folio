@@ -66,12 +66,6 @@ describe('Get User Metrics Use Case', () => {
       userId: 'user-01',
     })
 
-    console.log({
-      profitOrLoss,
-      totalBalance,
-      totalInvested,
-    })
-
     expect(totalInvested).toEqual(5000)
     expect(totalBalance).toEqual(expect.any(Number))
     expect(profitOrLoss).toEqual(expect.any(Number))
