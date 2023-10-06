@@ -1,11 +1,11 @@
 import { FastifyInstance } from 'fastify'
-import { register } from './controllers/users/register'
-import { authenticate } from './controllers/users/authenticate'
-import { refresh } from './controllers/users/refresh'
-import { profile } from './controllers/users/profile'
-import { verifyJWT } from './middlewares/verify-jwt'
-import { metrics } from './controllers/users/metrics'
-import { updateProfile } from './controllers/users/update-profile'
+import { register } from './register'
+import { authenticate } from './authenticate'
+import { refresh } from './refresh'
+import { profile } from './profile'
+import { verifyJWT } from '../../middlewares/verify-jwt'
+import { metrics } from './metrics'
+import { updateProfile } from './update-profile'
 
 export async function usersRoutes(app: FastifyInstance) {
   app.post('/users', register)
