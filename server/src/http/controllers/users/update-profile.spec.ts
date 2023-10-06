@@ -1,9 +1,9 @@
 import { app } from '@/app'
-import { createUserCurrencyAndTransaction } from '@/utils/tests/create-user-currency-and-transaction'
+import { createAndAuthenticateUser } from '@/utils/tests/create-and-authenticate-user'
 import request from 'supertest'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
-describe.skip('Metrics (e2e)', () => {
+describe('Update porfile (e2e)', () => {
   beforeAll(async () => {
     await app.ready()
   })
@@ -12,20 +12,22 @@ describe.skip('Metrics (e2e)', () => {
     await app.close()
   })
 
-  it('should be able to get metrics', async () => {
-    const { token } = await createUserCurrencyAndTransaction(app)
+  it('should be able to update profile', async () => {
+    const { token } = await createAndAuthenticateUser(app)
 
     const response = await request(app.server)
-      .get('/me/metrics')
+      .put('/me/profile')
       .set('Authorization', `Bearer ${token}`)
-      .send()
+      .send({
+        nickname: 'Oni',
+        avatarUrl: 'new-avatar-image',
+      })
 
     expect(response.statusCode).toEqual(200)
     expect(response.body).toEqual(
       expect.objectContaining({
-        profitOrLoss: expect.any(Number),
-        totalBalance: expect.any(Number),
-        totalInvested: expect.any(Number),
+        nickname: 'Oni',
+        avatarUrl: 'new-avatar-image',
       }),
     )
   })
