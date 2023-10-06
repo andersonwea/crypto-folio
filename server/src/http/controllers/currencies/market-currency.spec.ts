@@ -3,7 +3,7 @@ import { createAndAuthenticateUser } from '@/utils/tests/create-and-authenticate
 import request from 'supertest'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
-describe.skip('Market Currencies (e2e)', () => {
+describe('Market currency (e2e)', () => {
   beforeAll(async () => {
     await app.ready()
   })
@@ -12,17 +12,20 @@ describe.skip('Market Currencies (e2e)', () => {
     await app.close()
   })
 
-  it('should be able to fetch market currencies', async () => {
+  it('should be able to get market currency', async () => {
     const { token } = await createAndAuthenticateUser(app)
 
     const response = await request(app.server)
-      .get('/market')
+      .get('/market/1')
       .set('Authorization', `Bearer ${token}`)
-      .send({
-        page: 1,
-      })
+      .send()
 
     expect(response.statusCode).toEqual(200)
-    expect(response.body).toHaveLength(7)
+    expect(response.body).toEqual(
+      expect.objectContaining({
+        id: expect.any(Number),
+        name: expect.any(String),
+      }),
+    )
   })
 })
