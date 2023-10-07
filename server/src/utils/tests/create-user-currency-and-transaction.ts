@@ -11,7 +11,6 @@ export async function createUserCurrencyAndTransaction(app: FastifyInstance) {
       cryptocurrency_id: 1,
       image: 'crypto-image',
       name: 'Bitcoin',
-      slug: 'bitcoin',
       symbol: 'BTC',
       user_id: user.id,
     },

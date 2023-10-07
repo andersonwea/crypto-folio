@@ -43,7 +43,7 @@ export class PrismaTransactionsRepository implements TransactionsRepository {
   async findManyByCurrencyId(currencyId: string, page: number) {
     const transactions = await prisma.transaction.findMany({
       where: {
-        id: currencyId,
+        currency_id: currencyId,
       },
       take: 7,
       skip: (page - 1) * 7,
