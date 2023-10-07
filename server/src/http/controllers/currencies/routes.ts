@@ -7,8 +7,8 @@ import { create } from './create'
 export async function currenciesRoutes(app: FastifyInstance) {
   app.addHook('onRequest', verifyJWT)
 
-  app.get('/market', marketCurrencies)
-  app.get('/market/:id', marketCurrency)
+  app.get('/market/currencies', marketCurrencies)
+  app.get('/market/currencies/:id', marketCurrency)
 
   app.post('/currencies', create)
 }

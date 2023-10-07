@@ -16,7 +16,7 @@ describe.skip('Market Currencies (e2e)', () => {
     const { token } = await createAndAuthenticateUser(app)
 
     const response = await request(app.server)
-      .get('/market')
+      .get('/market/currencies')
       .set('Authorization', `Bearer ${token}`)
       .send({
         page: 1,

@@ -16,7 +16,7 @@ describe('Market currency (e2e)', () => {
     const { token } = await createAndAuthenticateUser(app)
 
     const response = await request(app.server)
-      .get('/market/1')
+      .get('/market/currencies/1')
       .set('Authorization', `Bearer ${token}`)
       .send()
 
