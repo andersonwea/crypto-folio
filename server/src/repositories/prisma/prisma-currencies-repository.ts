@@ -1,7 +1,6 @@
 import { Prisma } from '@prisma/client'
 import { CurrenciesRepository } from '../currencies-repository'
 import { prisma } from '@/lib/prisma'
-import { Transaction } from '@solana/web3.js'
 
 export class PrismaCurrenciesRepository implements CurrenciesRepository {
   async create(data: Prisma.CurrencyUncheckedCreateInput) {
@@ -82,6 +81,9 @@ export class PrismaCurrenciesRepository implements CurrenciesRepository {
       currencies = await prisma.currency.findMany({
         where: {
           user_id: userId,
+          name: {
+            contains: query,
+          },
         },
       })
     } else {

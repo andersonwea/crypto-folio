@@ -22,7 +22,7 @@ export class AxiosApiService implements ApiService {
     const currency: ApiCurrency = {
       id: data.id,
       rank: data.rank,
-      name: data.name,
+      name: data.name.toLowerCase(),
       symbol: data.symbol,
       image: data.images['60x60'],
       values: data.values.USD,
@@ -42,7 +42,7 @@ export class AxiosApiService implements ApiService {
       return {
         id: currency.id,
         rank: currency.rank,
-        name: currency.name,
+        name: currency.name.toLowerCase(),
         symbol: currency.symbol,
         image: currency.images['60x60'],
         values: currency.values.USD,
@@ -75,7 +75,7 @@ export class AxiosApiService implements ApiService {
       return {
         id: currency.id,
         rank: currency.rank,
-        name: currency.name,
+        name: currency.name.toLowerCase(),
         symbol: currency.symbol,
         image: currency.images['60x60'],
         values: currency.values.USD,

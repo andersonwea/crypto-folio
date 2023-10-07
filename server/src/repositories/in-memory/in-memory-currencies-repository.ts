@@ -26,7 +26,6 @@ export class InMemoryCurrenciesRepository implements CurrenciesRepository {
       id: randomUUID(),
       cryptocurrency_id: data.cryptocurrency_id,
       name: data.name,
-      slug: data.slug,
       image: data.image,
       symbol: data.symbol,
       amount: new Prisma.Decimal(data.amount.toString()),
@@ -118,7 +117,7 @@ export class InMemoryCurrenciesRepository implements CurrenciesRepository {
 
     if (query) {
       currencies = this.currencies.filter(
-        (item) => item.user_id === userId && item.slug.includes(query),
+        (item) => item.user_id === userId && item.name.includes(query),
       )
     } else {
       currencies = this.currencies.filter((item) => item.user_id === userId)

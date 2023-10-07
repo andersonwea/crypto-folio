@@ -20,7 +20,6 @@ describe('Delete Transaction Use Case', () => {
       amount: 0,
       cryptocurrency_id: 1,
       name: 'Bitcoin',
-      slug: 'bitcoin',
       image: 'crypto-image',
       symbol: 'BTC',
       user_id: 'user-01',

@@ -19,8 +19,7 @@ describe('Search User Currency Use Case', () => {
     await currenciesRepository.create({
       amount: 1.5,
       cryptocurrency_id: 1,
-      name: 'Bitcoin',
-      slug: 'bitcoin',
+      name: 'bitcoin',
       image: 'crypto-image',
       symbol: 'BTC',
       user_id: 'user-01',
@@ -29,8 +28,7 @@ describe('Search User Currency Use Case', () => {
     await currenciesRepository.create({
       amount: 1,
       cryptocurrency_id: 3,
-      name: 'Ethereum',
-      slug: 'ethereum',
+      name: 'ethereum',
       image: 'crypto-image',
       symbol: 'ETH',
       user_id: 'user-01',
@@ -43,7 +41,7 @@ describe('Search User Currency Use Case', () => {
 
     expect(userApiCurrency).toEqual(
       expect.objectContaining({
-        name: 'Bitcoin',
+        name: 'bitcoin',
         id: 1,
       }),
     )

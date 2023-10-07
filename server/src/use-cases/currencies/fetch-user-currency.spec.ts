@@ -20,7 +20,6 @@ describe('Fetch User Currency Use Case', () => {
       amount: 1,
       cryptocurrency_id: 1,
       name: 'Bitcoin',
-      slug: 'bitcoin',
       image: 'crypto-image',
       symbol: 'BTC',
       user_id: 'user-01',

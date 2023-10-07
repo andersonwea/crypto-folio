@@ -4,7 +4,6 @@ import { Currency } from '@prisma/client'
 interface CreateCurrencyUseCaseRequest {
   cryptocurrencyId: number
   name: string
-  slug: string
   symbol: string
   image: string
   amount: number
@@ -21,7 +20,6 @@ export class CreateCurrencyUseCase {
   async execute({
     cryptocurrencyId,
     name,
-    slug,
     symbol,
     image,
     amount,
@@ -42,7 +40,6 @@ export class CreateCurrencyUseCase {
     const currency = await this.currenciesRespository.create({
       cryptocurrency_id: cryptocurrencyId,
       name,
-      slug,
       image,
       symbol,
       amount,

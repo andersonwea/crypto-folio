@@ -16,7 +16,6 @@ describe('Create Currency Use Case', () => {
       cryptocurrencyId: 1,
       amount: 0.5,
       name: 'Bitcoin',
-      slug: 'bitcoin',
       image: 'crypto-image',
       symbol: 'BTC',
       userId: 'user-01',

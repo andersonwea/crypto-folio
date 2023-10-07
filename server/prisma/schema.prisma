@@ -43,7 +43,6 @@ model Currency {
   id                String  @id @default(uuid())
   cryptocurrency_id Int
   name              String
-  slug              String
   image             String
   symbol            String
   amount            Decimal
