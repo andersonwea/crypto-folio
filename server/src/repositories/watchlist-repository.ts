@@ -7,4 +7,5 @@ export interface WatchlistRepository {
     userId: string,
   ): Promise<Watchlist | null>
   delete(id: string): Promise<void>
+  findManyByUserId(userId: string): Promise<Watchlist[]>
 }
