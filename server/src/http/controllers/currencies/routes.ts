@@ -10,7 +10,7 @@ export async function currenciesRoutes(app: FastifyInstance) {
 
   app.get('/market/currencies', marketCurrencies)
   app.get('/market/currencies/:id', marketCurrency)
-  app.get('/currencies', userCurrencies)
+  app.get('/wallet/currencies', userCurrencies)
 
-  app.post('/currencies', create)
+  app.post('/wallet/currencies', create)
 }

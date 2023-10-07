@@ -16,7 +16,7 @@ describe('Create Currency (e2e)', () => {
     const { token } = await createAndAuthenticateUser(app)
 
     const response = await request(app.server)
-      .post('/currencies')
+      .post('/wallet/currencies')
       .set('Authorization', `Bearer ${token}`)
       .send({
         name: 'Bitcoin',

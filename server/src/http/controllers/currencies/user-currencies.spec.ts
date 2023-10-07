@@ -16,7 +16,7 @@ describe.skip('User Currencies (e2e)', () => {
     const { token } = await createAndAuthenticateUser(app)
 
     await request(app.server)
-      .post('/currencies')
+      .post('/wallet/currencies')
       .set('Authorization', `Bearer ${token}`)
       .send({
         name: 'Bitcoin',
@@ -27,11 +27,10 @@ describe.skip('User Currencies (e2e)', () => {
       })
 
     const response = await request(app.server)
-      .get('/currencies')
+      .get('/wallet/currencies')
       .set('Authorization', `Bearer ${token}`)
       .send()
 
-    console.log(response.body)
     expect(response.statusCode).toEqual(200)
     expect(response.body).toEqual([
       expect.objectContaining({
