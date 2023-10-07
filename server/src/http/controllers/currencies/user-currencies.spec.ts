@@ -3,7 +3,7 @@ import { createAndAuthenticateUser } from '@/utils/tests/create-and-authenticate
 import request from 'supertest'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
-describe.skip('Market currency (e2e)', () => {
+describe.skip('User Currencies (e2e)', () => {
   beforeAll(async () => {
     await app.ready()
   })
@@ -12,20 +12,32 @@ describe.skip('Market currency (e2e)', () => {
     await app.close()
   })
 
-  it('should be able to get market currency', async () => {
+  it('should be able to fetch user currencies', async () => {
     const { token } = await createAndAuthenticateUser(app)
 
+    await request(app.server)
+      .post('/currencies')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        name: 'Bitcoin',
+        symbol: 'BTC',
+        amount: 1,
+        image: 'Bitcoin-image',
+        cryptocurrencyId: 1,
+      })
+
     const response = await request(app.server)
-      .get('/market/currencies/1')
+      .get('/currencies')
       .set('Authorization', `Bearer ${token}`)
       .send()
 
+    console.log(response.body)
     expect(response.statusCode).toEqual(200)
-    expect(response.body).toEqual(
+    expect(response.body).toEqual([
       expect.objectContaining({
-        id: expect.any(Number),
-        name: expect.any(String),
+        name: 'bitcoin',
+        symbol: 'BTC',
       }),
-    )
+    ])
   })
 })
