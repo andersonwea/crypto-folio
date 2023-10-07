@@ -44,7 +44,7 @@ describe('Update User Currency Amount Use Case', () => {
     })
 
     const { userCurrency: updatedUserCurrency } = await sut.execute({
-      userCurrencyId: userCurrency.id,
+      currencyId: userCurrency.id,
     })
 
     expect(updatedUserCurrency).toEqual(

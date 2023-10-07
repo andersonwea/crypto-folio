@@ -3,7 +3,7 @@ import { TransactionsRepository } from '@/repositories/transactions-repository'
 import { Currency } from '@prisma/client'
 
 interface UpdateUserCurrencyAmountUseCaseRequest {
-  userCurrencyId: string
+  currencyId: string
 }
 
 interface UpdateUserCurrencyAmountUseCaseResponse {
@@ -17,13 +17,13 @@ export class UpdateUserCurrencyAmountUseCase {
   ) {}
 
   async execute({
-    userCurrencyId,
+    currencyId,
   }: UpdateUserCurrencyAmountUseCaseRequest): Promise<UpdateUserCurrencyAmountUseCaseResponse> {
     const userCurrencyAmountSum =
-      await this.transactionsRepository.sumAmountByCurrencyId(userCurrencyId)
+      await this.transactionsRepository.sumAmountByCurrencyId(currencyId)
 
     const userCurrency = await this.currenciesRepository.save(
-      userCurrencyId,
+      currencyId,
       userCurrencyAmountSum,
     )
 
