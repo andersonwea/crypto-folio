@@ -4,7 +4,7 @@ import { createAndAuthenticateUser } from '@/utils/tests/create-and-authenticate
 import request from 'supertest'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
-describe('Transactions History (e2e)', () => {
+describe('Delete a Transaction (e2e)', () => {
   beforeAll(async () => {
     await app.ready()
   })
@@ -13,7 +13,7 @@ describe('Transactions History (e2e)', () => {
     await app.close()
   })
 
-  it('should be able to fetch transactions history', async () => {
+  it('should be able to delete a transaction', async () => {
     const { token, user } = await createAndAuthenticateUser(app)
 
     const currency = await prisma.currency.create({
@@ -27,16 +27,7 @@ describe('Transactions History (e2e)', () => {
       },
     })
 
-    await prisma.transaction.create({
-      data: {
-        amount: 1,
-        type: 'buy',
-        value: 2000000,
-        currency_id: currency.id,
-      },
-    })
-
-    await prisma.transaction.create({
+    const transaction = await prisma.transaction.create({
       data: {
         amount: 1.3,
         type: 'buy',
@@ -46,20 +37,17 @@ describe('Transactions History (e2e)', () => {
     })
 
     const response = await request(app.server)
-      .get('/wallet/currencies/transactions')
+      .delete(`/wallet/currencies/transactions/${transaction.id}`)
       .set('Authorization', `Bearer ${token}`)
-      .query({
-        page: 1,
-      })
+      .send()
+
+    const deletedTransaction = await prisma.transaction.findUnique({
+      where: {
+        id: transaction.id,
+      },
+    })
 
     expect(response.statusCode).toEqual(200)
-    expect(response.body).toEqual([
-      expect.objectContaining({
-        type: 'buy',
-      }),
-      expect.objectContaining({
-        type: 'buy',
-      }),
-    ])
+    expect(deletedTransaction).toBeNull()
   })
 })
