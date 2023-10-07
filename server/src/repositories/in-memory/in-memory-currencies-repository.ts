@@ -1,5 +1,8 @@
 import { Currency, Prisma, Transaction } from '@prisma/client'
-import { CurrenciesRepository } from '../currencies-repository'
+import {
+  CurrenciesRepository,
+  CurrencyWithTransactions,
+} from '../currencies-repository'
 import { randomUUID } from 'crypto'
 
 export class InMemoryCurrenciesRepository implements CurrenciesRepository {
@@ -76,10 +79,19 @@ export class InMemoryCurrenciesRepository implements CurrenciesRepository {
     return currency
   }
 
-  async findManyWithTransactionsOnUserId(userId: string) {
-    const currencies = this.currencies.filter(
-      (currency) => currency.user_id === userId,
-    )
+  async findManyWithTransactionsOnUserId(userId: string, query?: string) {
+    let currencies: Currency[] = []
+
+    if (query) {
+      currencies = this.currencies.filter(
+        (currency) =>
+          currency.user_id === userId && currency.name.includes(query),
+      )
+    } else {
+      currencies = this.currencies.filter(
+        (currency) => currency.user_id === userId,
+      )
+    }
 
     const currenciesWithTransactions = currencies.map((currency) => {
       const transactions = this.transactions.filter(
@@ -110,19 +122,5 @@ export class InMemoryCurrenciesRepository implements CurrenciesRepository {
       ...currency,
       transactions,
     }
-  }
-
-  async findManyByUserId(userId: string, query?: string) {
-    let currencies: Currency[] = []
-
-    if (query) {
-      currencies = this.currencies.filter(
-        (item) => item.user_id === userId && item.name.includes(query),
-      )
-    } else {
-      currencies = this.currencies.filter((item) => item.user_id === userId)
-    }
-
-    return currencies
   }
 }

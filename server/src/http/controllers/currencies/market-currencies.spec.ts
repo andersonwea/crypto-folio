@@ -18,7 +18,7 @@ describe.skip('Market Currencies (e2e)', () => {
     const response = await request(app.server)
       .get('/market/currencies')
       .set('Authorization', `Bearer ${token}`)
-      .send({
+      .query({
         page: 1,
       })
 

@@ -5,6 +5,7 @@ import { marketCurrency } from './market-currency'
 import { create } from './create'
 import { userCurrencies } from './user-currencies'
 import { userCurrency } from './user-currency'
+import { search } from './search'
 
 export async function currenciesRoutes(app: FastifyInstance) {
   app.addHook('onRequest', verifyJWT)
@@ -13,6 +14,7 @@ export async function currenciesRoutes(app: FastifyInstance) {
   app.get('/market/currencies/:id', marketCurrency)
   app.get('/wallet/currencies', userCurrencies)
   app.get('/wallet/currencies/:currencyId', userCurrency)
+  app.get('/wallet/currencies/search', search)
 
   app.post('/wallet/currencies', create)
 }

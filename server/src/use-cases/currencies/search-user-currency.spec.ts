@@ -34,16 +34,16 @@ describe('Search User Currency Use Case', () => {
       user_id: 'user-01',
     })
 
-    const { userApiCurrency } = await sut.execute({
-      query: 'bitcoin',
+    const { userCurrenciesWithBalance } = await sut.execute({
+      q: 'bitcoin',
       userId: 'user-01',
     })
 
-    expect(userApiCurrency).toEqual(
+    expect(userCurrenciesWithBalance).toEqual([
       expect.objectContaining({
         name: 'bitcoin',
-        id: 1,
+        cryptocurrency_id: 1,
       }),
-    )
+    ])
   })
 })

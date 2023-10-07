@@ -61,20 +61,7 @@ export class PrismaCurrenciesRepository implements CurrenciesRepository {
     return currency
   }
 
-  async findManyWithTransactionsOnUserId(userId: string) {
-    const currencies = await prisma.currency.findMany({
-      where: {
-        user_id: userId,
-      },
-      include: {
-        transactions: true,
-      },
-    })
-
-    return currencies
-  }
-
-  async findManyByUserId(userId: string, query?: string | undefined) {
+  async findManyWithTransactionsOnUserId(userId: string, query?: string) {
     let currencies
 
     if (query) {
@@ -85,11 +72,17 @@ export class PrismaCurrenciesRepository implements CurrenciesRepository {
             contains: query,
           },
         },
+        include: {
+          transactions: true,
+        },
       })
     } else {
       currencies = await prisma.currency.findMany({
         where: {
           user_id: userId,
+        },
+        include: {
+          transactions: true,
         },
       })
     }

@@ -1,13 +1,15 @@
-import { ApiService, ApiCurrency } from '@/adapters/api-service'
+import { ApiService } from '@/adapters/api-service'
 import { CurrenciesRepository } from '@/repositories/currencies-repository'
+import { calculateUserCurrenciesBalance } from '@/utils/calculate-user-currencies-balance'
+import { UserCurrencyWithBalance } from './fetch-user-currency'
 
 interface SearchUserCurrencyUseCaseRequest {
   userId: string
-  query: string
+  q: string
 }
 
 interface SearchUserCurrencyUseCaseResponse {
-  userApiCurrency: ApiCurrency
+  userCurrenciesWithBalance: UserCurrencyWithBalance[]
 }
 
 export class SearchUserCurrencyUseCase {
@@ -18,19 +20,29 @@ export class SearchUserCurrencyUseCase {
 
   async execute({
     userId,
-    query,
+    q,
   }: SearchUserCurrencyUseCaseRequest): Promise<SearchUserCurrencyUseCaseResponse> {
-    const userCurrency = await this.currenciesRepository.findManyByUserId(
-      userId,
-      query,
+    const userCurrencies =
+      await this.currenciesRepository.findManyWithTransactionsOnUserId(
+        userId,
+        q,
+      )
+
+    const userCryptocurrenciesIds = userCurrencies.map(
+      (currency) => currency.cryptocurrency_id,
     )
 
-    const userApiCurrency = await this.apiService.fetchById(
-      userCurrency[0].cryptocurrency_id,
+    const userApiCurrencies = await this.apiService.fetchManyByIds(
+      userCryptocurrenciesIds,
+    )
+
+    const { userCurrenciesWithBalance } = calculateUserCurrenciesBalance(
+      userApiCurrencies,
+      userCurrencies,
     )
 
     return {
-      userApiCurrency,
+      userCurrenciesWithBalance,
     }
   }
 }
