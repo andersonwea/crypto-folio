@@ -1,5 +1,5 @@
 import { Prisma, Transaction } from '@prisma/client'
-import { TransactionsRepository } from '../transactions-repository'
+import { SumAmount, TransactionsRepository } from '../transactions-repository'
 import { prisma } from '@/lib/prisma'
 
 export class PrismaTransactionsRepository implements TransactionsRepository {
@@ -53,7 +53,7 @@ export class PrismaTransactionsRepository implements TransactionsRepository {
   }
 
   async sumAmountByCurrencyId(currencyId: string) {
-    const sum = await prisma.$queryRaw<number>`
+    const [sum] = await prisma.$queryRaw<SumAmount[]>`
       SELECT sum(amount) FROM transactions
       WHERE currency_id = ${currencyId}
     `

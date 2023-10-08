@@ -19,14 +19,10 @@ export class UpdateUserCurrencyAmountUseCase {
   async execute({
     currencyId,
   }: UpdateUserCurrencyAmountUseCaseRequest): Promise<UpdateUserCurrencyAmountUseCaseResponse> {
-    const userCurrencyAmountSum =
+    const { sum } =
       await this.transactionsRepository.sumAmountByCurrencyId(currencyId)
 
-    const userCurrency = await this.currenciesRepository.save(
-      currencyId,
-      userCurrencyAmountSum,
-    )
-
+    const userCurrency = await this.currenciesRepository.save(currencyId, sum)
     return {
       userCurrency,
     }
