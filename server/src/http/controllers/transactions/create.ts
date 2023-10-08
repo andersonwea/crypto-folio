@@ -4,14 +4,19 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
 export async function create(request: FastifyRequest, reply: FastifyReply) {
+  const createTransactionParamSchema = z.object({
+    currencyId: z.string(),
+  })
+
   const createTransactionBodySchema = z.object({
     type: z.enum(['buy', 'sell']),
     value: z.number(),
     amount: z.number(),
-    currencyId: z.string(),
   })
 
-  const { type, value, amount, currencyId } = createTransactionBodySchema.parse(
+  const { currencyId } = createTransactionParamSchema.parse(request.params)
+
+  const { type, value, amount } = createTransactionBodySchema.parse(
     request.body,
   )
 

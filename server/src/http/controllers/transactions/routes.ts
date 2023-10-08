@@ -8,7 +8,7 @@ import { edit } from './edit'
 export async function transactionsRoutes(app: FastifyInstance) {
   app.addHook('onRequest', verifyJWT)
 
-  app.post('/wallet/currencies/transactions', create)
+  app.post('/wallet/currencies/:currencyId/transactions', create)
 
   app.get('/wallet/currencies/transactions', history)
 

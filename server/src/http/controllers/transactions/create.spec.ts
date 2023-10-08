@@ -4,7 +4,7 @@ import { createAndAuthenticateUser } from '@/utils/tests/create-and-authenticate
 import request from 'supertest'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
-describe.skip('Create Transaction (e2e)', () => {
+describe('Create Transaction (e2e)', () => {
   beforeAll(async () => {
     await app.ready()
   })
@@ -28,13 +28,12 @@ describe.skip('Create Transaction (e2e)', () => {
     })
 
     const response = await request(app.server)
-      .post('/wallet/currencies/transactions')
+      .post(`/wallet/currencies/${currency.id}/transactions`)
       .set('Authorization', `Bearer ${token}`)
       .send({
         type: 'buy',
         value: 2700000,
         amount: 1,
-        currencyId: currency.id,
       })
 
     expect(response.statusCode).toEqual(201)
