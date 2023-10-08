@@ -1,3 +1,5 @@
+import { InvalidTransactionError } from '@/use-cases/errors/invalid-transaction-error'
+import { ResourceNotFoundError } from '@/use-cases/errors/resource-not-found-error'
 import { makeUpdateUserCurrencyAmountUseCase } from '@/use-cases/factories/currencies/make-update-user-currency-amount-use-case'
 import { makeCreateTransactionUseCase } from '@/use-cases/factories/transactions/make-create-trasanction-use-case'
 import { FastifyReply, FastifyRequest } from 'fastify'
@@ -20,19 +22,31 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
     request.body,
   )
 
-  const createTransactionUseCase = makeCreateTransactionUseCase()
-  const updateUserCurrencyAmount = makeUpdateUserCurrencyAmountUseCase()
+  try {
+    const createTransactionUseCase = makeCreateTransactionUseCase()
+    const updateUserCurrencyAmount = makeUpdateUserCurrencyAmountUseCase()
 
-  await createTransactionUseCase.execute({
-    amount,
-    currencyId,
-    type,
-    value,
-  })
+    await createTransactionUseCase.execute({
+      amount,
+      currencyId,
+      type,
+      value,
+    })
 
-  await updateUserCurrencyAmount.execute({
-    currencyId,
-  })
+    await updateUserCurrencyAmount.execute({
+      currencyId,
+    })
+  } catch (err) {
+    if (err instanceof InvalidTransactionError) {
+      return reply.status(400).send({ message: err.message })
+    }
+
+    if (err instanceof ResourceNotFoundError) {
+      return reply.status(400).send({ message: err.message })
+    }
+
+    throw err
+  }
 
   return reply.status(201).send()
 }
