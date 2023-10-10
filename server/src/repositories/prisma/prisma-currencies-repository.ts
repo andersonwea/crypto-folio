@@ -14,7 +14,7 @@ export class PrismaCurrenciesRepository implements CurrenciesRepository {
   async save(currendyId: string, amount: number) {
     const currency = await prisma.currency.update({
       data: {
-        amount,
+        amount: amount ?? 0,
       },
       where: {
         id: currendyId,
