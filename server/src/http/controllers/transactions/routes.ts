@@ -12,7 +12,10 @@ export async function transactionsRoutes(app: FastifyInstance) {
 
   app.get('/wallet/currencies/transactions', history)
 
-  app.delete('/wallet/currencies/transactions/:transactionId', remove)
+  app.delete(
+    '/wallet/currencies/:currencyId/transactions/:transactionId',
+    remove,
+  )
 
-  app.put('/wallet/currencies/transactions/:transactionId', edit)
+  app.put('/wallet/currencies/:currencyId/transactions/:transactionId', edit)
 }

@@ -38,7 +38,7 @@ describe('Edit a Transaction (e2e)', () => {
     })
 
     const response = await request(app.server)
-      .put(`/wallet/currencies/transactions/${transaction.id}`)
+      .put(`/wallet/currencies/${currency.id}/transactions/${transaction.id}`)
       .set('Authorization', `Bearer ${token}`)
       .send({
         value: 5400000,
