@@ -24,7 +24,8 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
 
   try {
     const createTransactionUseCase = makeCreateTransactionUseCase()
-    const updateUserCurrencyAmount = makeUpdateUserCurrencyAmountUseCase()
+    const updateUserCurrencyAmountUseCase =
+      makeUpdateUserCurrencyAmountUseCase()
 
     await createTransactionUseCase.execute({
       amount,
@@ -33,7 +34,7 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
       value,
     })
 
-    await updateUserCurrencyAmount.execute({
+    await updateUserCurrencyAmountUseCase.execute({
       currencyId,
     })
   } catch (err) {
