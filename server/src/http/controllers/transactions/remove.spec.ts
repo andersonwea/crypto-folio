@@ -37,7 +37,9 @@ describe('Delete a Transaction (e2e)', () => {
     })
 
     const response = await request(app.server)
-      .delete(`/wallet/currencies/transactions/${transaction.id}`)
+      .delete(
+        `/wallet/currencies/${currency.id}/transactions/${transaction.id}`,
+      )
       .set('Authorization', `Bearer ${token}`)
       .send()
 
