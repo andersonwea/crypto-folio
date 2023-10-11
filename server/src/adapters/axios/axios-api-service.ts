@@ -18,7 +18,6 @@ export class AxiosApiService implements ApiService {
     const {
       data: { data },
     } = await this.api.get(`/currencies/${id}`)
-    console.log(data)
 
     const currency: ApiCurrency = {
       id: data.id,

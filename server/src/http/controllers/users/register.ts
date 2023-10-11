@@ -1,4 +1,5 @@
-import { EmailAreadyExistsError } from '@/use-cases/errors/email-already-exists-error'
+import { EmailAlreadyExistsError } from '@/use-cases/errors/email-already-exists-error'
+import { NicknameAlreadyExitsError } from '@/use-cases/errors/nickname-already-exists-error'
 import { makeRegisterUserCase } from '@/use-cases/factories/users/make-register-use-case'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { undefined, z } from 'zod'
@@ -28,7 +29,11 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
       },
     })
   } catch (err) {
-    if (err instanceof EmailAreadyExistsError) {
+    if (err instanceof EmailAlreadyExistsError) {
+      return reply.status(409).send({ message: err.message })
+    }
+
+    if (err instanceof NicknameAlreadyExitsError) {
       return reply.status(409).send({ message: err.message })
     }
 
