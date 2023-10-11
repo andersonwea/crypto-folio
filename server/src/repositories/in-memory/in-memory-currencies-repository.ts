@@ -46,7 +46,7 @@ export class InMemoryCurrenciesRepository implements CurrenciesRepository {
     )
 
     if (currencyIndex >= 0) {
-      this.currencies[currencyIndex].amount = new Prisma.Decimal(amount)
+      this.currencies[currencyIndex].amount = new Prisma.Decimal(amount ?? 0)
     }
 
     return this.currencies[currencyIndex]

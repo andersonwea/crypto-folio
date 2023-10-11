@@ -60,7 +60,7 @@ export class InMemoryTransactionsRepository implements TransactionsRepository {
   }
 
   async sumAmountByCurrencyId(currencyId: string) {
-    const amountSum = this.items.reduce((sum, item) => {
+    const sum = this.items.reduce((sum, item) => {
       if (item.currency_id === currencyId) {
         sum += item.amount.toNumber()
       }
@@ -68,6 +68,8 @@ export class InMemoryTransactionsRepository implements TransactionsRepository {
       return sum
     }, 0)
 
-    return amountSum
+    return {
+      sum,
+    }
   }
 }
