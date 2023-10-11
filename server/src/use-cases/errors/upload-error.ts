@@ -1,5 +1,5 @@
 export class UploadError extends Error {
   constructor() {
-    super('Upload Error.')
+    super('Error when requesting to bucket service.')
   }
 }

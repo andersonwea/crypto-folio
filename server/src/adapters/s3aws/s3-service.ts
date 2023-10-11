@@ -1,4 +1,8 @@
-import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
+import {
+  DeleteObjectCommand,
+  PutObjectCommand,
+  S3Client,
+} from '@aws-sdk/client-s3'
 import { BucketService } from '../bucket-service'
 import { env } from '@/env'
 import { UploadError } from '@/use-cases/errors/upload-error'
@@ -24,5 +28,18 @@ export class S3Service implements BucketService {
     if (response.$metadata.httpStatusCode !== 200) {
       throw new UploadError()
     }
+  }
+
+  async delete(fileName: string) {
+    const imageUrl = new URL(fileName)
+
+    const imageName = imageUrl.pathname.replace('/', '')
+
+    const command = new DeleteObjectCommand({
+      Bucket: env.AWS_BUCKET_NAME,
+      Key: imageName,
+    })
+
+    await this.s3Client.send(command)
   }
 }

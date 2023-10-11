@@ -2,6 +2,7 @@ import { UsersRepository } from '@/repositories/users-repository'
 import { User } from '@prisma/client'
 import { ResourceNotFoundError } from '../errors/resource-not-found-error'
 import { ResourceAlreadyExitsError } from '../errors/resource-already-exists-error'
+import { S3Service } from '@/adapters/s3aws/s3-service'
 
 interface UpdateUserProfileUseCaseRequest {
   userId: string
@@ -14,7 +15,10 @@ interface UpdateUserProfileUseCaseResponse {
 }
 
 export class UpdateUserProfileUseCase {
-  constructor(private usersRepository: UsersRepository) {}
+  constructor(
+    private usersRepository: UsersRepository,
+    private s3Service: S3Service,
+  ) {}
 
   async execute({
     userId,
@@ -32,6 +36,10 @@ export class UpdateUserProfileUseCase {
 
     if (userWithSameNickname && userWithSameNickname.id !== userId) {
       throw new ResourceAlreadyExitsError()
+    }
+
+    if (avatarUrl && user.avatarUrl) {
+      await this.s3Service.delete(user.avatarUrl)
     }
 
     const updatedUser = await this.usersRepository.update(

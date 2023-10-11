@@ -1,6 +1,6 @@
 import { makeUpdateUserProfileUseCase } from '@/use-cases/factories/users/make-update-user-profile-use-case'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { z } from 'zod'
+import { undefined, z } from 'zod'
 
 export async function updateProfile(
   request: FastifyRequest,
@@ -23,5 +23,8 @@ export async function updateProfile(
     avatarUrl,
   })
 
-  return reply.status(200).send(updatedUser)
+  return reply.status(200).send({
+    ...updatedUser,
+    password_hash: undefined,
+  })
 }
