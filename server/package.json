@@ -20,6 +20,7 @@
   "devDependencies": {
     "@rocketseat/eslint-config": "^2.1.0",
     "@types/bcryptjs": "2.4.4",
+    "@types/multer": "1.4.8",
     "@types/node": "^20.6.2",
     "@types/supertest": "2.0.14",
     "eslint": "^8.49.0",
@@ -31,8 +32,11 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "3.427.0",
     "@fastify/cookie": "9.1.0",
+    "@fastify/cors": "8.4.0",
     "@fastify/jwt": "7.2.1",
+    "@fastify/multipart": "8.0.0",
     "@prisma/client": "5.3.1",
     "axios": "1.5.1",
     "bcryptjs": "2.4.3",

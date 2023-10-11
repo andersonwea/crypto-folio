@@ -3,6 +3,8 @@ import { usersRoutes } from './http/controllers/users/routes'
 import { ZodError } from 'zod'
 import { env } from './env'
 import fastifyJwt from '@fastify/jwt'
+import cors from '@fastify/cors'
+import multipart from '@fastify/multipart'
 import fastifyCookie from '@fastify/cookie'
 import { currenciesRoutes } from './http/controllers/currencies/routes'
 import { transactionsRoutes } from './http/controllers/transactions/routes'
@@ -21,6 +23,11 @@ app.register(fastifyJwt, {
 })
 
 app.register(fastifyCookie)
+app.register(multipart)
+
+app.register(cors, {
+  origin: true,
+})
 
 app.register(usersRoutes)
 app.register(currenciesRoutes)
