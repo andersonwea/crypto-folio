@@ -8,6 +8,7 @@ import { metrics } from './metrics'
 import { updateProfile } from './update-profile'
 import { watchlist } from './watchlist'
 import { toggleWatchlist } from './toggle-watchlist'
+import { upload } from './upload'
 
 export async function usersRoutes(app: FastifyInstance) {
   app.post('/users', register)
@@ -23,4 +24,6 @@ export async function usersRoutes(app: FastifyInstance) {
   app.post('/me/watchlist', { onRequest: verifyJWT }, toggleWatchlist)
 
   app.put('/me/profile', { onRequest: verifyJWT }, updateProfile)
+
+  app.post('/me/profile/upload', { onRequest: verifyJWT }, upload)
 }
