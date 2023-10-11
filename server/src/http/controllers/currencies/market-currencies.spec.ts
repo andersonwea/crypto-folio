@@ -3,7 +3,7 @@ import { createAndAuthenticateUser } from '@/utils/tests/create-and-authenticate
 import request from 'supertest'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
-describe.skip('Market Currencies (e2e)', () => {
+describe('Market Currencies (e2e)', () => {
   beforeAll(async () => {
     await app.ready()
   })

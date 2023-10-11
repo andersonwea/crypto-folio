@@ -3,7 +3,7 @@ import { createUserCurrencyAndTransaction } from '@/utils/tests/create-user-curr
 import request from 'supertest'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
-describe.skip('Metrics (e2e)', () => {
+describe('Metrics (e2e)', () => {
   beforeAll(async () => {
     await app.ready()
   })
