@@ -1,7 +1,7 @@
 import { UsersRepository } from '@/repositories/users-repository'
 import { User } from '@prisma/client'
 import { ResourceNotFoundError } from '../errors/resource-not-found-error'
-import { ResourceAlreadyExitsError } from '../errors/resource-already-exists-error'
+import { NicknameAlreadyExitsError } from '../errors/nickname-already-exists-error'
 import { S3Service } from '@/adapters/s3aws/s3-service'
 
 interface UpdateUserProfileUseCaseRequest {
@@ -35,7 +35,7 @@ export class UpdateUserProfileUseCase {
       await this.usersRepository.findByNickname(nickname)
 
     if (userWithSameNickname && userWithSameNickname.id !== userId) {
-      throw new ResourceAlreadyExitsError()
+      throw new NicknameAlreadyExitsError()
     }
 
     if (avatarUrl && user.avatarUrl) {

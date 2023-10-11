@@ -1,4 +1,4 @@
-import { ResourceAlreadyExitsError } from '@/use-cases/errors/resource-already-exists-error'
+import { EmailAreadyExistsError } from '@/use-cases/errors/email-already-exists-error'
 import { makeRegisterUserCase } from '@/use-cases/factories/users/make-register-use-case'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { undefined, z } from 'zod'
@@ -28,7 +28,7 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
       },
     })
   } catch (err) {
-    if (err instanceof ResourceAlreadyExitsError) {
+    if (err instanceof EmailAreadyExistsError) {
       return reply.status(409).send({ message: err.message })
     }
 

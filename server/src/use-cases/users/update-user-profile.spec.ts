@@ -2,15 +2,18 @@ import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-user
 import { beforeEach, describe, expect, it } from 'vitest'
 import { UpdateUserProfileUseCase } from './update-user-profile'
 import { hash } from 'bcryptjs'
-import { ResourceAlreadyExitsError } from '../errors/resource-already-exists-error'
+import { NicknameAlreadyExitsError } from '../errors/nickname-already-exists-error'
+import { S3Service } from '@/adapters/s3aws/s3-service'
 
 describe('Update User Profile Use Case', () => {
   let usersRepository: InMemoryUsersRepository
+  let s3Service: S3Service
   let sut: UpdateUserProfileUseCase
 
   beforeEach(() => {
     usersRepository = new InMemoryUsersRepository()
-    sut = new UpdateUserProfileUseCase(usersRepository)
+    s3Service = new S3Service()
+    sut = new UpdateUserProfileUseCase(usersRepository, s3Service)
   })
 
   it('should be able to update user profile', async () => {
@@ -52,6 +55,6 @@ describe('Update User Profile Use Case', () => {
         nickname: 'first-user',
         userId: secondUser.id,
       }),
-    ).rejects.toBeInstanceOf(ResourceAlreadyExitsError)
+    ).rejects.toBeInstanceOf(NicknameAlreadyExitsError)
   })
 })
