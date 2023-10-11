@@ -1,17 +1,19 @@
-import { CurrenciesRepository } from '@/repositories/currencies-repository'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { FetchUserCurrenciesUseCase } from './fetch-user-currencies'
 import { InMemoryCurrenciesRepository } from '@/repositories/in-memory/in-memory-currencies-repository'
 import { ApiService } from '@/adapters/api-service'
 import { AxiosApiService } from '@/adapters/axios/axios-api-service'
+import { InMemoryTransactionsRepository } from '@/repositories/in-memory/in-memory-transactions-repository'
 
 describe('Fetch User Currencies Use Case', () => {
-  let currenciesRepository: CurrenciesRepository
+  let currenciesRepository: InMemoryCurrenciesRepository
+  let transactionsRepository: InMemoryTransactionsRepository
   let apiService: ApiService
   let sut: FetchUserCurrenciesUseCase
 
   beforeEach(() => {
     currenciesRepository = new InMemoryCurrenciesRepository()
+    transactionsRepository = new InMemoryTransactionsRepository()
     apiService = new AxiosApiService()
     sut = new FetchUserCurrenciesUseCase(currenciesRepository, apiService)
   })
@@ -55,15 +57,34 @@ describe('Fetch User Currencies Use Case', () => {
   })
 
   it('should be able to fetch user currencies when user has only one', async () => {
-    await currenciesRepository.create({
-      amount: 1.5,
+    const currency = await currenciesRepository.create({
+      amount: 0,
       cryptocurrency_id: 1,
       name: 'Bitcoin',
-      slug: 'bitcoin',
       image: 'crypto-image',
       symbol: 'BTC',
       user_id: 'user-01',
     })
+
+    await currenciesRepository.createTransaction({
+      amount: 1,
+      currency_id: currency.id,
+      type: 'buy',
+      value: 1375000,
+    })
+
+    await transactionsRepository.create({
+      amount: 1,
+      currency_id: currency.id,
+      type: 'buy',
+      value: 1375000,
+    })
+
+    const { sum } = await transactionsRepository.sumAmountByCurrencyId(
+      currency.id,
+    )
+
+    await currenciesRepository.save(currency.id, sum)
 
     const { userCurrenciesWithBalance } = await sut.execute({
       userId: 'user-01',
@@ -75,7 +96,6 @@ describe('Fetch User Currencies Use Case', () => {
         name: 'Bitcoin',
         cryptocurrency_id: 1,
         balance: expect.any(Number),
-        transactions: [],
       }),
     ])
   })

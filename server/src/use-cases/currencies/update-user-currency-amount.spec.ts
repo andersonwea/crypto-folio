@@ -40,7 +40,7 @@ describe('Update User Currency Amount Use Case', () => {
       amount: 1,
       currency_id: userCurrency.id,
       type: 'sell',
-      value: 850000000,
+      value: 850000,
     })
 
     const { userCurrency: updatedUserCurrency } = await sut.execute({

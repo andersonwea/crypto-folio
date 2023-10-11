@@ -3,6 +3,8 @@ import { CurrencyWithTransactions } from '@/repositories/currencies-repository'
 
 export interface UserCurrencyWithBalance extends CurrencyWithTransactions {
   balance: number
+  amountInvested: number
+  profitOrLoss: number
 }
 
 export function calculateUserCurrenciesBalance(
@@ -12,6 +14,12 @@ export function calculateUserCurrenciesBalance(
   const userCurrenciesWithBalance = userCurrenciesWithTransactions.reduce(
     (acc, userCurrency) => {
       for (const userApiCurrency of userApiCurrencies) {
+        let amountInvestedInCents = 0
+
+        for (const transaction of userCurrency.transactions) {
+          amountInvestedInCents += transaction.value
+        }
+
         if (userApiCurrency.id === userCurrency.cryptocurrency_id) {
           const currencyPrice = userApiCurrency.values.price
 
@@ -19,9 +27,14 @@ export function calculateUserCurrenciesBalance(
             (userCurrency.amount.toNumber() * currencyPrice).toFixed(2),
           )
 
+          const amountInvested = amountInvestedInCents / 100
+          const profitOrLoss = Number((balance / amountInvested - 1).toFixed(2))
+
           acc.push({
             ...userCurrency,
             balance,
+            amountInvested,
+            profitOrLoss,
           })
         }
       }

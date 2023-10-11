@@ -55,11 +55,11 @@ describe('Get User Metrics Use Case', () => {
       value: 500000,
     })
 
-    const sumAmount = await transactionsRepository.sumAmountByCurrencyId(
+    const { sum } = await transactionsRepository.sumAmountByCurrencyId(
       currency.id,
     )
 
-    await currenciesRepository.save(currency.id, sumAmount)
+    await currenciesRepository.save(currency.id, sum)
 
     const { profitOrLoss, totalBalance, totalInvested } = await sut.execute({
       userId: 'user-01',
