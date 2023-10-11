@@ -3,7 +3,7 @@
 Crypto Folio app
 
 ## Docs
-https://app.theneo.io/11f4c935-b4e8-45cc-857a-90c1b34ea750/crypto-folio-3/authenticate
+https://app.theneo.io/11f4c935-b4e8-45cc-857a-90c1b34ea750/crypto-folio-3
 
 ## RFs (Requisitos funcionais)
 
@@ -17,6 +17,7 @@ https://app.theneo.io/11f4c935-b4e8-45cc-857a-90c1b34ea750/crypto-folio-3/authen
 - [x] Deve ser possível o usuário criar uma transação de compra ou venda;
 - [x] Deve ser possível o usuário obter seu histórico de transações;
 - [x] Deve ser possível o usuário obter o resumo do seu portfolio;
+- [ ] Deve ser possível o usuário adicionar foto de perfil;
 
 ## Rns (Regra de negócio)
 
@@ -26,7 +27,8 @@ https://app.theneo.io/11f4c935-b4e8-45cc-857a-90c1b34ea750/crypto-folio-3/authen
 ## RNFs (Requisitos não-funcionais)
 
 - [x] A senha do usuário precisa estar criptografada;
-- [ ] Os dados da aplicação precisam estar persistidos em um banco PostgreSQL;
-- [ ] O usuário deve se identificado por um JWT (JSON Web Token);
+- [x] Os dados da aplicação precisam estar persistidos em um banco PostgreSQL;
+- [x] O usuário deve se identificado por um JWT (JSON Web Token);
 - [x] Os dados dos ativos virão de uma API externa;
-- [x] Dar update no amount da model currencies com o valor total dos amounts da model transaction
+- [x] Dar update no amount da model currencies com o valor total dos amounts da model transaction;
+- [ ] A foto de perfil do usuário deve ser armazenada em um bucket;
