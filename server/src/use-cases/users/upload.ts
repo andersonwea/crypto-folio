@@ -36,7 +36,7 @@ export class UploadUseCase {
 
     await this.bucketService.upload(await file.toBuffer(), imageName, userId)
 
-    const imageUrl = new URL(env.AWS_BASE_URL)
+    const imageUrl = new URL(env.APP_AWS_BASE_URL)
 
     imageUrl.pathname = `users/${userId}/${imageName}`
 

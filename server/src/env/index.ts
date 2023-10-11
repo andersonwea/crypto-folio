@@ -6,11 +6,11 @@ const envSchema = z.object({
   JWT_SECRET: z.string(),
   PORT: z.coerce.number().default(3333),
   CRYPTO_RANK_API_KEY: z.string(),
-  AWS_ACCESS_KEY_ID: z.string(),
-  AWS_SECRET_ACCESS_KEY: z.string(),
-  AWS_REGION: z.string(),
-  AWS_BUCKET_NAME: z.string(),
-  AWS_BASE_URL: z.string(),
+  APP_AWS_ACCESS_KEY_ID: z.string(),
+  APP_AWS_SECRET_ACCESS_KEY: z.string(),
+  APP_AWS_REGION: z.string(),
+  APP_AWS_BUCKET_NAME: z.string(),
+  APP_AWS_BASE_URL: z.string(),
 })
 
 const _env = envSchema.safeParse(process.env)

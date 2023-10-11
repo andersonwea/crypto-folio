@@ -12,13 +12,17 @@ export class S3Service implements BucketService {
 
   constructor() {
     this.s3Client = new S3Client({
-      region: env.AWS_REGION,
+      region: env.APP_AWS_REGION,
+      credentials: {
+        accessKeyId: env.APP_AWS_ACCESS_KEY_ID,
+        secretAccessKey: env.APP_AWS_SECRET_ACCESS_KEY,
+      }
     })
   }
 
   async upload(file: Buffer, filename: string, userId: string) {
     const command = new PutObjectCommand({
-      Bucket: env.AWS_BUCKET_NAME,
+      Bucket: env.APP_AWS_BUCKET_NAME,
       Key: `users/${userId}/${filename}`,
       Body: file,
     })
@@ -36,7 +40,7 @@ export class S3Service implements BucketService {
     const imageName = imageUrl.pathname.replace('/', '')
 
     const command = new DeleteObjectCommand({
-      Bucket: env.AWS_BUCKET_NAME,
+      Bucket: env.APP_AWS_BUCKET_NAME,
       Key: imageName,
     })
 

@@ -9,7 +9,7 @@ export async function upload(request: FastifyRequest, reply: FastifyReply) {
   try {
     const file = await request.file({
       limits: {
-        fileSize: 1_242_880, // 5mb
+        fileSize: 5_242_880, // 5mb
       },
     })
 
