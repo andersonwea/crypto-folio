@@ -1,4 +1,6 @@
 import { makeFetchApiCurrencyUseCase } from '@/use-cases/factories/currencies/make-fetch-api-currency-use-case'
+import { AxiosError } from 'axios'
+import { error } from 'console'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
@@ -12,11 +14,21 @@ export async function marketCurrency(
 
   const { id } = marketCurrencyParamSchema.parse(request.params)
 
-  const fetchApiCurrencyUseCase = makeFetchApiCurrencyUseCase()
+  try {
+    const fetchApiCurrencyUseCase = makeFetchApiCurrencyUseCase()
 
-  const { currency } = await fetchApiCurrencyUseCase.execute({
-    id,
-  })
+    const { currency } = await fetchApiCurrencyUseCase.execute({
+      id,
+    })
 
-  return reply.status(200).send(currency)
+    return reply.status(200).send(currency)
+  } catch (err) {
+    if (err instanceof AxiosError) {
+      const status = err.response?.status ?? 500
+
+      return reply.status(status).send({ error: err.message })
+    }
+
+    throw err
+  }
 }
