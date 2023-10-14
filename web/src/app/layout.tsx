@@ -1,8 +1,19 @@
 import './globals.css'
+import '@radix-ui/themes/styles.css'
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Poppins } from 'next/font/google'
+import Image from 'next/image'
+import logo from '@/assets/logo.svg'
+import { Nav } from '@/components/nav/index'
+import { NavButton } from '@/components/nav/navButton'
+import { LogOut } from 'lucide-react'
+import { RadixProvider } from './providers'
 
-const inter = Inter({ subsets: ['latin'] })
+const poppins = Poppins({
+  weight: ['500', '700'],
+  variable: '--font-poppins',
+  subsets: ['latin'],
+})
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -16,7 +27,25 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={poppins.variable}>
+        <RadixProvider>
+          <div className="bg-primary rounded-[50px] p-4 h-[926px] max-w-[1440px] m-auto grid grid-cols-[138px_1fr]">
+            <div className="flex flex-col space-y-32 items-center mt-6 mb-6">
+              <div>
+                <Image src={logo} alt="crypto folio logo" />
+              </div>
+
+              <Nav />
+
+              {/* Logout button here */}
+            </div>
+
+            <div className="bg-white h-full max-w-7xl rounded-[50px]">
+              {children}
+            </div>
+          </div>
+        </RadixProvider>
+      </body>
     </html>
   )
 }

@@ -22,6 +22,10 @@ const config: Config = {
 
         'purple-300': '#E5DEF0',
       },
+
+      fontFamily: {
+        default: 'var(--font-poppins)',
+      },
     },
   },
   plugins: [],
