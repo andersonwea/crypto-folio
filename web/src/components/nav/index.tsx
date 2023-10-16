@@ -1,7 +1,7 @@
 'use client'
 
 import { BarChart2, LayoutDashboard, Star, User2, Wallet } from 'lucide-react'
-import { NavButton } from './navButton'
+import { NavButton } from './NavButton'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
