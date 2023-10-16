@@ -29,15 +29,17 @@ export default function RootLayout({
     <html lang="en">
       <body className={poppins.variable}>
         <RadixProvider>
-          <div className="bg-primary rounded-[50px] p-4 h-[926px] max-w-[1440px] m-auto grid grid-cols-[138px_1fr]">
-            <div className="flex flex-col space-y-32 items-center mt-6 mb-6">
-              <div>
+          <div className="bg-primary rounded-[50px] p-4 max-[1920px]:min-h-screen max-h-[998px] max-w-[1440px] m-auto grid grid-cols-[138px_1fr] max-md:rounded-none max-lg:pb-0 max-lg:grid-cols-1 max-lg:grid-rows-[1fr_100px] max-md:grid-rows-[1fr_70px]">
+            <div className="flex flex-col lg:space-y-32 items-center lg:mt-6 lg:mb-6 max-lg:flex-row max-lg:row-start-2 max-lg:justify-evenly max-[450px]:justify-between max-[450px]:px-4">
+              <div className='max-md:hidden'>
                 <Image src={logo} alt="crypto folio logo" />
               </div>
 
               <Nav />
 
-              {/* Logout button here */}
+              <button className='h-6 w-6 text-[#A5A5A5]'>
+                <LogOut size={26}/>
+              </button>
             </div>
 
             <div className="bg-white h-full max-w-7xl rounded-[50px]">

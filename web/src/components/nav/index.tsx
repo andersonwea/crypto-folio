@@ -40,7 +40,7 @@ export function Nav() {
   }
 
   return (
-    <nav className="flex flex-col space-y-16">
+    <nav className="flex flex-col lg:space-y-16 max-sm:space-x-8 max-md:space-x-12 max-lg:space-x-16 max-lg:flex-row">
       {navigation.map(({ url, icon }) => (
         <NavButton
           key={url}
