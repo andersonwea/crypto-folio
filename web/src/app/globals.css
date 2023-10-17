@@ -3,6 +3,5 @@
 @tailwind utilities;
 
 body {
-  @apply
-  antialiased;
+  @apply antialiased font-default;
 }

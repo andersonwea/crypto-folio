@@ -1,0 +1,9 @@
+.radix-themes {
+  --default-font-family: var(--font-poppins)
+}
+
+@media (max-width: 768px) {
+  .radix-themes {
+    /* --heading-font-size-adjust: 0.70 */
+  }
+}
