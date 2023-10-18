@@ -10,7 +10,7 @@ export function Header() {
           sm: "8"
         }}
       >
-        Visão Geral
+        Dashboard
       </Heading>
 
       <Link 
