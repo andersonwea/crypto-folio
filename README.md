@@ -1,8 +1,11 @@
 # 🚧 Crypto folio 🚧
 <img alt="Status Em Desenvolvimento" src="https://img.shields.io/badge/STATUS-EM%20DESENVOLVIMENTO-green">
 
-## Docs
+## Docs 📕
 https://app.theneo.io/11f4c935-b4e8-45cc-857a-90c1b34ea750/crypto-folio-3
+
+## Design 🎨
+https://www.figma.com/file/EK3f7Tt0FjpmQxpq6zyOpw/1?type=design&node-id=0-1&mode=design&t=RkIJKHh8HQNKZi7P-0
 
 ## RFs (Requisitos funcionais)
 
