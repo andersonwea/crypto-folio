@@ -1,4 +1,4 @@
-import { Heading } from "@radix-ui/themes";
+import { Heading, ScrollArea } from "@radix-ui/themes";
 import { Card } from "./Card";
 
 export function Wallet() {
@@ -6,12 +6,19 @@ export function Wallet() {
     <section className="pt-7 ">
       <Heading as="h2">Seus Ativos</Heading>
 
-      <div className="flex max-w-[630px] space-x-7 py-5 overflow-y-hidden overflow-scroll">
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-      </div>
+      <ScrollArea
+        type="always"
+        scrollbars="horizontal"
+        style={{maxWidth: 630}}
+      >
+        <div className="flex space-x-7 py-5">
+          <Card />
+          <Card />
+          <Card />
+          <Card />
+        </div>
+
+      </ScrollArea>
 
     </section>
   )
