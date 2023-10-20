@@ -1,4 +1,5 @@
 import { Header } from "@/components/Header"
+import { Market } from "@/components/Market"
 import { Wallet } from "@/components/Wallet"
 import { Heading, Text } from "@radix-ui/themes"
 
@@ -27,6 +28,8 @@ export default function Dashboard() {
         </section>
 
         <Wallet />
+
+        <Market />
       </main>
     </div>
   )

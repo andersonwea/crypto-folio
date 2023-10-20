@@ -5,3 +5,7 @@
 body {
   @apply antialiased font-default;
 }
+
+td, th {
+  @apply p-2 whitespace-nowrap bg-white text-left
+}
