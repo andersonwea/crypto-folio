@@ -5,7 +5,7 @@ import type { Metadata } from 'next'
 import { Poppins } from 'next/font/google'
 import Image from 'next/image'
 import logo from '@/assets/logo.svg'
-import { Nav } from '@/components/nav/index'
+import { Nav } from '@/components/Nav'
 import { LogOut } from 'lucide-react'
 import { RadixProvider } from './providers'
 

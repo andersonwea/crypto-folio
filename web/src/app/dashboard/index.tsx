@@ -1,6 +1,6 @@
 import { Header } from "@/components/Header"
-import { Market } from "@/components/Market"
-import { Wallet } from "@/components/Wallet"
+import { CryptoList } from "@/app/market/components/CryptoList"
+import { Wallet } from "@/app/wallet/components/Wallet"
 import { Heading, Text } from "@radix-ui/themes"
 
 export default function Dashboard() {
@@ -29,7 +29,7 @@ export default function Dashboard() {
 
         <Wallet />
 
-        <Market />
+        <CryptoList />
       </main>
     </div>
   )

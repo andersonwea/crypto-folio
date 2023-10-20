@@ -2,7 +2,7 @@ import { Heading, Text } from "@radix-ui/themes";
 import { Star } from "lucide-react";
 import Image from "next/image";
 
-export function Market() {
+export function CryptoList() {
   return (
     <section className="mt-7 sm:col-span-2 pt-7">
       <Heading>Mercado</Heading>
@@ -48,6 +48,10 @@ export function Market() {
             }
           </tbody>
         </table>
+      </div>
+
+      <div>
+        
       </div>
     </section>
   )
