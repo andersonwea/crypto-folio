@@ -3,7 +3,15 @@ import { CryptoList } from '@/app/market/components/CryptoList'
 import { Wallet } from '@/app/wallet/components/Wallet'
 import { Heading, Text } from '@radix-ui/themes'
 
-export default function Dashboard() {
+interface DashboardProps {
+  searchParams: {
+    page: string
+  }
+}
+
+export default function Dashboard({ searchParams }: DashboardProps) {
+  const { page } = searchParams
+
   return (
     <div className="px-16 py-9 max-md:px-5 max-md:py-5">
       <Header />
@@ -30,7 +38,7 @@ export default function Dashboard() {
 
         <Wallet />
 
-        <CryptoList />
+        <CryptoList page={page} />
       </main>
     </div>
   )

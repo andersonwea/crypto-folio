@@ -2,8 +2,10 @@
   --default-font-family: var(--font-poppins)
 }
 
-@media (max-width: 768px) {
-  .radix-themes {
-    /* --heading-font-size-adjust: 0.70 */
-  }
+.rt-variant-ghost {
+  @apply p-0 h-8 w-8
+}
+
+.rt-IconButton {
+  @apply cursor-pointer
 }
