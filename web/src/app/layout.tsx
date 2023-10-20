@@ -42,7 +42,7 @@ export default function RootLayout({
               </button>
             </div>
 
-            <div className="bg-white h-full max-w-7xl rounded-[50px]">
+            <div className="bg-white h-full max-w-7xl rounded-[50px] overflow-y-auto">
               {children}
             </div>
           </div>
