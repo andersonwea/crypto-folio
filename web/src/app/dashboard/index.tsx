@@ -1,7 +1,7 @@
-import { Header } from "@/components/Header"
-import { CryptoList } from "@/app/market/components/CryptoList"
-import { Wallet } from "@/app/wallet/components/Wallet"
-import { Heading, Text } from "@radix-ui/themes"
+import { Header } from '@/components/Header'
+import { CryptoList } from '@/app/market/components/CryptoList'
+import { Wallet } from '@/app/wallet/components/Wallet'
+import { Heading, Text } from '@radix-ui/themes'
 
 export default function Dashboard() {
   return (
@@ -16,14 +16,15 @@ export default function Dashboard() {
             <div>
               <Heading as="h3">$ 17,545.26</Heading>
               <Text as="span">Valor de portfolio</Text>
-              <Text className="block" as="span" color="green">+15.15%</Text>
+              <Text className="block" as="span" color="green">
+                +15.15%
+              </Text>
             </div>
 
             <div>
               <Heading as="h3">$ 10,251.15</Heading>
               <Text as="span">Valor investido</Text>
             </div>
-            
           </div>
         </section>
 
