@@ -1,7 +1,8 @@
-import { Heading, Text } from '@radix-ui/themes'
+import { Heading, ScrollArea, Text } from '@radix-ui/themes'
 import { Star } from 'lucide-react'
 import Image from 'next/image'
 import { NavPages } from './NavPages'
+import Link from 'next/link'
 
 interface CryptoListProps {
   page?: string
@@ -9,20 +10,31 @@ interface CryptoListProps {
 
 export async function CryptoList({ page = '1' }: CryptoListProps) {
   return (
-    <section className="mt-7 sm:col-span-2 pt-7">
+    <section className="mt-7 sm:col-span-2">
       <Heading>Mercado</Heading>
 
-      <div className="overflow-auto max-w-full">
+      <ScrollArea
+        scrollbars="both"
+        type="auto"
+        style={{
+          height: '350px',
+        }}
+        className="pr-10 py-2"
+      >
         <table className="pt-7 w-full border-collapse">
           <thead>
             <tr className="space-x-10">
               <th></th>
-              <th className="text-gray-500 sticky">#</th>
-              <th className="text-gray-500 sticky left-0 shadow-sm">Nome</th>
+              <th className="text-gray-500 sticky text-left max-sm:hidden">
+                #
+              </th>
+              <th className="text-gray-500 sticky left-0 shadow-sm text-left">
+                Nome
+              </th>
               <th className="text-gray-500">Preço</th>
               <th className="text-gray-500">Valorização</th>
               <th className="text-gray-500">Cap. de Mercado</th>
-              <th className="text-gray-500">Fornecimento Circulante</th>
+              <th className="text-gray-500">Forn. Circulante</th>
             </tr>
           </thead>
 
@@ -32,31 +44,35 @@ export async function CryptoList({ page = '1' }: CryptoListProps) {
                 <td>
                   <Star color="gray" size={20} />
                 </td>
-                <td>1</td>
-                <td className="flex items-center gap-2 text-base sticky left-0 shadow-sm">
-                  <div className="w-7 h-7">
-                    <Image
-                      src="https://img.api.cryptorank.io/coins/60x60.bitcoin1524754012028.png"
-                      alt="bitcoin logo"
-                      width={26}
-                      height={26}
-                    />
-                  </div>
-                  Bitcoin
-                  <Text className="text-gray-500 text-sm" as="span">
-                    BTC
-                  </Text>
+                <td className="text-left max-sm:hidden">1</td>
+                <td className="sticky left-0 shadow-sm min-w-[150px]">
+                  <Link href={'#'} className="flex items-center gap-2">
+                    <div className="w-8 h-8">
+                      <Image
+                        src="https://img.api.cryptorank.io/coins/60x60.bitcoin1524754012028.png"
+                        alt="bitcoin logo"
+                        width={32}
+                        height={32}
+                      />
+                    </div>
+
+                    <div className="text-base flex max-sm:flex-col gap-x-2 items-start">
+                      <Text as="p">Bitcoin</Text>
+                      <Text className="text-gray-500 text-sm" as="span">
+                        BTC
+                      </Text>
+                    </div>
+                  </Link>
                 </td>
-                <td>$ 27,556.28</td>
+                <td>$ 27,556</td>
                 <td>+13,25%</td>
                 <td>$ 568.8M</td>
-                <td>19,898,965 BTC</td>
+                <td>19.52M BTC</td>
               </tr>
             ))}
           </tbody>
         </table>
-      </div>
-
+      </ScrollArea>
       <NavPages page={page} />
     </section>
   )

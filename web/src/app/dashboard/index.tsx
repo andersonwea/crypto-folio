@@ -13,14 +13,14 @@ export default function Dashboard({ searchParams }: DashboardProps) {
   const { page } = searchParams
 
   return (
-    <div className="px-16 py-9 max-md:px-5 max-md:py-5">
+    <div>
       <Header />
 
       <main className="grid grid-cols-[0.6fr_minmax(0,_1fr)] max-sm:grid-cols-1 sm:space-x-7">
-        <section className="pt-7">
+        <section className="pt-4">
           <Heading as="h2">Portifolio</Heading>
 
-          <div className="bg-blue-300 h-[222px] rounded-3xl px-9 py-6 mt-6 flex gap-10 flex-wrap">
+          <div className="bg-blue-300 h-[222px] rounded-3xl px-9 py-6 mt-4 flex gap-10 flex-wrap">
             <div>
               <Heading as="h3">$ 17,545.26</Heading>
               <Text as="span">Valor de portfolio</Text>
