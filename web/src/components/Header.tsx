@@ -1,7 +1,11 @@
 import { Avatar, Heading, Text } from '@radix-ui/themes'
 import Link from 'next/link'
 
-export function Header() {
+interface HeaderProps {
+  title: string
+}
+
+export function Header({ title }: HeaderProps) {
   return (
     <header className="flex justify-between items-center">
       <Heading
@@ -10,7 +14,7 @@ export function Header() {
           sm: '8',
         }}
       >
-        Dashboard
+        {title}
       </Heading>
 
       <Link

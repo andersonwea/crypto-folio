@@ -14,7 +14,7 @@ export default function Dashboard({ searchParams }: DashboardProps) {
 
   return (
     <div>
-      <Header />
+      <Header title="Dashboard" />
 
       <main className="grid grid-cols-[0.6fr_minmax(0,_1fr)] max-sm:grid-cols-1 sm:space-x-7">
         <section className="pt-4">
@@ -36,7 +36,7 @@ export default function Dashboard({ searchParams }: DashboardProps) {
           </div>
         </section>
 
-        <Wallet />
+        <Wallet maxWidth={630} />
 
         <CryptoList page={page} />
       </main>
