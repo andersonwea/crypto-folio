@@ -1,6 +1,10 @@
 # 🚧 Crypto folio 🚧
 <img alt="Status Em Desenvolvimento" src="https://img.shields.io/badge/STATUS-EM%20DESENVOLVIMENTO-green">
 
+## Deploy
+### Web: https://crypto-folio-beta.vercel.app
+### Server: https://puce-worried-snapper.cyclic.app
+
 ## Docs 📕
 https://app.theneo.io/11f4c935-b4e8-45cc-857a-90c1b34ea750/crypto-folio-3
 
