@@ -2,10 +2,8 @@ import { Heading, Text } from '@radix-ui/themes'
 import Image from 'next/image'
 import Link from 'next/link'
 
-interface CardProps {}
-
 export function Card() {
-  const colors = ['bg-green-300', 'bg-purple-300', 'bg-yellow-300']
+  // const colors = ['bg-green-300', 'bg-purple-300', 'bg-yellow-300']
 
   return (
     <Link
