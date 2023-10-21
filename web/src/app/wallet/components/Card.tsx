@@ -2,12 +2,14 @@ import { Heading, Text } from '@radix-ui/themes'
 import Image from 'next/image'
 import Link from 'next/link'
 
-export function Card() {
-  // const colors = ['bg-green-300', 'bg-purple-300', 'bg-yellow-300']
+interface CardProps {
+  color: string
+}
 
+export function Card({ color }: CardProps) {
   return (
     <Link
-      className={`bg-blue-300 rounded-3xl px-9 py-6 space-y-16 max-w-[194px]`}
+      className={`${color} rounded-3xl px-9 py-6 space-y-16 max-w-[194px]`}
       href={'#'}
     >
       <div>
