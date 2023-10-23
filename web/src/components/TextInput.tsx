@@ -1,26 +1,29 @@
-import {
-  IconButton,
-  TextFieldInput,
-  TextFieldRoot,
-  TextFieldSlot,
-} from '@radix-ui/themes'
-import { Search } from 'lucide-react'
-import { ComponentProps } from 'react'
+import { InputHTMLAttributes, forwardRef, Ref } from 'react'
+import clsx from 'clsx'
 
-type TextInputProps = ComponentProps<typeof TextFieldInput>
-
-export function TextInput({ ...props }: TextInputProps) {
-  return (
-    <TextFieldRoot>
-      <TextFieldSlot>
-        <Search size={20} />
-      </TextFieldSlot>
-      <TextFieldInput
-        className="max-sm:max-w-[150px]"
-        {...props}
-        radius="large"
-        size={'2'}
-      />
-    </TextFieldRoot>
-  )
+interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
+  height?: 'sm' | 'md'
 }
+
+export const TextInput = forwardRef(function TextInput(
+  { height = 'sm', ...props }: TextInputProps,
+  ref: Ref<HTMLInputElement>,
+) {
+  const styles =
+    'rounded-md border-2 border-solid border-transparent bg-gray-300 flex items-center focus:border-blue-500 focus-within:border-blue-500 peer'
+
+  return (
+    <div
+      className={clsx(styles, {
+        'px-4 py-3': height === 'md',
+        'px-3 py-2': height === 'sm',
+      })}
+    >
+      <input
+        ref={ref}
+        className="b-0 w-full bg-transparent font-default text-sm font-normal text-gray-800 focus:outline-none"
+        {...props}
+      />
+    </div>
+  )
+})

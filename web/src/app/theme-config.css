@@ -9,3 +9,7 @@
 .rt-IconButton {
   @apply cursor-pointer
 }
+
+.rt-DialogContent {
+  @apply max-w-[550px]
+}

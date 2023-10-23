@@ -1,7 +1,8 @@
-import { Button } from '@/components/Button'
 import { Heading, IconButton, ScrollArea, Text } from '@radix-ui/themes'
 import { Pencil, Trash2 } from 'lucide-react'
 import Image from 'next/image'
+import { TransactionModal } from './TransactionModal'
+import { Button } from '@/components/Button'
 
 export function Transactions() {
   return (
@@ -9,7 +10,9 @@ export function Transactions() {
       <header className="flex items-center justify-between">
         <Heading as="h2">Transações</Heading>
 
-        <Button>Add transação</Button>
+        <TransactionModal>
+          <Button>Add transação</Button>
+        </TransactionModal>
       </header>
 
       <ScrollArea className="pt-1" type="auto" style={{ maxHeight: 358 }}>
