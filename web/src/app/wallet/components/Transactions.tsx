@@ -1,3 +1,4 @@
+import { Button } from '@/components/Button'
 import { Heading, IconButton, ScrollArea, Text } from '@radix-ui/themes'
 import { Pencil, Trash2 } from 'lucide-react'
 import Image from 'next/image'
@@ -5,9 +6,13 @@ import Image from 'next/image'
 export function Transactions() {
   return (
     <section className="pt-7">
-      <Heading as="h2">Transações</Heading>
+      <header className="flex items-center justify-between">
+        <Heading as="h2">Transações</Heading>
 
-      <ScrollArea type="auto" style={{ height: 358 }}>
+        <Button>Add transação</Button>
+      </header>
+
+      <ScrollArea className="pt-1" type="auto" style={{ maxHeight: 358 }}>
         <table className="pt-7 w-full border-collapse">
           <thead>
             <tr className="space-x-10">
