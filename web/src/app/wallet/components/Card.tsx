@@ -10,7 +10,7 @@ export function Card({ color }: CardProps) {
   return (
     <Link
       className={`${color} rounded-3xl px-9 py-6 space-y-16 max-w-[194px]`}
-      href={'#'}
+      href={'/wallet/currency/1'}
     >
       <div>
         <Heading>
