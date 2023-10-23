@@ -40,12 +40,12 @@ export function TransactionModal({ children }: TransactionModalProps) {
         />
 
         <div
-          className={`absolute left-8 right-8 ${
+          className={`absolute mt-2 left-8 right-8 shadow-3xl h-[290] bg-white ${
             search.length > 0 ? 'visible' : 'invisible'
           }`}
         >
           <ScrollArea type="auto" scrollbars="vertical" style={{ height: 290 }}>
-            <menu className="bg-gray-50 shadow-sm p-4">
+            <menu className="p-4">
               {['bitcoin', 'ethereum', 'solana'].map((currency) => (
                 <Currency key={currency} />
               ))}

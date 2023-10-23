@@ -27,6 +27,9 @@ const config: Config = {
       fontFamily: {
         default: 'var(--font-poppins)',
       },
+      boxShadow: {
+        '3xl': '0 8px 40px rgba(0, 0, 0, 0.1)',
+      },
     },
   },
   plugins: [],
