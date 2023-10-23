@@ -15,7 +15,12 @@ export function TextInput({ ...props }: TextInputProps) {
       <TextFieldSlot>
         <Search size={20} />
       </TextFieldSlot>
-      <TextFieldInput {...props} size={'2'} radius="large" />
+      <TextFieldInput
+        className="max-sm:max-w-[150px]"
+        {...props}
+        radius="large"
+        size={'2'}
+      />
     </TextFieldRoot>
   )
 }

@@ -18,7 +18,7 @@ export default function WalletPage() {
         <section className="pt-7">
           <Heading as="h2">Análise do portfolio</Heading>
 
-          <div className="flex gap-10 flex-wrap pt-7">
+          <div className="flex gap-x-10 gap-y-5 flex-wrap pt-7">
             <div>
               <Text as="p" color="gray">
                 Saldo atual (USD)
