@@ -11,5 +11,25 @@
 }
 
 .rt-DialogContent {
-  @apply max-w-[550px]
+  @apply max-w-[550px] rounded-[45px]
+}
+
+.rt-TabsList {
+  @apply grid grid-cols-2
+}
+
+.rt-TabsTrigger {
+  @apply block cursor-pointer
+}
+
+.rt-TabsTriggerInner {
+  @apply w-full cursor-pointer
+}
+
+.rt-TabsContent {
+  @apply w-full
+}
+
+.rt-SelectTrigger {
+  @apply w-full grid grid-cols-[1fr_auto] cursor-pointer
 }
