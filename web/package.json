@@ -11,6 +11,7 @@
   "dependencies": {
     "@radix-ui/themes": "^2.0.0",
     "clsx": "^2.0.0",
+    "dayjs": "^1.11.10",
     "lucide-react": "^0.287.0",
     "next": "13.5.4",
     "react": "^18",
