@@ -10,7 +10,7 @@ export const TextInput = forwardRef(function TextInput(
   ref: Ref<HTMLInputElement>,
 ) {
   const styles =
-    'rounded-md border-2 border-solid border-transparent bg-gray-300 flex items-center focus:border-blue-500 focus-within:border-blue-500 peer'
+    'rounded-[12px] border-2 border-solid border-transparent bg-gray-300 flex items-center focus:border-blue-500 focus-within:border-blue-500 peer'
 
   return (
     <div
