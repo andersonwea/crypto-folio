@@ -1,3 +1,7 @@
+import { Header } from '@/components/Header'
+import { Search } from './components/Search'
+import { CryptoList } from './components/CryptoList'
+
 interface MarketProps {
   searchParams: {
     page: string
@@ -5,6 +9,15 @@ interface MarketProps {
 }
 
 export default function Market({ searchParams }: MarketProps) {
-  console.log(searchParams)
-  return <h1>hello from Market {searchParams.page}</h1>
+  return (
+    <div>
+      <Header title="Mercado" />
+
+      <main className="pt-4">
+        <Search />
+
+        <CryptoList />
+      </main>
+    </div>
+  )
 }
