@@ -3,18 +3,21 @@ import { Dialog, IconButton, ScrollArea } from '@radix-ui/themes'
 import { X } from 'lucide-react'
 import { Currency } from './Currency'
 import { ChangeEvent, MouseEvent } from 'react'
+import { useSelectCurrency } from '@/hooks/useSelectCurrency'
 
-interface SelectCurrencyProps {
-  search: string
-  handleSelectCurrency: (event: MouseEvent<HTMLLIElement>) => void
-  onSearchChange: (event: ChangeEvent<HTMLInputElement>) => void
-}
+export function SelectCurrency() {
+  const setCurrency = useSelectCurrency((state) => state.setCurrency)
+  const search = useSelectCurrency((state) => state.search)
+  const setSearch = useSelectCurrency((state) => state.setSearch)
 
-export function SelectCurrency({
-  search,
-  handleSelectCurrency,
-  onSearchChange,
-}: SelectCurrencyProps) {
+  function handleSelectCurrency(event: MouseEvent<HTMLLIElement>) {
+    setCurrency(event.currentTarget.id)
+  }
+
+  function onSearchChange(event: ChangeEvent<HTMLInputElement>) {
+    setSearch(event.currentTarget.value)
+  }
+
   return (
     <Dialog.Content className="max-w-[550px] relative" size={'4'}>
       <header className="pb-7">
@@ -29,10 +32,7 @@ export function SelectCurrency({
         </Dialog.Close>
       </header>
 
-      <TextInput
-        onChange={(event) => onSearchChange(event)}
-        placeholder="Procurar"
-      />
+      <TextInput onChange={onSearchChange} placeholder="Procurar" />
 
       <div
         className={`absolute mt-2 left-8 right-8 shadow-3xl h-[290] bg-white ${
@@ -41,12 +41,12 @@ export function SelectCurrency({
       >
         <ScrollArea type="auto" scrollbars="vertical" style={{ height: 290 }}>
           <menu className="p-4">
-            {['bitcoin', 'ethereum', 'solana'].map((currency) => (
+            {[1, 2, 3, 4, 5, 6, 7].map((currency) => (
               <Currency
                 key={currency}
                 onClick={handleSelectCurrency}
-                value={currency}
-                id={currency}
+                value={`bitcoin${currency}`}
+                id={`bitcoin${currency}`}
               />
             ))}
           </menu>
@@ -54,17 +54,9 @@ export function SelectCurrency({
       </div>
 
       <ul className="pt-7 flex flex-col gap-1">
-        {[
-          'bitcoin',
-          'ethereum',
-          'solana',
-          'bitcoin2',
-          'ethereum2',
-          'solana2',
-        ].map((currency) => (
+        {[1, 2, 3, 4, 5, 6, 7].map((currency) => (
           <Currency
-            id={currency}
-            value={currency}
+            id={`bitcoin${currency}`}
             key={currency}
             icon={true}
             onClick={handleSelectCurrency}

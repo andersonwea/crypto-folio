@@ -1,40 +1,28 @@
 'use client'
 
 import { Dialog } from '@radix-ui/themes'
-import { ChangeEvent, MouseEvent, ReactNode, useState } from 'react'
+import { ReactNode } from 'react'
 import { SelectCurrency } from './SelectCurrency'
 import { CreateTransaction } from './CreateTransaction'
+import { useSelectCurrency } from '@/hooks/useSelectCurrency'
 
 interface TransactionModalProps {
   children: ReactNode
 }
 
 export function TransactionModal({ children }: TransactionModalProps) {
-  const [search, setSearch] = useState('')
-  const [currency, setCurrency] = useState('')
+  const currency = useSelectCurrency((state) => state.currency)
+  const reset = useSelectCurrency((state) => state.reset)
 
-  function onSearchChange(event: ChangeEvent<HTMLInputElement>) {
-    setSearch(event.target.value)
+  function handleOpenModal() {
+    reset()
   }
-
-  function handleSelectCurrency(event: MouseEvent<HTMLLIElement>) {
-    setCurrency(event.currentTarget.id)
-  }
-  console.log({ currency })
 
   return (
     <Dialog.Root>
-      <Dialog.Trigger>{children}</Dialog.Trigger>
+      <Dialog.Trigger onClick={handleOpenModal}>{children}</Dialog.Trigger>
 
-      {currency ? (
-        <CreateTransaction />
-      ) : (
-        <SelectCurrency
-          search={search}
-          onSearchChange={onSearchChange}
-          handleSelectCurrency={handleSelectCurrency}
-        />
-      )}
+      {currency ? <CreateTransaction /> : <SelectCurrency />}
     </Dialog.Root>
   )
 }
