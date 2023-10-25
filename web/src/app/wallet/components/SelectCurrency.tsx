@@ -8,7 +8,7 @@ export function SelectCurrency() {
   const setCurrency = useSelectCurrency((state) => state.setCurrency)
 
   return (
-    <Dialog.Content className="max-w-[550px] relative" size={'4'}>
+    <Dialog.Content className="max-w-[550px]" size={'4'}>
       <header className="pb-7">
         <Dialog.Title className="m-0" size={'6'}>
           Selecione uma moeda
@@ -21,7 +21,7 @@ export function SelectCurrency() {
         </Dialog.Close>
       </header>
 
-      <SearchBar />
+      <SearchBar onClick={(e) => setCurrency(e.currentTarget.id)} />
 
       <ul className="pt-7 flex flex-col gap-1">
         {[1, 2, 3, 4, 5, 6, 7].map((currency) => (

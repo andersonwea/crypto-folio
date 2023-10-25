@@ -7,7 +7,7 @@ interface HeaderProps {
 
 export function Header({ title }: HeaderProps) {
   return (
-    <header className="flex justify-between items-center">
+    <header className="flex justify-between items-center pt-3">
       <Heading
         size={{
           initial: '6',

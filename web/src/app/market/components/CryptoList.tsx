@@ -10,16 +10,14 @@ interface CryptoListProps {
 
 export async function CryptoList({ page = '1' }: CryptoListProps) {
   return (
-    <section className="mt-7 sm:col-span-2">
-      <Heading>Mercado</Heading>
-
+    // <section>
+    //   <Heading>Mercado</Heading>
+    <>
       <ScrollArea
         scrollbars="both"
         type="auto"
-        style={{
-          height: '350px',
-        }}
         className="pr-10 py-2"
+        style={{ height: '100%' }}
       >
         <table className="pt-7 w-full border-collapse">
           <thead>
@@ -74,6 +72,7 @@ export async function CryptoList({ page = '1' }: CryptoListProps) {
         </table>
       </ScrollArea>
       <NavPages page={page} />
-    </section>
+    </>
+    // </section>
   )
 }

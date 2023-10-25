@@ -38,7 +38,9 @@ export default function Dashboard({ searchParams }: DashboardProps) {
 
         <Wallet maxWidth={630} />
 
-        <CryptoList page={page} />
+        <div className="mt-7 sm:col-span-2 max-h-[350px]">
+          <CryptoList page={page} />
+        </div>
       </main>
     </div>
   )

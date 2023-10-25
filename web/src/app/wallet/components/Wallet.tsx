@@ -11,7 +11,7 @@ export function Wallet({ maxWidth }: WalletProps) {
 
   return (
     <section className="pt-4">
-      <div className="flex gap-10 max-sm:gap-3">
+      <div className="flex items-center gap-10 max-sm:gap-3">
         <Heading as="h2">Seus Ativos</Heading>
         <TextInput placeholder="Filtrar ativos" />
       </div>

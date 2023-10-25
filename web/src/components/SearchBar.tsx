@@ -4,21 +4,25 @@ import { ScrollArea } from '@radix-ui/themes'
 import { TextInput } from './TextInput'
 import { Currency } from '@/app/wallet/components/Currency'
 import { useSelectCurrency } from '@/hooks/useSelectCurrency'
+import { MouseEvent } from 'react'
 
-export function SearchBar() {
+interface SearchBarProps {
+  onClick: (e: MouseEvent<HTMLElement>) => void
+}
+
+export function SearchBar({ onClick }: SearchBarProps) {
   const search = useSelectCurrency((state) => state.search)
   const setSearch = useSelectCurrency((state) => state.setSearch)
-  const setCurrency = useSelectCurrency((state) => state.setCurrency)
 
   return (
-    <div>
+    <div className="relative w-full">
       <TextInput
         onChange={(e) => setSearch(e.currentTarget.value)}
         placeholder="Procurar"
       />
 
       <div
-        className={`absolute mt-2 left-8 right-8 shadow-3xl h-[290] bg-white ${
+        className={`absolute z-50 mt-2 left-0 right-0 shadow-3xl h-[290] bg-white ${
           search.length > 0 ? 'visible' : 'invisible'
         }`}
       >
@@ -27,7 +31,7 @@ export function SearchBar() {
             {[1, 2, 3, 4, 5, 6, 7].map((currency) => (
               <Currency
                 key={currency}
-                onClick={(e) => setCurrency(e.currentTarget.id)}
+                onClick={onClick}
                 value={`bitcoin${currency}`}
                 id={`bitcoin${currency}`}
               />
