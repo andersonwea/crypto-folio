@@ -47,6 +47,7 @@ export default function RootLayout({
             <ScrollArea
               className="bg-white max-h-full max-w-7xl rounded-[50px] px-16 py-6 max-lg:px-7 max-md:px-5 max-md:py-5 max-sm:px-2"
               type="auto"
+              scrollbars="vertical"
               style={{ height: '100%' }}
             >
               {children}

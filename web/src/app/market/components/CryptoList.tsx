@@ -12,7 +12,7 @@ export async function CryptoList({ page = '1' }: CryptoListProps) {
   return (
     // <section>
     //   <Heading>Mercado</Heading>
-    <>
+    <section>
       <ScrollArea
         scrollbars="both"
         type="auto"
@@ -72,7 +72,7 @@ export async function CryptoList({ page = '1' }: CryptoListProps) {
         </table>
       </ScrollArea>
       <NavPages page={page} />
-    </>
+    </section>
     // </section>
   )
 }

@@ -9,14 +9,16 @@ interface MarketProps {
 }
 
 export default function Market({ searchParams }: MarketProps) {
+  const { page } = searchParams
+
   return (
     <div>
       <Header title="Mercado" />
 
-      <main className="pt-4">
+      <main className="pt-4 grid grid-cols-1">
         <Search />
 
-        <CryptoList />
+        <CryptoList page={page} />
       </main>
     </div>
   )
