@@ -2,10 +2,16 @@ export function generatePages(totalPages: number, activePage: number) {
   const pages = []
 
   if (activePage < 5) {
-    for (let page = 1; page <= 5; page++) {
-      pages.push(page)
+    if (totalPages <= 5) {
+      for (let page = 1; page <= totalPages; page++) {
+        pages.push(page)
+      }
+    } else {
+      for (let page = 1; page <= 5; page++) {
+        pages.push(page)
+      }
+      pages.push(0, totalPages)
     }
-    pages.push(0, totalPages)
   } else {
     if (activePage > totalPages - 3) {
       pages.push(1, 0)
