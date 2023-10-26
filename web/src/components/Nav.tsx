@@ -23,7 +23,7 @@ const navigation = [
     icon: <Star size={26} />,
   },
   {
-    url: '/profile',
+    url: '/me',
     icon: <User2 size={26} />,
   },
 ]
