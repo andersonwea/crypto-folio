@@ -16,8 +16,15 @@ export default function Watchlist({ searchParams }: WatchlistProps) {
     <div>
       <Header title="Lista de interesse" />
 
-      <main className="pt-7">
-        <Heading>Suas cryptos favoritas</Heading>
+      <main className="pt-7 grid grid-cols-1">
+        <Heading
+          size={{
+            initial: '5',
+            sm: '6',
+          }}
+        >
+          Suas cryptos favoritas
+        </Heading>
 
         <CryptoList page={page} totalPages={totalPages} />
       </main>

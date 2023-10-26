@@ -11,6 +11,7 @@ interface DashboardProps {
 
 export default function Dashboard({ searchParams }: DashboardProps) {
   const { page } = searchParams
+  const totalPages = 791
 
   return (
     <div>
@@ -39,7 +40,7 @@ export default function Dashboard({ searchParams }: DashboardProps) {
         <Wallet maxWidth={630} />
 
         <div className="mt-7 sm:col-span-2 max-h-[350px]">
-          <CryptoList page={page} />
+          <CryptoList page={page} totalPages={totalPages} />
         </div>
       </main>
     </div>

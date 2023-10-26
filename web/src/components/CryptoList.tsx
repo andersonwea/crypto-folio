@@ -11,7 +11,7 @@ interface CryptoListProps {
 
 export async function CryptoList({ page = '1', totalPages }: CryptoListProps) {
   return (
-    <section>
+    <section className="pt-7">
       <ScrollArea
         scrollbars="both"
         type="auto"

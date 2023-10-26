@@ -38,7 +38,7 @@ export function NavPages({ page, totalPages }: NavPagesProps) {
   }
 
   return (
-    <div className="max-w-xs m-auto pt-7">
+    <div className="max-w-xs m-auto">
       <div className="flex gap-3 items-center w-full justify-center">
         <IconButton
           variant="ghost"
