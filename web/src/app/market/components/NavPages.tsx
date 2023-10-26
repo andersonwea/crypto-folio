@@ -9,11 +9,11 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 interface NavPagesProps {
   page: string
+  totalPages: number
 }
 
-export function NavPages({ page }: NavPagesProps) {
+export function NavPages({ page, totalPages }: NavPagesProps) {
   const [activePage, setActivePage] = useState<number>(Number(page))
-  const totalPages = 791
 
   const pathName = usePathname()
 

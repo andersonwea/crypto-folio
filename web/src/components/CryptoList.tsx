@@ -1,4 +1,4 @@
-import { Heading, ScrollArea, Text } from '@radix-ui/themes'
+import { ScrollArea, Text } from '@radix-ui/themes'
 import { Star } from 'lucide-react'
 import Image from 'next/image'
 import { NavPages } from '../app/market/components/NavPages'
@@ -6,9 +6,10 @@ import Link from 'next/link'
 
 interface CryptoListProps {
   page?: string
+  totalPages: number
 }
 
-export async function CryptoList({ page = '1' }: CryptoListProps) {
+export async function CryptoList({ page = '1', totalPages }: CryptoListProps) {
   return (
     <section>
       <ScrollArea
@@ -69,7 +70,7 @@ export async function CryptoList({ page = '1' }: CryptoListProps) {
           </tbody>
         </table>
       </ScrollArea>
-      <NavPages page={page} />
+      <NavPages page={page} totalPages={totalPages} />
     </section>
   )
 }

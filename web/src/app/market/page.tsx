@@ -10,6 +10,7 @@ interface MarketProps {
 
 export default function Market({ searchParams }: MarketProps) {
   const { page } = searchParams
+  const totalPages = 791
 
   return (
     <div>
@@ -18,7 +19,7 @@ export default function Market({ searchParams }: MarketProps) {
       <main className="pt-4 grid grid-cols-1 gap-4">
         <Search />
 
-        <CryptoList page={page} />
+        <CryptoList page={page} totalPages={totalPages} />
       </main>
     </div>
   )
