@@ -10,8 +10,6 @@ interface CryptoListProps {
 
 export async function CryptoList({ page = '1' }: CryptoListProps) {
   return (
-    // <section>
-    //   <Heading>Mercado</Heading>
     <section>
       <ScrollArea
         scrollbars="both"
@@ -73,6 +71,5 @@ export async function CryptoList({ page = '1' }: CryptoListProps) {
       </ScrollArea>
       <NavPages page={page} />
     </section>
-    // </section>
   )
 }

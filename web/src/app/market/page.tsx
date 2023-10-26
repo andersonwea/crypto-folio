@@ -15,7 +15,7 @@ export default function Market({ searchParams }: MarketProps) {
     <div>
       <Header title="Mercado" />
 
-      <main className="pt-4 grid grid-cols-1">
+      <main className="pt-4 grid grid-cols-1 gap-4">
         <Search />
 
         <CryptoList page={page} />
