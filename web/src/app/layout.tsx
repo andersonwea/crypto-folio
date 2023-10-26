@@ -4,8 +4,9 @@ import '@radix-ui/themes/styles.css'
 import type { Metadata } from 'next'
 import { Poppins } from 'next/font/google'
 import { RadixProvider } from './providers'
-import { ScrollArea } from '@radix-ui/themes'
+import { Grid, ScrollArea } from '@radix-ui/themes'
 import { MenuNav } from '@/components/MenuNav'
+import { SignIn } from '@/components/SignIn'
 
 const poppins = Poppins({
   weight: ['500', '700'],
@@ -23,21 +24,41 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  const isAuthenticated = false
+
   return (
     <html lang="en">
       <body className={poppins.variable}>
         <RadixProvider>
-          <div className="bg-gray-800 rounded-[50px] p-4 max-sm:p-2 max-w-[1440px] h-[930px] max-[1920px]:h-screen m-auto grid grid-cols-[138px_1fr] max-md:rounded-none max-lg:pb-0 max-lg:grid-cols-1 max-lg:grid-rows-[1fr_100px] max-md:grid-rows-[1fr_70px]">
-            <MenuNav />
+          {/* <SignIn /> */}
+          <div className="bg-gray-800 rounded-[50px] p-4 max-sm:p-2 max-w-[1440px] h-[930px] max-[1920px]:h-screen m-auto max-md:rounded-none max-lg:pb-0">
+            {isAuthenticated ? (
+              <Grid
+                className="h-full"
+                columns={{
+                  initial: '1',
+                  md: '138px 1fr',
+                }}
+                rows={{
+                  initial: '1fr 70px',
+                  sm: '1fr 100px',
+                  md: '1',
+                }}
+              >
+                <MenuNav />
 
-            <ScrollArea
-              className="bg-white max-h-full max-w-7xl rounded-[50px] px-16 py-6 max-lg:px-7 max-md:px-5 max-md:py-5 max-sm:px-2"
-              type="auto"
-              scrollbars="vertical"
-              style={{ height: '100%' }}
-            >
-              {children}
-            </ScrollArea>
+                <ScrollArea
+                  className="bg-white max-h-full max-w-7xl rounded-[50px] px-16 py-6 max-lg:px-7 max-md:px-5 max-md:py-5 max-sm:px-2"
+                  type="auto"
+                  scrollbars="vertical"
+                  style={{ height: '100%' }}
+                >
+                  {children}
+                </ScrollArea>
+              </Grid>
+            ) : (
+              <SignIn />
+            )}
           </div>
         </RadixProvider>
       </body>

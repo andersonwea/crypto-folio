@@ -14,9 +14,9 @@
   @apply max-w-[550px] rounded-[45px]
 }
 
-.rt-TabsList {
+/* .rt-TabsList {
   @apply grid grid-cols-2
-}
+} */
 
 .rt-TabsTrigger {
   @apply block cursor-pointer
