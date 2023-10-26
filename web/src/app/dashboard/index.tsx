@@ -1,5 +1,5 @@
 import { Header } from '@/components/Header'
-import { CryptoList } from '@/app/market/components/CryptoList'
+import { CryptoList } from '@/components/CryptoList'
 import { Wallet } from '@/app/wallet/components/Wallet'
 import { Heading, Text } from '@radix-ui/themes'
 

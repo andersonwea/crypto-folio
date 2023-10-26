@@ -1,6 +1,6 @@
 import { Header } from '@/components/Header'
 import { Search } from './components/Search'
-import { CryptoList } from './components/CryptoList'
+import { CryptoList } from '@/components/CryptoList'
 
 interface MarketProps {
   searchParams: {

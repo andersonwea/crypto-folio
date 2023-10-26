@@ -1,7 +1,7 @@
 import { Heading, ScrollArea, Text } from '@radix-ui/themes'
 import { Star } from 'lucide-react'
 import Image from 'next/image'
-import { NavPages } from './NavPages'
+import { NavPages } from '../app/market/components/NavPages'
 import Link from 'next/link'
 
 interface CryptoListProps {
