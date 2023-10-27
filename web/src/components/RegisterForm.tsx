@@ -5,29 +5,112 @@ import { TextInput } from './TextInput'
 import { Button } from './Button'
 import Image from 'next/image'
 import googleIcon from '@/assets/google.svg'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import * as z from 'zod'
+import { api } from '@/libs/api'
+import { AxiosError } from 'axios'
+
+const registerFormSchema = z.object({
+  nickname: z
+    .string()
+    .max(10, { message: 'O nickname deve ter no máximo 10 letras.' })
+    .min(3, { message: 'O nickname deve ter no minimo 3 letras.' })
+    .transform((nickname) => nickname.toLowerCase()),
+  email: z
+    .string()
+    .email({ message: 'Email inválido' })
+    .transform((email) => email.toLowerCase()),
+  password: z
+    .string()
+    .min(3, { message: 'A senha deve ter no minimo 3 caracteres.' }),
+})
+
+type RegisterFormData = z.infer<typeof registerFormSchema>
 
 export function RegisterForm() {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<RegisterFormData>({
+    resolver: zodResolver(registerFormSchema),
+  })
+
+  async function handleRegisterUser(data: RegisterFormData) {
+    try {
+      await api.post('/users', {
+        email: data.email,
+        nickname: data.nickname,
+        password: data.password,
+      })
+
+      reset()
+
+      alert('Cadastrado com sucesso.') // TODO: Use a alert lib.
+    } catch (err) {
+      if (err instanceof AxiosError && err.response?.data.message) {
+        alert(err.response.data.message) // TODO: Use a alert lib.
+        return
+      }
+
+      console.log(err)
+    }
+  }
+
   return (
-    <form className="flex flex-col space-y-10">
+    <form
+      className="flex flex-col space-y-10"
+      onSubmit={handleSubmit(handleRegisterUser)}
+    >
       <div className="space-y-5 mt-10">
         <label htmlFor="" className="block space-y-1">
           <Text>Email</Text>
-          <TextInput placeholder="insira o endereço de email" />
+          <TextInput
+            placeholder="insira o endereço de email"
+            {...register('email')}
+          />
+
+          {errors.email && (
+            <Text color="red" size={'2'}>
+              {errors.email.message}
+            </Text>
+          )}
         </label>
 
         <label htmlFor="" className="block space-y-1">
           <Text>Nickname</Text>
-          <TextInput placeholder="insira o nickname" />
+          <TextInput
+            placeholder="insira o nickname"
+            {...register('nickname')}
+          />
+
+          {errors.nickname && (
+            <Text color="red" size={'2'}>
+              {errors.nickname.message}
+            </Text>
+          )}
         </label>
 
         <label htmlFor="" className="block space-y-1">
           <Text>Senha</Text>
-          <TextInput type="password" placeholder="insira sua senha" />
+          <TextInput
+            type="password"
+            placeholder="insira sua senha"
+            {...register('password')}
+          />
+
+          {errors.password && (
+            <Text color="red" size={'2'}>
+              {errors.password.message}
+            </Text>
+          )}
         </label>
       </div>
 
       <div className="flex flex-col space-y-4">
-        <Button>Cadastrar</Button>
+        <Button disabled={isSubmitting}>Cadastrar</Button>
         <Text className='flex items-center gap-2 before:content-[""] before:block before:bg-gray-300 before:w-full before:h-[2px] after:content-[""] after:block after:bg-gray-300 after:w-full after:h-[2px]'>
           ou
         </Text>
