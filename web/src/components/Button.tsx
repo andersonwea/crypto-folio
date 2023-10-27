@@ -8,7 +8,7 @@ export function Button({ children, ...props }: ButtonProps) {
   return (
     <button
       {...props}
-      className="bg-blue-300 h-10 cursor-pointer rounded-full max-w-full px-4 hover:brightness-95 transition-all text-gray-800"
+      className="bg-blue-300 h-10 cursor-pointer rounded-full max-w-full px-4 hover:brightness-95 transition-all text-gray-800 disabled:bg-blue-100 disabled:pointer-events-none"
     >
       {children}
     </button>
