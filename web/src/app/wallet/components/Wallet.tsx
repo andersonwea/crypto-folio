@@ -1,6 +1,8 @@
 import { Heading, ScrollArea } from '@radix-ui/themes'
 import { Card } from './Card'
 import { TextInput } from '@/components/TextInput'
+import { Button } from '@/components/Button'
+import { TransactionModal } from './TransactionModal'
 
 interface WalletProps {
   maxWidth?: number
@@ -14,6 +16,10 @@ export function Wallet({ maxWidth }: WalletProps) {
       <div className="flex items-center gap-10 max-sm:gap-3">
         <Heading as="h2">Seus Ativos</Heading>
         <TextInput placeholder="Filtrar ativos" />
+
+        <TransactionModal>
+          <Button>Novo ativo</Button>
+        </TransactionModal>
       </div>
 
       <ScrollArea
