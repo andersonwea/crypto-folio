@@ -5,6 +5,7 @@ import { env } from './env'
 import fastifyJwt from '@fastify/jwt'
 import cors from '@fastify/cors'
 import multipart from '@fastify/multipart'
+import formBody from '@fastify/formbody'
 import fastifyCookie from '@fastify/cookie'
 import { currenciesRoutes } from './http/controllers/currencies/routes'
 import { transactionsRoutes } from './http/controllers/transactions/routes'
@@ -24,9 +25,11 @@ app.register(fastifyJwt, {
 
 app.register(fastifyCookie)
 app.register(multipart)
+app.register(formBody)
 
 app.register(cors, {
   origin: true,
+  credentials: true,
 })
 
 app.register(usersRoutes)
