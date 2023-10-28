@@ -7,6 +7,7 @@ import { RadixProvider } from './providers'
 import { Grid, ScrollArea } from '@radix-ui/themes'
 import { MenuNav } from '@/components/MenuNav'
 import { SignIn } from '@/components/SignIn'
+import { cookies } from 'next/headers'
 
 const poppins = Poppins({
   weight: ['500', '700'],
@@ -24,7 +25,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const isAuthenticated = false
+  const isAuthenticated = cookies().has('token')
 
   return (
     <html lang="en">

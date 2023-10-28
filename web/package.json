@@ -9,17 +9,23 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.3.2",
     "@radix-ui/themes": "^2.0.0",
+    "axios": "^1.6.0",
     "clsx": "^2.0.0",
     "dayjs": "^1.11.10",
+    "js-cookie": "^3.0.5",
     "lucide-react": "^0.287.0",
     "next": "13.5.4",
     "react": "^18",
     "react-dom": "^18",
+    "react-hook-form": "^7.47.0",
+    "zod": "^3.22.4",
     "zustand": "^4.4.4"
   },
   "devDependencies": {
     "@rocketseat/eslint-config": "^2.1.0",
+    "@types/js-cookie": "^3.0.5",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
