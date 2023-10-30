@@ -2,14 +2,12 @@ import { ButtonHTMLAttributes, Ref, forwardRef } from 'react'
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: string
-  ref: Ref<HTMLButtonElement>
 }
 
-export const Button = forwardRef(function Button({
-  children,
-  ref,
-  ...props
-}: ButtonProps) {
+export const Button = forwardRef(function Button(
+  { children, ...props }: ButtonProps,
+  ref: Ref<HTMLButtonElement>,
+) {
   return (
     <button
       {...props}
