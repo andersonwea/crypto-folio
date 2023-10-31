@@ -1,18 +1,24 @@
-import { refreshToken } from '@/utils/refresh-token'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import cookies from 'js-cookie'
 
+type FailedRequestsQueueType = {
+  onSucess: (token: string) => void
+  onFailed: (err: AxiosError) => void
+}
+
+let isRefreshing = false
+let failedRequestsQueue: FailedRequestsQueueType[] = []
+
 export const api = axios.create({
-  baseURL: 'https://puce-worried-snapper.cyclic.app',
+  baseURL: 'http://localhost:3333',
   headers: {
     'Content-Type': 'application/json',
   },
-  // withCredentials: true,
 })
 
 api.interceptors.request.use(
   async (config) => {
-    const token = cookies.get('token')
+    const token = cookies.get('cryptofolio.token')
 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
@@ -25,7 +31,7 @@ api.interceptors.request.use(
   },
 )
 
-api.interceptors.request.use(
+api.interceptors.response.use(
   (response) => {
     return response
   },
@@ -33,19 +39,44 @@ api.interceptors.request.use(
   async function (error) {
     const originalRequest = error.config
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true
+    if (error.response?.status === 401 && !originalRequest.sent) {
+      originalRequest.sent = true
 
-      const response = await refreshToken()
+      if (!isRefreshing) {
+        isRefreshing = true
 
-      const { token } = response
+        api
+          .patch('/token/refresh', {}, { withCredentials: true })
+          .then((response) => {
+            const { token } = response.data
 
-      cookies.set('token', token)
-      api.defaults.headers.common.Authorization = `Bearer ${token}`
+            cookies.set('cryptofolio.token', token)
+            api.defaults.headers.Authorization = `Bearer ${token}`
 
-      return api(originalRequest)
+            failedRequestsQueue.forEach((request) => request.onSucess(token))
+            failedRequestsQueue = []
+          })
+          .catch((err) => {
+            failedRequestsQueue.forEach((request) => request.onFailed(err))
+            failedRequestsQueue = []
+          })
+          .finally(() => {
+            isRefreshing = false
+          })
+      }
+
+      return new Promise((resolve, reject) => {
+        failedRequestsQueue.push({
+          onSucess: (token: string) => {
+            originalRequest.headers.Authorization = `Bearer ${token}`
+
+            resolve(api(originalRequest))
+          },
+          onFailed: (err: AxiosError) => {
+            reject(err)
+          },
+        })
+      })
     }
-
-    return Promise.reject(error)
   },
 )
