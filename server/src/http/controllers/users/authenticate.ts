@@ -43,14 +43,20 @@ export async function authenticate(
     )
 
     return reply
-      .setCookie('refreshToken', refreshToken, {
+      .setCookie('cryptofolio.refreshToken', refreshToken, {
         path: '/',
         secure: true,
         sameSite: true,
         httpOnly: true,
       })
       .status(200)
-      .send({ token })
+      .send({
+        user: {
+          ...user,
+          password_hash: undefined,
+        },
+        token,
+      })
   } catch (err) {
     if (err instanceof InvalidCredentialsError) {
       return reply.status(400).send({ message: err.message })
