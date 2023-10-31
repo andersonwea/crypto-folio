@@ -8,11 +8,10 @@ import { Button } from './Button'
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'next/navigation'
 import { api } from '@/libs/api'
-import { AxiosError } from 'axios'
 import cookies from 'js-cookie'
 import { useAuthStore } from '@/store/useAuthStore'
-import { useRouter } from 'next/navigation'
 
 const authenticateFormSchema = z.object({
   email: z
@@ -36,30 +35,32 @@ export function AuthenticateForm() {
     resolver: zodResolver(authenticateFormSchema),
   })
 
-  const setAuthenticated = useAuthStore((state) => state.setAuthenticated)
   const router = useRouter()
+  const setUser = useAuthStore((state) => state.setUser)
+  const setAuthenticated = useAuthStore((state) => state.setAuthenticated)
 
   async function handleAuthenticateUser(data: AuthenticateFormData) {
+    reset()
+
     try {
-      const response = await api.post('/sessions', {
-        email: data.email,
-        password: data.password,
-      })
-      reset()
+      const response = await api.post(
+        '/sessions',
+        {
+          email: data.email,
+          password: data.password,
+        },
+        { withCredentials: true },
+      )
 
-      const { token } = response.data
+      const { user, token } = response.data
 
-      cookies.set('token', token)
+      cookies.set('cryptofolio.token', token)
+      setUser(user)
       setAuthenticated(true)
 
       router.refresh()
-    } catch (err) {
-      if (err instanceof AxiosError && err.response?.data.message) {
-        alert(err.response.data.message) // TODO: Use a alert lib.
-        return
-      }
-
-      console.log(err)
+    } catch (err: any) {
+      alert(err.message) // TODO add react-toastify lib
     }
   }
 
