@@ -9,6 +9,7 @@ interface CreateTransactionUseCaseRequest {
   value: number
   amount: number
   currencyId: string
+  createdAt: Date
 }
 
 interface CreateTransactionUseCaseResponse {
@@ -26,6 +27,7 @@ export class CreateTransactionUseCase {
     value,
     amount,
     currencyId,
+    createdAt,
   }: CreateTransactionUseCaseRequest): Promise<CreateTransactionUseCaseResponse> {
     const currency = await this.currenciesRepository.findById(currencyId)
 
@@ -42,6 +44,7 @@ export class CreateTransactionUseCase {
       value,
       amount,
       currency_id: currencyId,
+      created_at: createdAt,
     })
 
     return {

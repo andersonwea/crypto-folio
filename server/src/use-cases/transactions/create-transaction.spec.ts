@@ -36,6 +36,7 @@ describe('Create Transaction Use Case', () => {
       currencyId: currency.id,
       type: 'buy',
       value: 13000000,
+      createdAt: new Date(),
     })
 
     expect(transaction).toEqual(
@@ -53,6 +54,7 @@ describe('Create Transaction Use Case', () => {
         currencyId: 'inesxisting-currency-id',
         type: 'buy',
         value: 13000000,
+        createdAt: new Date(),
       }),
     ).rejects.toBeInstanceOf(ResourceNotFoundError)
   })
@@ -73,6 +75,7 @@ describe('Create Transaction Use Case', () => {
         currencyId: currency.id,
         type: 'sell',
         value: 13000000,
+        createdAt: new Date(),
       }),
     ).rejects.toBeInstanceOf(InvalidTransactionError)
   })

@@ -34,6 +34,7 @@ describe('Create Transaction (e2e)', () => {
         type: 'buy',
         value: 2700000,
         amount: 1,
+        createdAt: new Date().toISOString(),
       })
 
     expect(response.statusCode).toEqual(201)

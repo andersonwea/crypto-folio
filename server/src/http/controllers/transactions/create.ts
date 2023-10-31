@@ -14,11 +14,12 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
     type: z.enum(['buy', 'sell']),
     value: z.number(),
     amount: z.number(),
+    createdAt: z.string(),
   })
 
   const { currencyId } = createTransactionParamSchema.parse(request.params)
 
-  const { type, value, amount } = createTransactionBodySchema.parse(
+  const { type, value, amount, createdAt } = createTransactionBodySchema.parse(
     request.body,
   )
 
@@ -32,6 +33,7 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
       currencyId,
       type,
       value,
+      createdAt: new Date(createdAt),
     })
 
     await updateUserCurrencyAmountUseCase.execute({
