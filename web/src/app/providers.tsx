@@ -3,10 +3,10 @@
 import { ReactNode } from 'react'
 import { Theme } from '@radix-ui/themes'
 
-interface RadixProviderProps {
+interface ProvidersProps {
   children: ReactNode
 }
 
-export function RadixProvider({ children }: RadixProviderProps) {
+export function Providers({ children }: ProvidersProps) {
   return <Theme>{children}</Theme>
 }
