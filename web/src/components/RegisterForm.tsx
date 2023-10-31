@@ -8,8 +8,8 @@ import googleIcon from '@/assets/google.svg'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import { api } from '@/libs/api'
 import { AxiosError } from 'axios'
+import { api } from '@/libs/api'
 
 const registerFormSchema = z.object({
   nickname: z

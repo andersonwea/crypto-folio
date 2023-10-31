@@ -15,7 +15,7 @@ type State = {
 
 type Actions = {
   setAuthenticated: (value: boolean) => void
-  setUser: (user: User) => void
+  setUser: (user: User | null) => void
 }
 
 const initialState = {
@@ -27,5 +27,5 @@ export const useAuthStore = create<State & Actions>()((set) => ({
   ...initialState,
   setAuthenticated: (value: boolean) => set({ isAuthenticated: value }),
 
-  setUser: (value: User) => set({ user: value }),
+  setUser: (value: User | null) => set({ user: value }),
 }))
