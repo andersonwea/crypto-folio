@@ -1,5 +1,3 @@
-import { Header } from '@/components/Header'
-import { Wallet } from './components/Wallet'
 import { Heading, Text } from '@radix-ui/themes'
 import Image from 'next/image'
 import usdIcon from '@/assets/usd.svg'
