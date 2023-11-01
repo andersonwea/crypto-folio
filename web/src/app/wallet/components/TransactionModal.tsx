@@ -4,25 +4,28 @@ import { Dialog } from '@radix-ui/themes'
 import { ReactNode } from 'react'
 import { SelectCurrency } from './SelectCurrency'
 import { CreateTransaction } from './CreateTransaction'
-import { useSelectCurrency } from '@/hooks/useSelectCurrency'
+import { useCurrencyStore } from '@/store/useCurrencyStore'
 
 interface TransactionModalProps {
   children: ReactNode
 }
 
 export function TransactionModal({ children }: TransactionModalProps) {
-  const currency = useSelectCurrency((state) => state.currency)
-  const reset = useSelectCurrency((state) => state.reset)
+  const selectedMarketCurrency = useCurrencyStore(
+    (state) => state.selectedMarketCurrency,
+  )
+  const setSelectedMarketCurrency = useCurrencyStore(
+    (state) => state.setSelectedMarketCurrency,
+  )
 
-  function handleOpenModal() {
-    reset()
-  }
-
+  console.log(selectedMarketCurrency)
   return (
     <Dialog.Root>
-      <Dialog.Trigger onClick={handleOpenModal}>{children}</Dialog.Trigger>
+      <Dialog.Trigger onClick={() => setSelectedMarketCurrency(null)}>
+        {children}
+      </Dialog.Trigger>
 
-      {currency ? <CreateTransaction /> : <SelectCurrency />}
+      {selectedMarketCurrency ? <CreateTransaction /> : <SelectCurrency />}
     </Dialog.Root>
   )
 }

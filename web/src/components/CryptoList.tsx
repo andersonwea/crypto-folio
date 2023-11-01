@@ -5,8 +5,7 @@ import { Star } from 'lucide-react'
 import Image from 'next/image'
 import { NavPages } from '../app/market/components/NavPages'
 import Link from 'next/link'
-import { useEffect } from 'react'
-import { api } from '@/libs/api'
+import { useCallback, useEffect } from 'react'
 import { useCurrencyStore } from '@/store/useCurrencyStore'
 
 interface CryptoListProps {
@@ -15,15 +14,15 @@ interface CryptoListProps {
 }
 
 export function CryptoList({ page = '1', totalPages }: CryptoListProps) {
-  const marketCurrencies = useCurrencyStore((state) => state.marketCurrencies)
-  const setMarketCurrencies = useCurrencyStore(
-    (state) => state.setMarketCurrencies,
+  const marketCurrencies = useCurrencyStore(
+    useCallback((state) => state.marketCurrencies, [page]),
+  )
+  const fetchMarketCurrencies = useCurrencyStore(
+    useCallback((state) => state.fetchMarketCurrencies, []),
   )
 
   useEffect(() => {
-    api(`/market/currencies?page=${page}`).then((response) =>
-      setMarketCurrencies(response?.data),
-    )
+    fetchMarketCurrencies(page)
   }, [page])
 
   return (
@@ -88,7 +87,7 @@ export function CryptoList({ page = '1', totalPages }: CryptoListProps) {
           </tbody>
         </table>
       </ScrollArea>
-      <NavPages page={page} totalPages={totalPages} />
+      <NavPages page={Number(page)} totalPages={totalPages} />
     </section>
   )
 }

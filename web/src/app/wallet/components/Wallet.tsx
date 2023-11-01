@@ -5,23 +5,28 @@ import { Card } from './Card'
 import { TextInput } from '@/components/TextInput'
 import { Button } from '@/components/Button'
 import { TransactionModal } from './TransactionModal'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { WalletCurrency } from '@/@types'
 import { api } from '@/libs/api'
 import { EmptyCard } from './EmptyCard'
+import { useCurrencyStore } from '@/store/useCurrencyStore'
 
 interface WalletProps {
   maxWidth?: number
 }
 
+const colors = ['bg-green-300', 'bg-purple-300', 'bg-yellow-300']
+
 export function Wallet({ maxWidth }: WalletProps) {
-  const [currencies, setCurrencies] = useState<WalletCurrency[] | null>(null)
-  const colors = ['bg-green-300', 'bg-purple-300', 'bg-yellow-300']
+  const fetchWalletCurrencies = useCurrencyStore(
+    useCallback((state) => state.fetchWalletCurrencies, []),
+  )
+  const walletCurrencies = useCurrencyStore(
+    useCallback((state) => state.walletCurrencies, []),
+  )
 
   useEffect(() => {
-    api('/wallet/currencies').then((response) => {
-      setCurrencies(response?.data)
-    })
+    fetchWalletCurrencies()
   }, [])
 
   return (
@@ -41,18 +46,20 @@ export function Wallet({ maxWidth }: WalletProps) {
         style={{ maxWidth: maxWidth || '100%', maxHeight: 255 }}
       >
         <div className="flex space-x-7 py-4">
-          {currencies && currencies.length < 1 ? (
-            <EmptyCard />
-          ) : (
-            currencies &&
-            currencies.map((currency, index) => (
+          {
+            // currencies && currencies.length < 1 ? (
+            //   <EmptyCard />
+            // ) : (
+
+            walletCurrencies.map((walletCurrency, index) => (
               <Card
-                key={currency.id}
-                currency={currency}
+                key={walletCurrency.id}
+                currency={walletCurrency}
                 color={colors[index % colors.length]}
               />
             ))
-          )}
+            // )
+          }
         </div>
       </ScrollArea>
     </section>

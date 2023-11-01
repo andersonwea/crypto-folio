@@ -1,12 +1,12 @@
 import { Dialog, IconButton } from '@radix-ui/themes'
 import { X } from 'lucide-react'
-import { Currency } from './Currency'
+import { CurrencyItem } from './CurrencyItem'
 import { useCurrencyStore } from '@/store/useCurrencyStore'
+import { useCallback } from 'react'
 
 export function SelectCurrency() {
-  const marketCurrencies = useCurrencyStore((state) => state.marketCurrencies)
-  const setMarketCurrencies = useCurrencyStore(
-    (state) => state.setMarketCurrencies,
+  const marketCurrencies = useCurrencyStore(
+    useCallback((state) => state.marketCurrencies, []),
   )
   const setSelectedMarketCurrency = useCurrencyStore(
     (state) => state.setSelectedMarketCurrency,
@@ -32,7 +32,7 @@ export function SelectCurrency() {
 
       <ul className="pt-7 flex flex-col gap-1">
         {marketCurrencies.map((marketCurrency) => (
-          <Currency
+          <CurrencyItem
             id={String(marketCurrency.id)}
             key={marketCurrency.id}
             currency={marketCurrency}
