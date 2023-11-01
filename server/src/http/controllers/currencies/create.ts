@@ -18,7 +18,7 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
 
   const createCurrencyUseCase = makeCreateCurrencyUseCase()
 
-  await createCurrencyUseCase.execute({
+  const { currency } = await createCurrencyUseCase.execute({
     amount,
     cryptocurrencyId,
     image,
@@ -27,5 +27,5 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
     userId,
   })
 
-  return reply.status(201).send()
+  return reply.status(201).send(currency)
 }
