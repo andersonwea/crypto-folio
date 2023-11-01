@@ -1,15 +1,31 @@
+'use client'
+
 import { ScrollArea, Text } from '@radix-ui/themes'
 import { Star } from 'lucide-react'
 import Image from 'next/image'
 import { NavPages } from '../app/market/components/NavPages'
 import Link from 'next/link'
+import { useEffect } from 'react'
+import { api } from '@/libs/api'
+import { useCurrencyStore } from '@/store/useCurrencyStore'
 
 interface CryptoListProps {
   page?: string
   totalPages: number
 }
 
-export async function CryptoList({ page = '1', totalPages }: CryptoListProps) {
+export function CryptoList({ page = '1', totalPages }: CryptoListProps) {
+  const marketCurrencies = useCurrencyStore((state) => state.marketCurrencies)
+  const setMarketCurrencies = useCurrencyStore(
+    (state) => state.setMarketCurrencies,
+  )
+
+  useEffect(() => {
+    api(`/market/currencies?page=${page}`).then((response) =>
+      setMarketCurrencies(response?.data),
+    )
+  }, [page])
+
   return (
     <section className="pt-7">
       <ScrollArea
@@ -36,17 +52,19 @@ export async function CryptoList({ page = '1', totalPages }: CryptoListProps) {
           </thead>
 
           <tbody>
-            {[1, 2, 3, 4, 5, 6, 7].map((row) => (
-              <tr key={row}>
+            {marketCurrencies.map((marketCurrency) => (
+              <tr key={marketCurrency.id}>
                 <td>
                   <Star color="gray" size={20} />
                 </td>
-                <td className="text-left max-sm:hidden">1</td>
+                <td className="text-left max-sm:hidden">
+                  {marketCurrency.rank}
+                </td>
                 <td className="sticky left-0 shadow-sm min-w-[150px]">
                   <Link href={'#'} className="flex items-center gap-2">
                     <div className="w-8 h-8">
                       <Image
-                        src="https://img.api.cryptorank.io/coins/60x60.bitcoin1524754012028.png"
+                        src={marketCurrency.image}
                         alt="bitcoin logo"
                         width={32}
                         height={32}
@@ -54,17 +72,17 @@ export async function CryptoList({ page = '1', totalPages }: CryptoListProps) {
                     </div>
 
                     <div className="text-base flex max-sm:flex-col gap-x-2 items-start">
-                      <Text as="p">Bitcoin</Text>
+                      <Text as="p">{marketCurrency.name}</Text>
                       <Text className="text-gray-500 text-sm" as="span">
-                        BTC
+                        {marketCurrency.symbol}
                       </Text>
                     </div>
                   </Link>
                 </td>
-                <td>$ 27,556</td>
-                <td>+13,25%</td>
-                <td>$ 568.8M</td>
-                <td>19.52M BTC</td>
+                <td>{marketCurrency.values.price}</td>
+                <td>{marketCurrency.values.percentChange24h}</td>
+                <td>{marketCurrency.values.marketCap}</td>
+                <td>{marketCurrency.circulatingSupply} BTC</td>
               </tr>
             ))}
           </tbody>
