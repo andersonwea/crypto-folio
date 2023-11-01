@@ -1,4 +1,4 @@
-import { WalletCurrency } from '@/@types'
+import { WalletCurrency } from '@/store/useCurrencyStore'
 import { Heading, Text } from '@radix-ui/themes'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -31,7 +31,7 @@ export function Card({ color, currency }: CardProps) {
           />
         </div>
         <Text as="span" color="green">
-          0.15% //TODO change this
+          0.15% {/** //TODO change this */}
         </Text>
       </div>
     </Link>
