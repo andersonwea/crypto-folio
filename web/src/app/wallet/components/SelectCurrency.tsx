@@ -1,11 +1,16 @@
 import { Dialog, IconButton } from '@radix-ui/themes'
 import { X } from 'lucide-react'
 import { Currency } from './Currency'
-import { useSelectCurrency } from '@/hooks/useSelectCurrency'
-import { SearchBar } from '@/components/SearchBar'
+import { useCurrencyStore } from '@/store/useCurrencyStore'
 
 export function SelectCurrency() {
-  const setCurrency = useSelectCurrency((state) => state.setCurrency)
+  const marketCurrencies = useCurrencyStore((state) => state.marketCurrencies)
+  const setMarketCurrencies = useCurrencyStore(
+    (state) => state.setMarketCurrencies,
+  )
+  const setSelectedMarketCurrency = useCurrencyStore(
+    (state) => state.setSelectedMarketCurrency,
+  )
 
   return (
     <Dialog.Content className="max-w-[550px] relative" size={'4'}>
@@ -21,15 +26,18 @@ export function SelectCurrency() {
         </Dialog.Close>
       </header>
 
-      <SearchBar onClick={(e) => setCurrency(e.currentTarget.id)} />
+      {/* <SearchBar
+        onClick={(e) => setCryptocurrencyId(Number(e.currentTarget.id))}
+      /> */}
 
       <ul className="pt-7 flex flex-col gap-1">
-        {[1, 2, 3, 4, 5, 6, 7].map((currency) => (
+        {marketCurrencies.map((marketCurrency) => (
           <Currency
-            id={`bitcoin${currency}`}
-            key={currency}
+            id={String(marketCurrency.id)}
+            key={marketCurrency.id}
+            currency={marketCurrency}
             icon={true}
-            onClick={(e) => setCurrency(e.currentTarget.id)}
+            onClick={() => setSelectedMarketCurrency(marketCurrency)}
           />
         ))}
       </ul>

@@ -1,3 +1,4 @@
+import { MarketCurrency } from '@/@types'
 import { Text } from '@radix-ui/themes'
 import { ChevronRight } from 'lucide-react'
 import Image from 'next/image'
@@ -8,6 +9,7 @@ interface CurrencyProps extends LiHTMLAttributes<HTMLElement> {
   hover?: boolean
   logoWidth?: number
   logoHeight?: number
+  currency: MarketCurrency
 }
 
 export function Currency({
@@ -15,6 +17,7 @@ export function Currency({
   hover = true,
   logoHeight = 32,
   logoWidth = 32,
+  currency,
   ...props
 }: CurrencyProps) {
   return (
@@ -25,13 +28,13 @@ export function Currency({
       }`}
     >
       <Image
-        src="https://img.api.cryptorank.io/coins/60x60.bitcoin1524754012028.png"
+        src={currency.image}
         alt="bitcoin logo"
         width={logoWidth}
         height={logoHeight}
       />
       <Text as="p" className="w-full">
-        Bitcoin <Text color="gray">BTC</Text>
+        {currency.name} <Text color="gray">{currency.symbol}</Text>
       </Text>
       {icon && (
         <b className="ml-auto">
