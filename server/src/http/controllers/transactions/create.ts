@@ -28,7 +28,7 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
     const updateUserCurrencyAmountUseCase =
       makeUpdateUserCurrencyAmountUseCase()
 
-    await createTransactionUseCase.execute({
+    const { transaction } = await createTransactionUseCase.execute({
       amount,
       currencyId,
       type,
@@ -39,6 +39,8 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
     await updateUserCurrencyAmountUseCase.execute({
       currencyId,
     })
+
+    return reply.status(201).send(transaction)
   } catch (err) {
     if (err instanceof InvalidTransactionError) {
       return reply.status(400).send({ message: err.message })
@@ -50,6 +52,4 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
 
     throw err
   }
-
-  return reply.status(201).send()
 }
