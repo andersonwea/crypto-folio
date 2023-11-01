@@ -18,3 +18,27 @@ export interface WalletCurrency {
   balance: number
   transactions: Transaction[]
 }
+
+type Value = {
+  price: number
+  volume24h: number
+  high24h: number
+  low24h: number
+  marketCap: number
+  percentChange24h: number
+  percentChange7d: number
+  percentChange30d: number
+  percentChange3m: number
+  percentChange6m: number
+}
+
+export interface MarketCurrency {
+  id: number
+  rank: number
+  name: string
+  symbol: string
+  image: string
+  values: Value
+  maxSupply: number
+  circulatingSupply: number
+}
