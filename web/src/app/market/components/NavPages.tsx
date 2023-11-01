@@ -8,7 +8,7 @@ import { IconButton } from '@radix-ui/themes'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 interface NavPagesProps {
-  page: string
+  page: number
   totalPages: number
 }
 
