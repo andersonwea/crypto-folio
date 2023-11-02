@@ -6,10 +6,9 @@ import { TextInput } from '@/components/TextInput'
 import { Button } from '@/components/Button'
 import { TransactionModal } from './TransactionModal'
 import { useCallback, useEffect, useState } from 'react'
-import { WalletCurrency } from '@/@types'
-import { api } from '@/libs/api'
 import { EmptyCard } from './EmptyCard'
 import { useCurrencyStore } from '@/store/useCurrencyStore'
+import { useTransactionStore } from '@/store/useTransactionsStore'
 
 interface WalletProps {
   maxWidth?: number
@@ -18,8 +17,9 @@ interface WalletProps {
 const colors = ['bg-green-300', 'bg-purple-300', 'bg-yellow-300']
 
 export function Wallet({ maxWidth }: WalletProps) {
+  const transactions = useTransactionStore((state) => state.transactions)
   const fetchWalletCurrencies = useCurrencyStore(
-    useCallback((state) => state.fetchWalletCurrencies, []),
+    useCallback((state) => state.fetchWalletCurrencies, [transactions]),
   )
   const walletCurrencies = useCurrencyStore(
     useCallback((state) => state.walletCurrencies, []),
@@ -27,7 +27,7 @@ export function Wallet({ maxWidth }: WalletProps) {
 
   useEffect(() => {
     fetchWalletCurrencies()
-  }, [])
+  }, [transactions])
 
   return (
     <section className="pt-4">
