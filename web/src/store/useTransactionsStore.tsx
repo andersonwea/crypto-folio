@@ -1,4 +1,5 @@
 import { api } from '@/libs/api'
+import { AxiosError } from 'axios'
 import { create } from 'zustand'
 
 interface NewTransactionInput {
@@ -27,7 +28,7 @@ type Actions = {
   createTransaction: (
     data: NewTransactionInput,
     currencyId: string,
-  ) => Promise<void>
+  ) => Promise<Transaction | void>
 }
 
 const initialState: State = {
@@ -45,13 +46,17 @@ export const useTransactionStore = create<State & Actions>()((set, get) => ({
 
       set({ transactions: response.data })
     } catch (err) {
+      if (err instanceof AxiosError) {
+        return alert(err.response?.data.message) // TODO: add toastify lib
+      }
+
       console.log(err)
     }
   },
 
   createTransaction: async (data: NewTransactionInput, currencyId: string) => {
     try {
-      const response = await api.post<Transaction>(
+      const response = await api.post(
         `/wallet/currencies/${currencyId}/transactions`,
         {
           amount: data.amount,
@@ -62,7 +67,13 @@ export const useTransactionStore = create<State & Actions>()((set, get) => ({
       )
 
       set({ transactions: [...get().transactions, response.data] })
+
+      return response.data
     } catch (err) {
+      if (err instanceof AxiosError) {
+        return alert(err.response?.data.message) // TODO: add toastify lib
+      }
+
       console.log(err)
     }
   },

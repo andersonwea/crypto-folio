@@ -1,4 +1,5 @@
 import { api } from '@/libs/api'
+import { AxiosError } from 'axios'
 import { create } from 'zustand'
 
 type Value = {
@@ -68,7 +69,7 @@ interface Actions {
   fetchWalletCurrencies: () => Promise<void>
   createWalletCurrency: (
     data: NewCurrencyInput,
-  ) => Promise<WalletCurrency | undefined>
+  ) => Promise<WalletCurrency | void>
 }
 
 const initialState: State = {
@@ -78,7 +79,7 @@ const initialState: State = {
   walletCurrencies: [],
 }
 
-export const useCurrencyStore = create<State & Actions>()((set) => ({
+export const useCurrencyStore = create<State & Actions>()((set, get) => ({
   ...initialState,
   setSearch: (value: string) => {
     set({ search: value })
@@ -107,6 +108,10 @@ export const useCurrencyStore = create<State & Actions>()((set) => ({
         set({ walletCurrencies: response.data })
       }
     } catch (err) {
+      if (err instanceof AxiosError) {
+        return alert(err.response?.data.message) // TODO: add toastify lib
+      }
+
       console.log(err)
     }
   },
@@ -124,6 +129,10 @@ export const useCurrencyStore = create<State & Actions>()((set) => ({
 
       return response.data
     } catch (err) {
+      if (err instanceof AxiosError) {
+        return alert(err.response?.data.message) // TODO: add toastify lib
+      }
+
       console.log(err)
     }
   },
