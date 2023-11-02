@@ -9,7 +9,6 @@ import { useCurrencyStore } from '@/store/useCurrencyStore'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useRouter } from 'next/navigation'
 import { useTransactionStore } from '@/store/useTransactionsStore'
 import { useCallback } from 'react'
 
@@ -18,8 +17,12 @@ interface CreateTransactionFormProps {
 }
 
 const createTransactionFormSchema = z.object({
-  amount: z.number().min(0.001, { message: 'Transação de no mínimo 0.001' }),
-  currencyPrice: z.number().min(0.001, { message: 'Preço de no mínimo 0.001' }),
+  amount: z.coerce
+    .number()
+    .min(0.001, { message: 'Transação de no mínimo 0.001' }),
+  currencyPrice: z.coerce
+    .number()
+    .min(0.001, { message: 'Preço de no mínimo 0.001' }),
   createdAt: z.coerce
     .date()
     .max(new Date(), { message: 'Data futura não permitida.' }),
@@ -51,6 +54,7 @@ export function CreateTransactionForm({
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<CreateTransactionForm>({
     resolver: zodResolver(createTransactionFormSchema),
@@ -59,8 +63,6 @@ export function CreateTransactionForm({
       currencyPrice: selectedMarketCurrency?.values.price ?? 0,
     },
   })
-
-  const router = useRouter()
 
   const amount = watch('amount')
   const currencyPrice = watch('currencyPrice')
@@ -73,6 +75,7 @@ export function CreateTransactionForm({
     const { amount, createdAt } = data
     const { id, name, symbol, image } = selectedMarketCurrency
     const value = amount * currencyPrice
+    const valueInCents = value * 100
 
     const currency = await createWalletCurrency({
       amount,
@@ -82,21 +85,21 @@ export function CreateTransactionForm({
       symbol,
     })
 
-    if (!currency) {
-      return alert('Falha ao criar transação.') // TODO add toastify lib
+    if (currency) {
+      await createTransaction(
+        {
+          amount,
+          createdAt,
+          type: transactionType,
+          value: valueInCents,
+        },
+        currency.id,
+      )
+
+      alert('Transação criada com sucesso.') // TODO: add toastify lib
+
+      reset()
     }
-
-    await createTransaction(
-      {
-        amount,
-        createdAt,
-        type: transactionType,
-        value,
-      },
-      currency.id,
-    )
-
-    router.refresh()
   }
 
   return (
@@ -130,11 +133,7 @@ export function CreateTransactionForm({
       <div className="flex gap-4 pt-4">
         <label htmlFor="" className="w-full space-y-1">
           <Text>Quantidade</Text>
-          <TextInput
-            placeholder="0.00"
-            type="number"
-            {...register('amount', { valueAsNumber: true })}
-          />
+          <TextInput placeholder="0.00" type="number" {...register('amount')} />
 
           {errors.amount && (
             <Text color="red" size={'2'}>
@@ -145,10 +144,7 @@ export function CreateTransactionForm({
 
         <label htmlFor="" className="w-full space-y-1">
           <Text>Preço por moeda</Text>
-          <TextInput
-            placeholder="0.00"
-            {...register('currencyPrice', { valueAsNumber: true })}
-          />
+          <TextInput placeholder="0.00" {...register('currencyPrice')} />
 
           {errors.currencyPrice && (
             <Text color="red" size={'2'}>
