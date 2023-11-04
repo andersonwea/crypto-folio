@@ -3,9 +3,7 @@
 import { Heading, ScrollArea } from '@radix-ui/themes'
 import { Card } from './Card'
 import { TextInput } from '@/components/TextInput'
-import { Button } from '@/components/Button'
-import { TransactionModal } from './TransactionModal'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect } from 'react'
 import { EmptyCard } from './EmptyCard'
 import { useCurrencyStore } from '@/store/useCurrencyStore'
 import { useTransactionStore } from '@/store/useTransactionsStore'
@@ -31,13 +29,9 @@ export function Wallet({ maxWidth }: WalletProps) {
 
   return (
     <section className="pt-4">
-      <div className="flex items-center gap-10 max-sm:gap-3">
+      <div className="flex items-center gap-4 max-sm:flex-col max-sm:items-start max-sm:gap-2">
         <Heading as="h2">Seus Ativos</Heading>
         <TextInput placeholder="Filtrar ativos" />
-
-        <TransactionModal>
-          <Button>Novo ativo</Button>
-        </TransactionModal>
       </div>
 
       <ScrollArea
