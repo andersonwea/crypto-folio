@@ -7,6 +7,7 @@ import { NavPages } from '../app/market/components/NavPages'
 import Link from 'next/link'
 import { useCallback, useEffect } from 'react'
 import { useCurrencyStore } from '@/store/useCurrencyStore'
+import { priceFormatter } from '@/utils/priceFormatter'
 
 interface CryptoListProps {
   page?: string
@@ -78,7 +79,7 @@ export function CryptoList({ page = '1', totalPages }: CryptoListProps) {
                     </div>
                   </Link>
                 </td>
-                <td>{marketCurrency.values.price}</td>
+                <td>{priceFormatter.format(marketCurrency.values.price)}</td>
                 <td>{marketCurrency.values.percentChange24h}</td>
                 <td>{marketCurrency.values.marketCap}</td>
                 <td>{marketCurrency.circulatingSupply} BTC</td>

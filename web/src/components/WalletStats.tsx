@@ -5,6 +5,7 @@ import Image from 'next/image'
 import usdIcon from '@/assets/usd.svg'
 import { api } from '@/libs/api'
 import { useEffect, useState } from 'react'
+import { priceFormatter } from '@/utils/priceFormatter'
 
 type WalletMetrics = {
   profitOrLoss: number
@@ -40,7 +41,9 @@ export function WalletStats() {
           <div>
             <Image src={usdIcon} alt="icone do USD" />
           </div>
-          <Heading as="h3">{metrics?.totalBalance}</Heading>
+          <Heading as="h3">
+            {priceFormatter.format(metrics?.totalBalance)}
+          </Heading>
         </div>
       </div>
 
@@ -62,7 +65,9 @@ export function WalletStats() {
           <div>
             <Image src={usdIcon} alt="icone do USD" />
           </div>
-          <Heading as="h3">{metrics?.totalInvested}</Heading>
+          <Heading as="h3">
+            {priceFormatter.format(metrics?.totalInvested)}
+          </Heading>
         </div>
       </div>
     </>
