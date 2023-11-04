@@ -19,7 +19,7 @@ export function WalletStats() {
   useEffect(() => {
     async function getMetrics() {
       try {
-        const response = await api('/me/metrics')
+        const response = await api<WalletMetrics>('/me/metrics')
 
         setMetrics(response.data)
       } catch (err) {
@@ -42,7 +42,7 @@ export function WalletStats() {
             <Image src={usdIcon} alt="icone do USD" />
           </div>
           <Heading as="h3">
-            {priceFormatter.format(metrics?.totalBalance)}
+            {metrics && priceFormatter.format(metrics.totalBalance)}
           </Heading>
         </div>
       </div>
@@ -66,7 +66,7 @@ export function WalletStats() {
             <Image src={usdIcon} alt="icone do USD" />
           </div>
           <Heading as="h3">
-            {priceFormatter.format(metrics?.totalInvested)}
+            {metrics && priceFormatter.format(metrics.totalInvested)}
           </Heading>
         </div>
       </div>
