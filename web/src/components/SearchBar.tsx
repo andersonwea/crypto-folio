@@ -2,7 +2,7 @@
 
 import { ScrollArea } from '@radix-ui/themes'
 import { TextInput } from './TextInput'
-import { Currency } from '@/app/wallet/components/Currency'
+import { CurrencyItem } from '@/app/wallet/components/CurrencyItem'
 import { useCurrencyStore } from '@/store/useCurrencyStore'
 import { MouseEvent } from 'react'
 
@@ -29,7 +29,7 @@ export function SearchBar({ onClick }: SearchBarProps) {
         <ScrollArea type="auto" scrollbars="vertical" style={{ height: 290 }}>
           <menu className="p-4">
             {[1, 2, 3, 4, 5, 6, 7].map((currency) => (
-              <Currency
+              <CurrencyItem
                 key={currency}
                 onClick={onClick}
                 value={`bitcoin${currency}`}
