@@ -1,3 +1,4 @@
+import { api } from '@/libs/api'
 import { create } from 'zustand'
 
 type User = {
@@ -9,23 +10,30 @@ type User = {
 }
 
 type State = {
-  isAuthenticated: boolean
   user: User | null
 }
 
 type Actions = {
-  setAuthenticated: (value: boolean) => void
   setUser: (user: User | null) => void
+  fetchUser: () => Promise<void>
 }
 
 const initialState = {
-  isAuthenticated: false,
   user: null,
 }
 
-export const useAuthStore = create<State & Actions>()((set) => ({
+export const useUserStore = create<State & Actions>()((set) => ({
   ...initialState,
-  setAuthenticated: (value: boolean) => set({ isAuthenticated: value }),
+
+  fetchUser: async () => {
+    try {
+      const response = await api<{ user: User }>('/me')
+
+      set({ user: response.data.user })
+    } catch (err) {
+      console.log(err)
+    }
+  },
 
   setUser: (value: User | null) => set({ user: value }),
 }))
