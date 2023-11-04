@@ -1,11 +1,23 @@
+'use client'
+
+import { useUserStore } from '@/store/useUserStore'
 import { Avatar, Heading, Text } from '@radix-ui/themes'
 import Link from 'next/link'
+import { useCallback, useEffect } from 'react'
 
 interface HeaderProps {
   title: string
 }
 
 export function Header({ title }: HeaderProps) {
+  const fetchUser = useUserStore(useCallback((state) => state.fetchUser, []))
+  const user = useUserStore(useCallback((state) => state.user, []))
+  console.log(user)
+
+  useEffect(() => {
+    fetchUser()
+  }, [])
+
   return (
     <header className="flex justify-between items-center pt-3">
       <Heading
@@ -23,6 +35,7 @@ export function Header({ title }: HeaderProps) {
       >
         <Avatar
           className="absolute left-1 bottom-1 "
+          src={user?.avatarUrl ? user.avatarUrl : ''}
           radius="full"
           color="orange"
           variant="solid"
@@ -33,7 +46,7 @@ export function Header({ title }: HeaderProps) {
           }}
         />
 
-        <Text className="pl-[64px] max-md:pl-[48px]">nicknameee</Text>
+        <Text className="pl-[64px] max-md:pl-[48px]">{user?.nickname}</Text>
       </Link>
     </header>
   )
