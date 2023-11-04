@@ -8,6 +8,7 @@ import Link from 'next/link'
 import { useCallback, useEffect } from 'react'
 import { useCurrencyStore } from '@/store/useCurrencyStore'
 import { priceFormatter } from '@/utils/priceFormatter'
+import { bigNumberFormatter } from '@/utils/bigNumberFormatter'
 
 interface CryptoListProps {
   page?: string
@@ -80,9 +81,20 @@ export function CryptoList({ page = '1', totalPages }: CryptoListProps) {
                   </Link>
                 </td>
                 <td>{priceFormatter.format(marketCurrency.values.price)}</td>
-                <td>{marketCurrency.values.percentChange24h}</td>
-                <td>{marketCurrency.values.marketCap}</td>
-                <td>{marketCurrency.circulatingSupply} BTC</td>
+                <td
+                  className={
+                    marketCurrency.values.percentChange24h > 0
+                      ? 'text-green-500'
+                      : 'text-red-500'
+                  }
+                >
+                  {marketCurrency.values.percentChange24h.toFixed(2)}%
+                </td>
+                <td>{bigNumberFormatter(marketCurrency.values.marketCap)}</td>
+                <td>
+                  {bigNumberFormatter(marketCurrency.circulatingSupply)}{' '}
+                  <Text>{marketCurrency.symbol}</Text>
+                </td>
               </tr>
             ))}
           </tbody>
