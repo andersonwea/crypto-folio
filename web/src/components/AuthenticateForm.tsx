@@ -11,7 +11,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { api } from '@/libs/api'
 import cookies from 'js-cookie'
-import { useAuthStore } from '@/store/useAuthStore'
 
 const authenticateFormSchema = z.object({
   email: z
@@ -36,8 +35,6 @@ export function AuthenticateForm() {
   })
 
   const router = useRouter()
-  const setUser = useAuthStore((state) => state.setUser)
-  const setAuthenticated = useAuthStore((state) => state.setAuthenticated)
 
   async function handleAuthenticateUser(data: AuthenticateFormData) {
     reset()
@@ -52,11 +49,9 @@ export function AuthenticateForm() {
         { withCredentials: true },
       )
 
-      const { user, token } = response.data
+      const { token } = response.data
 
       cookies.set('cryptofolio.token', token)
-      setUser(user)
-      setAuthenticated(true)
 
       router.refresh()
     } catch (err: any) {

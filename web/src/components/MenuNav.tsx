@@ -7,18 +7,12 @@ import Image from 'next/image'
 import logo from '@/assets/logo.svg'
 import cookies from 'js-cookie'
 import { useRouter } from 'next/navigation'
-import { useAuthStore } from '@/store/useAuthStore'
 
 export function MenuNav() {
   const router = useRouter()
-  const setUser = useAuthStore((state) => state.setUser)
-  const setAuthenticated = useAuthStore((state) => state.setAuthenticated)
 
   function signOut() {
     cookies.remove('cryptofolio.token')
-
-    setUser(null)
-    setAuthenticated(false)
 
     router.refresh()
   }
