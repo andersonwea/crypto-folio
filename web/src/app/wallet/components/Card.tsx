@@ -1,4 +1,5 @@
 import { WalletCurrency } from '@/store/useCurrencyStore'
+import { priceFormatter } from '@/utils/priceFormatter'
 import { Heading, Text } from '@radix-ui/themes'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -18,7 +19,7 @@ export function Card({ color, currency }: CardProps) {
         <Heading>
           {currency.amount} <span>{currency.symbol}</span>
         </Heading>
-        <Text>{currency.balance}</Text>
+        <Text>{priceFormatter.format(currency.balance)}</Text>
       </div>
 
       <div className="flex items-center space-x-4">
