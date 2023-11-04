@@ -1,8 +1,34 @@
+'use client'
+
 import { Heading, Text } from '@radix-ui/themes'
 import Image from 'next/image'
 import usdIcon from '@/assets/usd.svg'
+import { api } from '@/libs/api'
+import { useEffect, useState } from 'react'
+
+type WalletMetrics = {
+  profitOrLoss: number
+  totalBalance: number
+  totalInvested: number
+}
 
 export function WalletStats() {
+  const [metrics, setMetrics] = useState<WalletMetrics | null>(null)
+
+  useEffect(() => {
+    async function getMetrics() {
+      try {
+        const response = await api('/me/metrics')
+
+        setMetrics(response.data)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+
+    getMetrics()
+  }, [])
+
   return (
     <>
       <div>
@@ -14,7 +40,7 @@ export function WalletStats() {
           <div>
             <Image src={usdIcon} alt="icone do USD" />
           </div>
-          <Heading as="h3">$25,888.59</Heading>
+          <Heading as="h3">{metrics?.totalBalance}</Heading>
         </div>
       </div>
 
@@ -23,7 +49,7 @@ export function WalletStats() {
           Lucro/Perda
         </Text>
         <Text className="block" color="green">
-          +13.38%
+          {metrics?.profitOrLoss}
         </Text>
       </div>
 
@@ -36,7 +62,7 @@ export function WalletStats() {
           <div>
             <Image src={usdIcon} alt="icone do USD" />
           </div>
-          <Heading as="h3">$25,888.59</Heading>
+          <Heading as="h3">{metrics?.totalInvested}</Heading>
         </div>
       </div>
     </>
