@@ -4,8 +4,17 @@ import { prisma } from '@/lib/prisma'
 
 export class PrismaTransactionsRepository implements TransactionsRepository {
   async create(data: Prisma.TransactionUncheckedCreateInput) {
+    const amount = data.type === 'buy' ? data.amount : Number(data.amount) * -1
+    const value = data.type === 'buy' ? data.value : Number(data.value) * -1
+
     const transaction = await prisma.transaction.create({
-      data,
+      data: {
+        amount,
+        type: data.type,
+        value,
+        created_at: data.created_at,
+        currency_id: data.currency_id,
+      },
     })
 
     return transaction
