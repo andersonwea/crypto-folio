@@ -6,6 +6,7 @@ import usdIcon from '@/assets/usd.svg'
 import { api } from '@/libs/api'
 import { useEffect, useState } from 'react'
 import { priceFormatter } from '@/utils/priceFormatter'
+import { useTransactionStore } from '@/store/useTransactionsStore'
 
 type WalletMetrics = {
   profitOrLoss: number
@@ -15,6 +16,7 @@ type WalletMetrics = {
 
 export function WalletStats() {
   const [metrics, setMetrics] = useState<WalletMetrics | null>(null)
+  const transaction = useTransactionStore((state) => state.transactions)
 
   useEffect(() => {
     async function getMetrics() {
@@ -28,7 +30,7 @@ export function WalletStats() {
     }
 
     getMetrics()
-  }, [])
+  }, [transaction])
 
   return (
     <>
