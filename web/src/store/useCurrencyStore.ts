@@ -117,6 +117,24 @@ export const useCurrencyStore = create<State & Actions>()((set, get) => ({
         currencyId,
       })
 
+      if (get().watchlistCurrenciesIds.includes(currencyId)) {
+        set({
+          watchlistCurrenciesIds: get().watchlistCurrenciesIds.filter(
+            (id) => id !== currencyId,
+          ),
+        })
+        set({
+          watchlist: {
+            watchlist: get().watchlist.watchlist.filter(
+              (currency) => currency.id !== currencyId,
+            ),
+            totalItems: get().watchlist.totalItems,
+          },
+        })
+
+        return
+      }
+
       set({
         watchlistCurrenciesIds: [...get().watchlistCurrenciesIds, currencyId],
       })
