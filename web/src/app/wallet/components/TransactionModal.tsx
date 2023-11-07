@@ -1,7 +1,7 @@
 'use client'
 
 import { Dialog } from '@radix-ui/themes'
-import { ReactNode } from 'react'
+import { ReactNode, useCallback, useEffect } from 'react'
 import { SelectCurrency } from './SelectCurrency'
 import { CreateTransaction } from './CreateTransaction'
 import { useCurrencyStore } from '@/store/useCurrencyStore'
@@ -17,8 +17,14 @@ export function TransactionModal({ children }: TransactionModalProps) {
   const setSelectedMarketCurrency = useCurrencyStore(
     (state) => state.setSelectedMarketCurrency,
   )
+  const fetchMarketCurrencies = useCurrencyStore(
+    useCallback((state) => state.fetchMarketCurrencies, []),
+  )
 
-  console.log(selectedMarketCurrency)
+  useEffect(() => {
+    fetchMarketCurrencies()
+  }, [])
+
   return (
     <Dialog.Root>
       <Dialog.Trigger onClick={() => setSelectedMarketCurrency(null)}>
