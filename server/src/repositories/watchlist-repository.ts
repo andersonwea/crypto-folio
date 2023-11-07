@@ -1,5 +1,10 @@
 import { Prisma, Watchlist } from '@prisma/client'
 
+interface findManyByUserIdResponse {
+  watchlist: Watchlist[]
+  totalItems: number
+}
+
 export interface WatchlistRepository {
   create(data: Prisma.WatchlistUncheckedCreateInput): Promise<Watchlist>
   findbyUserIdAndCurrencyId(
@@ -7,5 +12,8 @@ export interface WatchlistRepository {
     userId: string,
   ): Promise<Watchlist | null>
   delete(id: string): Promise<void>
-  findManyByUserId(userId: string): Promise<Watchlist[]>
+  findManyByUserId(
+    userId: string,
+    page: number,
+  ): Promise<findManyByUserIdResponse>
 }

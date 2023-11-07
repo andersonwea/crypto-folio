@@ -3,11 +3,12 @@ import { WatchlistRepository } from '@/repositories/watchlist-repository'
 
 interface GetUserWatchListUseCaseRequest {
   userId: string
+  page: number
 }
 
 interface GetUserWatchListUseCaseResponse {
   watchlist: ApiCurrency[]
-  watchlistAmount: number
+  totalItems: number
 }
 
 export class GetUserWatchlistUseCase {
@@ -18,9 +19,10 @@ export class GetUserWatchlistUseCase {
 
   async execute({
     userId,
+    page,
   }: GetUserWatchListUseCaseRequest): Promise<GetUserWatchListUseCaseResponse> {
-    const watchlistCurrencies =
-      await this.watchlistRepository.findManyByUserId(userId)
+    const { totalItems, watchlist: watchlistCurrencies } =
+      await this.watchlistRepository.findManyByUserId(userId, page)
 
     const watchlistCurrenciesIds = watchlistCurrencies.map(
       (currency) => currency.currency_id,
@@ -30,11 +32,9 @@ export class GetUserWatchlistUseCase {
       watchlistCurrenciesIds,
     )
 
-    const watchlistAmount = watchlist.length
-
     return {
       watchlist,
-      watchlistAmount,
+      totalItems,
     }
   }
 }

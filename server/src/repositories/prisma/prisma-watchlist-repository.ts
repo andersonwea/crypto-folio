@@ -3,14 +3,18 @@ import { WatchlistRepository } from '../watchlist-repository'
 import { prisma } from '@/lib/prisma'
 
 export class PrismaWatchlistRepository implements WatchlistRepository {
-  async findManyByUserId(userId: string) {
+  async findManyByUserId(userId: string, page: number) {
     const watchlist = await prisma.watchlist.findMany({
       where: {
         user_id: userId,
       },
+      take: 7,
+      skip: (page - 1) * 7,
     })
 
-    return watchlist
+    const totalItems = await prisma.watchlist.count()
+
+    return { watchlist, totalItems }
   }
 
   async create(data: Prisma.WatchlistUncheckedCreateInput) {
