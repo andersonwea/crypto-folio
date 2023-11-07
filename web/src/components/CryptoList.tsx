@@ -8,18 +8,30 @@ import Link from 'next/link'
 import { priceFormatter } from '@/utils/priceFormatter'
 import { bigNumberFormatter } from '@/utils/bigNumberFormatter'
 import { MarketCurrency } from '@/@types'
+import { useCurrencyStore } from '@/store/useCurrencyStore'
+import { useCallback } from 'react'
 
 interface CryptoListProps {
   page?: string
   totalPages: number
   currencies: MarketCurrency[]
+  watchlistCurrenciesIds: number[]
 }
 
 export function CryptoList({
   page = '1',
   totalPages,
   currencies,
+  watchlistCurrenciesIds,
 }: CryptoListProps) {
+  const toggleWatchlist = useCurrencyStore(
+    useCallback((state) => state.toggleWatchlist, []),
+  )
+
+  function handleToggleWatchlist(currencyId: number) {
+    toggleWatchlist(currencyId)
+  }
+
   return (
     <section className="pt-7">
       <ScrollArea
@@ -46,50 +58,62 @@ export function CryptoList({
           </thead>
 
           <tbody>
-            {currencies.map((marketCurrency) => (
-              <tr key={marketCurrency.id}>
-                <td>
-                  <Star color="gray" size={20} />
-                </td>
-                <td className="text-left max-sm:hidden">
-                  {marketCurrency.rank}
-                </td>
-                <td className="sticky left-0 shadow-sm min-w-[150px]">
-                  <Link href={'#'} className="flex items-center gap-2">
-                    <div className="w-8 h-8">
-                      <Image
-                        src={marketCurrency.image}
-                        alt="bitcoin logo"
-                        width={32}
-                        height={32}
-                      />
-                    </div>
+            {currencies.map((marketCurrency) => {
+              const isWatchlisted = watchlistCurrenciesIds.includes(
+                marketCurrency.id,
+              )
 
-                    <div className="text-base flex max-sm:flex-col gap-x-2 items-start">
-                      <Text as="p">{marketCurrency.name}</Text>
-                      <Text className="text-gray-500 text-sm" as="span">
-                        {marketCurrency.symbol}
-                      </Text>
-                    </div>
-                  </Link>
-                </td>
-                <td>{priceFormatter.format(marketCurrency.values.price)}</td>
-                <td
-                  className={
-                    marketCurrency.values.percentChange24h > 0
-                      ? 'text-green-500'
-                      : 'text-red-500'
-                  }
-                >
-                  {marketCurrency.values.percentChange24h.toFixed(2)}%
-                </td>
-                <td>{bigNumberFormatter(marketCurrency.values.marketCap)}</td>
-                <td>
-                  {bigNumberFormatter(marketCurrency.circulatingSupply)}{' '}
-                  <Text>{marketCurrency.symbol}</Text>
-                </td>
-              </tr>
-            ))}
+              return (
+                <tr key={marketCurrency.id}>
+                  <td>
+                    <Star
+                      onClick={() => handleToggleWatchlist(marketCurrency.id)}
+                      data-watchlist={isWatchlisted}
+                      size={20}
+                      className="data-[watchlist=true]:fill-blue-500 cursor-pointer"
+                      stroke={isWatchlisted ? '#0587FF' : 'gray'}
+                    />
+                  </td>
+                  <td className="text-left max-sm:hidden">
+                    {marketCurrency.rank}
+                  </td>
+                  <td className="sticky left-0 shadow-sm min-w-[150px]">
+                    <Link href={'#'} className="flex items-center gap-2">
+                      <div className="w-8 h-8">
+                        <Image
+                          src={marketCurrency.image}
+                          alt="bitcoin logo"
+                          width={32}
+                          height={32}
+                        />
+                      </div>
+
+                      <div className="text-base flex max-sm:flex-col gap-x-2 items-start">
+                        <Text as="p">{marketCurrency.name}</Text>
+                        <Text className="text-gray-500 text-sm" as="span">
+                          {marketCurrency.symbol}
+                        </Text>
+                      </div>
+                    </Link>
+                  </td>
+                  <td>{priceFormatter.format(marketCurrency.values.price)}</td>
+                  <td
+                    className={
+                      marketCurrency.values.percentChange24h > 0
+                        ? 'text-green-500'
+                        : 'text-red-500'
+                    }
+                  >
+                    {marketCurrency.values.percentChange24h.toFixed(2)}%
+                  </td>
+                  <td>{bigNumberFormatter(marketCurrency.values.marketCap)}</td>
+                  <td>
+                    {bigNumberFormatter(marketCurrency.circulatingSupply)}{' '}
+                    <Text>{marketCurrency.symbol}</Text>
+                  </td>
+                </tr>
+              )
+            })}
           </tbody>
         </table>
       </ScrollArea>
