@@ -9,6 +9,7 @@ interface FetchUserTransactionsHistoryRequest {
 
 interface FetchUserTransactionsHistoryResponse {
   transactions: Transaction[]
+  totalTransactions: number
 }
 
 export class FetchUserTransactionsHistoryUseCase {
@@ -26,11 +27,11 @@ export class FetchUserTransactionsHistoryUseCase {
 
     const transactionsByCurrency = await Promise.all(
       currencies.map((currency) =>
-        this.transactionsRepository.findManyByCurrencyId(currency.id, page),
+        this.transactionsRepository.findManyByCurrencyId(currency.id),
       ),
     )
 
-    const transactions = transactionsByCurrency.reduce(
+    const transactionsHistory = transactionsByCurrency.reduce(
       (transactions, currencyTransaction) => {
         currencyTransaction.map((transaction) => transactions.push(transaction))
 
@@ -39,8 +40,13 @@ export class FetchUserTransactionsHistoryUseCase {
       [],
     )
 
+    const transactions = transactionsHistory.slice((page - 1) * 7, page * 7)
+
+    const totalTransactions = transactionsHistory.length
+
     return {
       transactions,
+      totalTransactions,
     }
   }
 }

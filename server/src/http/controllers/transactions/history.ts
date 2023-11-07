@@ -14,10 +14,11 @@ export async function history(request: FastifyRequest, reply: FastifyReply) {
   const fetchUserTransactionsHistoryUseCase =
     makeFetchUserTransactionsHistoryUseCase()
 
-  const { transactions } = await fetchUserTransactionsHistoryUseCase.execute({
-    userId,
-    page,
-  })
+  const { transactions, totalTransactions } =
+    await fetchUserTransactionsHistoryUseCase.execute({
+      userId,
+      page,
+    })
 
-  return reply.status(200).send(transactions)
+  return reply.status(200).send({ transactions, totalTransactions })
 }
