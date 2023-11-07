@@ -12,7 +12,11 @@ export class PrismaWatchlistRepository implements WatchlistRepository {
       skip: (page - 1) * 7,
     })
 
-    const totalItems = await prisma.watchlist.count()
+    const totalItems = await prisma.watchlist.count({
+      where: {
+        user_id: userId,
+      },
+    })
 
     return { watchlist, totalItems }
   }
