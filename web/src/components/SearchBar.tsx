@@ -28,14 +28,14 @@ export function SearchBar({ onClick }: SearchBarProps) {
       >
         <ScrollArea type="auto" scrollbars="vertical" style={{ height: 290 }}>
           <menu className="p-4">
-            {[1, 2, 3, 4, 5, 6, 7].map((currency) => (
+            {/* {[1, 2, 3, 4, 5, 6, 7].map((currency) => (
               <CurrencyItem
                 key={currency}
                 onClick={onClick}
                 value={`bitcoin${currency}`}
                 id={`bitcoin${currency}`}
               />
-            ))}
+            ))} */}
           </menu>
         </ScrollArea>
       </div>
