@@ -1,8 +1,12 @@
+'use client'
+
 import { Header } from '@/components/Header'
 import { CryptoList } from '@/components/CryptoList'
 import { Wallet } from '@/app/wallet/components/Wallet'
 import { Heading } from '@radix-ui/themes'
 import { WalletStats } from '@/components/WalletStats'
+import { useCurrencyStore } from '@/store/useCurrencyStore'
+import { useCallback, useEffect } from 'react'
 
 interface DashboardProps {
   searchParams: {
@@ -13,6 +17,19 @@ interface DashboardProps {
 export default function Dashboard({ searchParams }: DashboardProps) {
   const { page } = searchParams
   const totalPages = 791
+
+  const marketCurrencies = useCurrencyStore(
+    useCallback((state) => state.marketCurrencies, [page]),
+  )
+  const fetchMarketCurrencies = useCurrencyStore(
+    useCallback((state) => state.fetchMarketCurrencies, []),
+  )
+
+  useEffect(() => {
+    fetchMarketCurrencies(page)
+  }, [page])
+
+  console.log(marketCurrencies)
 
   return (
     <div>
@@ -29,7 +46,11 @@ export default function Dashboard({ searchParams }: DashboardProps) {
         <Wallet maxWidth={630} />
 
         <div className="mt-7 md:col-span-2 max-h-[350px]">
-          <CryptoList page={page} totalPages={totalPages} />
+          <CryptoList
+            page={page}
+            totalPages={totalPages}
+            currencies={marketCurrencies}
+          />
         </div>
       </main>
     </div>

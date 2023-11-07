@@ -1,6 +1,10 @@
+'use client'
+
 import { CryptoList } from '@/components/CryptoList'
 import { Header } from '@/components/Header'
+import { useCurrencyStore } from '@/store/useCurrencyStore'
 import { Heading } from '@radix-ui/themes'
+import { useCallback, useEffect } from 'react'
 
 interface WatchlistProps {
   searchParams: {
@@ -9,8 +13,22 @@ interface WatchlistProps {
 }
 
 export default function Watchlist({ searchParams }: WatchlistProps) {
+  const fetchWatchlist = useCurrencyStore(
+    useCallback((state) => state.fetchWatchlist, []),
+  )
+  const watchlistResponse = useCurrencyStore(
+    useCallback((state) => state.watchlist, []),
+  )
+  const watchlistCurrenciesIds = useCurrencyStore(
+    useCallback((state) => state.watchlistCurrenciesIds, []),
+  )
+
+  useEffect(() => {
+    fetchWatchlist()
+  }, [])
+
   const { page } = searchParams
-  const totalPages = 3
+  const totalPages = watchlistResponse.totalItems
 
   return (
     <div>
@@ -26,7 +44,11 @@ export default function Watchlist({ searchParams }: WatchlistProps) {
           Suas cryptos favoritas
         </Heading>
 
-        <CryptoList page={page} totalPages={totalPages} />
+        <CryptoList
+          page={page}
+          totalPages={totalPages}
+          currencies={watchlistResponse.watchlist}
+        />
       </main>
     </div>
   )

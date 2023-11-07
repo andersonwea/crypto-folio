@@ -5,28 +5,21 @@ import { Star } from 'lucide-react'
 import Image from 'next/image'
 import { NavPages } from '../app/market/components/NavPages'
 import Link from 'next/link'
-import { useCallback, useEffect } from 'react'
-import { useCurrencyStore } from '@/store/useCurrencyStore'
 import { priceFormatter } from '@/utils/priceFormatter'
 import { bigNumberFormatter } from '@/utils/bigNumberFormatter'
+import { MarketCurrency } from '@/@types'
 
 interface CryptoListProps {
   page?: string
   totalPages: number
+  currencies: MarketCurrency[]
 }
 
-export function CryptoList({ page = '1', totalPages }: CryptoListProps) {
-  const marketCurrencies = useCurrencyStore(
-    useCallback((state) => state.marketCurrencies, [page]),
-  )
-  const fetchMarketCurrencies = useCurrencyStore(
-    useCallback((state) => state.fetchMarketCurrencies, []),
-  )
-
-  useEffect(() => {
-    fetchMarketCurrencies(page)
-  }, [page])
-
+export function CryptoList({
+  page = '1',
+  totalPages,
+  currencies,
+}: CryptoListProps) {
   return (
     <section className="pt-7">
       <ScrollArea
@@ -53,7 +46,7 @@ export function CryptoList({ page = '1', totalPages }: CryptoListProps) {
           </thead>
 
           <tbody>
-            {marketCurrencies.map((marketCurrency) => (
+            {currencies.map((marketCurrency) => (
               <tr key={marketCurrency.id}>
                 <td>
                   <Star color="gray" size={20} />
