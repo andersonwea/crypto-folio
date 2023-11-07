@@ -7,6 +7,7 @@ interface GetUserWatchListUseCaseRequest {
 
 interface GetUserWatchListUseCaseResponse {
   watchlist: ApiCurrency[]
+  watchlistAmount: number
 }
 
 export class GetUserWatchlistUseCase {
@@ -29,8 +30,11 @@ export class GetUserWatchlistUseCase {
       watchlistCurrenciesIds,
     )
 
+    const watchlistAmount = watchlist.length
+
     return {
       watchlist,
+      watchlistAmount,
     }
   }
 }
