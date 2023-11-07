@@ -55,10 +55,17 @@ interface NewCurrencyInput {
   cryptocurrencyId: number
 }
 
+interface WatchlistResponse {
+  totalItems: number
+  watchlist: MarketCurrency[]
+}
+
 type State = {
   search: string
   selectedMarketCurrency: MarketCurrency | null
   marketCurrencies: MarketCurrency[]
+  watchlist: WatchlistResponse
+  watchlistCurrenciesIds: number[]
   walletCurrencies: WalletCurrency[]
 }
 
@@ -66,7 +73,9 @@ interface Actions {
   setSearch: (value: string) => void
   setSelectedMarketCurrency: (value: MarketCurrency | null) => void
   fetchMarketCurrencies: (page?: string) => Promise<void>
+  fetchWatchlist: (page?: string) => Promise<void>
   fetchWalletCurrencies: () => Promise<void>
+  toggleWatchlist: (currencyId: number) => Promise<void>
   createWalletCurrency: (
     data: NewCurrencyInput,
   ) => Promise<WalletCurrency | void>
@@ -77,6 +86,8 @@ const initialState: State = {
   selectedMarketCurrency: null,
   marketCurrencies: [],
   walletCurrencies: [],
+  watchlistCurrenciesIds: [],
+  watchlist: { totalItems: 0, watchlist: [] },
 }
 
 export const useCurrencyStore = create<State & Actions>()((set, get) => ({
@@ -95,6 +106,39 @@ export const useCurrencyStore = create<State & Actions>()((set, get) => ({
 
       if (response.data) {
         set({ marketCurrencies: response.data })
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  },
+  toggleWatchlist: async (currencyId: number) => {
+    try {
+      await api.post('/me/watchlist', {
+        currencyId,
+      })
+
+      set({
+        watchlistCurrenciesIds: [...get().watchlistCurrenciesIds, currencyId],
+      })
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        return alert(err.response?.data.message) // TODO: add toastify lib
+      }
+    }
+  },
+  fetchWatchlist: async (page?: string) => {
+    try {
+      const response = await api<WatchlistResponse>(
+        `/me/watchlist?page=${page ?? 1}`,
+      )
+
+      if (response.data) {
+        const watchlistCurrenciesIds = response.data.watchlist.map(
+          (currency) => currency.id,
+        )
+
+        set({ watchlist: response.data })
+        set({ watchlistCurrenciesIds })
       }
     } catch (err) {
       console.log(err)
