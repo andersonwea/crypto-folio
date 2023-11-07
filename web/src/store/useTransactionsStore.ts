@@ -14,17 +14,18 @@ type Transaction = {
   type: string
   value: number
   amount: number
-  createdAt: Date
-  currencyId: string
+  created_at: Date
+  currency_id: string
 }
 
 type State = {
   transactions: Transaction[]
+  totalTransactions: number
 }
 
 type Actions = {
   setTransactions: (transactions: Transaction[]) => void
-  fetchTransactions: (page: number) => Promise<void>
+  fetchTransactions: (page: string) => Promise<void>
   createTransaction: (
     data: NewTransactionInput,
     currencyId: string,
@@ -33,6 +34,7 @@ type Actions = {
 
 const initialState: State = {
   transactions: [],
+  totalTransactions: 0,
 }
 
 export const useTransactionStore = create<State & Actions>()((set, get) => ({
@@ -40,11 +42,12 @@ export const useTransactionStore = create<State & Actions>()((set, get) => ({
   setTransactions: (transactions: Transaction[]) => {
     set({ transactions })
   },
-  fetchTransactions: async (page: number) => {
+  fetchTransactions: async (page: string) => {
     try {
       const response = await api(`/wallet/currencies/transactions?page=${page}`)
 
-      set({ transactions: response.data })
+      set({ transactions: response.data.transactions })
+      set({ totalTransactions: response.data.totalTransactions })
     } catch (err) {
       if (err instanceof AxiosError) {
         return alert(err.response?.data.message) // TODO: add toastify lib

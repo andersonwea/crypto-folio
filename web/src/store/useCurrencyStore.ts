@@ -65,7 +65,7 @@ type State = {
 interface Actions {
   setSearch: (value: string) => void
   setSelectedMarketCurrency: (value: MarketCurrency | null) => void
-  fetchMarketCurrencies: (page: string) => Promise<void>
+  fetchMarketCurrencies: (page?: string) => Promise<void>
   fetchWalletCurrencies: () => Promise<void>
   createWalletCurrency: (
     data: NewCurrencyInput,
@@ -87,10 +87,10 @@ export const useCurrencyStore = create<State & Actions>()((set, get) => ({
   setSelectedMarketCurrency: (value: MarketCurrency | null) => {
     set({ selectedMarketCurrency: value })
   },
-  fetchMarketCurrencies: async (page: string) => {
+  fetchMarketCurrencies: async (page?: string) => {
     try {
       const response = await api<MarketCurrency[]>(
-        `/market/currencies?page=${page}`,
+        `/market/currencies?page=${page ?? 1}`,
       )
 
       if (response.data) {
