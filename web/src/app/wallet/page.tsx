@@ -2,7 +2,15 @@ import { Heading } from '@radix-ui/themes'
 import { Transactions } from './components/Transactions'
 import { WalletStats } from '@/components/WalletStats'
 
-export default function WalletPage() {
+interface WalletPageProps {
+  searchParams: {
+    page: string
+  }
+}
+
+export default function WalletPage({ searchParams }: WalletPageProps) {
+  const { page } = searchParams
+
   return (
     <>
       <section className="pt-7">
@@ -13,7 +21,7 @@ export default function WalletPage() {
         </div>
       </section>
 
-      <Transactions />
+      <Transactions page={page} />
     </>
   )
 }
