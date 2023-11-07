@@ -13,8 +13,10 @@ interface WatchlistProps {
 }
 
 export default function Watchlist({ searchParams }: WatchlistProps) {
+  const { page } = searchParams
+
   const fetchWatchlist = useCurrencyStore(
-    useCallback((state) => state.fetchWatchlist, []),
+    useCallback((state) => state.fetchWatchlist, [page]),
   )
   const watchlistResponse = useCurrencyStore(
     useCallback((state) => state.watchlist, []),
@@ -23,12 +25,11 @@ export default function Watchlist({ searchParams }: WatchlistProps) {
     useCallback((state) => state.watchlistCurrenciesIds, []),
   )
 
+  const totalPages = Math.floor(watchlistResponse.totalItems / 7) + 1
+
   useEffect(() => {
     fetchWatchlist()
-  }, [])
-
-  const { page } = searchParams
-  const totalPages = watchlistResponse.totalItems
+  }, [page])
 
   return (
     <div>
