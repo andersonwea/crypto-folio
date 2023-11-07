@@ -1,6 +1,6 @@
 import './globals.css'
-import './theme-config.css'
 import '@radix-ui/themes/styles.css'
+import './theme-config.css'
 import type { Metadata } from 'next'
 import { Poppins } from 'next/font/google'
 import { Providers } from './providers'
