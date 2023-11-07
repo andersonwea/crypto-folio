@@ -49,7 +49,7 @@ export function Transactions({ page = '1' }: TransactionsProps) {
         </TransactionModal>
       </header>
 
-      <ScrollArea className="pt-1" type="auto" style={{ maxHeight: 358 }}>
+      <ScrollArea className="pt-1 pr-2" type="auto" style={{ maxHeight: 358 }}>
         <table className="pt-7 w-full border-collapse">
           <thead>
             <tr className="space-x-10">
@@ -116,10 +116,10 @@ export function Transactions({ page = '1' }: TransactionsProps) {
                   <td>
                     <div className="flex gap-2 justify-end">
                       <IconButton variant="ghost" color="gray">
-                        <Pencil size={20} />
+                        <Pencil size={18} />
                       </IconButton>
                       <IconButton variant="ghost" color="gray">
-                        <Trash2 size={20} />
+                        <Trash2 size={18} />
                       </IconButton>
                     </div>
                   </td>

@@ -6,7 +6,7 @@
   @apply p-0 h-8 w-8
 }
 
-.rt-IconButton {
+.rt-BaseButton {
   @apply cursor-pointer
 }
 
