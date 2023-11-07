@@ -1,21 +1,33 @@
+import { ApiCurrency, ApiService } from '@/adapters/api-service'
 import { WatchlistRepository } from '@/repositories/watchlist-repository'
-import { Watchlist } from '@prisma/client'
 
 interface GetUserWatchListUseCaseRequest {
   userId: string
 }
 
 interface GetUserWatchListUseCaseResponse {
-  watchlist: Watchlist[]
+  watchlist: ApiCurrency[]
 }
 
 export class GetUserWatchlistUseCase {
-  constructor(private watchlistRepository: WatchlistRepository) {}
+  constructor(
+    private watchlistRepository: WatchlistRepository,
+    private apiService: ApiService,
+  ) {}
 
   async execute({
     userId,
   }: GetUserWatchListUseCaseRequest): Promise<GetUserWatchListUseCaseResponse> {
-    const watchlist = await this.watchlistRepository.findManyByUserId(userId)
+    const watchlistCurrencies =
+      await this.watchlistRepository.findManyByUserId(userId)
+
+    const watchlistCurrenciesIds = watchlistCurrencies.map(
+      (currency) => currency.currency_id,
+    )
+
+    const watchlist = await this.apiService.fetchManyByIds(
+      watchlistCurrenciesIds,
+    )
 
     return {
       watchlist,
