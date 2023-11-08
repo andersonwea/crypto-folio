@@ -1,4 +1,5 @@
 import { api } from '@/libs/api'
+import { AxiosError } from 'axios'
 import { create } from 'zustand'
 
 type User = {
@@ -9,6 +10,11 @@ type User = {
   createdAt: string
 }
 
+type UserProfile = {
+  nickname: string
+  avatarUrl: string
+}
+
 type State = {
   user: User | null
 }
@@ -16,6 +22,7 @@ type State = {
 type Actions = {
   setUser: (user: User | null) => void
   fetchUser: () => Promise<void>
+  updateUserProfile: (data: UserProfile) => Promise<void>
 }
 
 const initialState = {
@@ -31,6 +38,21 @@ export const useUserStore = create<State & Actions>()((set) => ({
 
       set({ user: response.data.user })
     } catch (err) {
+      console.log(err)
+    }
+  },
+  updateUserProfile: async (data: UserProfile) => {
+    try {
+      const response = await api.put('/me/profile', data)
+
+      set({ user: response.data })
+
+      return alert('Usuário atualizado com sucesso') // TODO: add toastify lib
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        return alert(err.response?.data.message) // TODO: add toastify lib
+      }
+
       console.log(err)
     }
   },
