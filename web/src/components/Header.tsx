@@ -11,8 +11,7 @@ interface HeaderProps {
 
 export function Header({ title }: HeaderProps) {
   const fetchUser = useUserStore(useCallback((state) => state.fetchUser, []))
-  const user = useUserStore(useCallback((state) => state.user, []))
-  console.log(user)
+  const user = useUserStore((state) => state.user)
 
   useEffect(() => {
     fetchUser()

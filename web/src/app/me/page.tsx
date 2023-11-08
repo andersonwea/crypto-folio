@@ -1,9 +1,15 @@
+'use client'
+
 import { Header } from '@/components/Header'
 import { Avatar, Grid, Heading, Text } from '@radix-ui/themes'
 import { UpdateProfileForm } from './components/UpdateProfileForm'
 import { UpdatePrivacyProfileForm } from './components/UpdatePrivacyProfileForm'
+import { useUserStore } from '@/store/useUserStore'
+import { useCallback } from 'react'
 
 export default function Profile() {
+  const user = useUserStore(useCallback((state) => state.user, []))
+
   return (
     <div>
       <Header title="Meu perfil" />
@@ -18,6 +24,7 @@ export default function Profile() {
             color="orange"
             variant="solid"
             fallback={'A'}
+            src={user?.avatarUrl}
             size={{
               initial: '4',
               sm: '5',
@@ -26,9 +33,9 @@ export default function Profile() {
           />
           <div>
             <Heading as="h2" size={'5'}>
-              username
+              {user?.nickname}
             </Heading>
-            <Text color="gray">email@example.com</Text>
+            <Text color="gray">{user?.email}</Text>
           </div>
         </div>
 
