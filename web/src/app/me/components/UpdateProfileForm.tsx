@@ -5,10 +5,10 @@ import { TextInput } from '@/components/TextInput'
 import { api } from '@/libs/api'
 import { useUserStore } from '@/store/useUserStore'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Heading, Text } from '@radix-ui/themes'
+import { Avatar, Heading, Text } from '@radix-ui/themes'
 import { AxiosError } from 'axios'
 import { Camera } from 'lucide-react'
-import { useCallback } from 'react'
+import { ChangeEvent, useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -42,6 +42,7 @@ const updateProfileFormSchema = z.object({
 type UpdateProfileFormData = z.infer<typeof updateProfileFormSchema>
 
 export function UpdateProfileForm() {
+  const [preview, setPreview] = useState<string | null>(null)
   const updateUserProfile = useUserStore(
     useCallback((state) => state.updateUserProfile, []),
   )
@@ -54,6 +55,18 @@ export function UpdateProfileForm() {
   } = useForm<UpdateProfileFormData>({
     resolver: zodResolver(updateProfileFormSchema),
   })
+
+  function onFileSelected(event: ChangeEvent<HTMLInputElement>) {
+    const { files } = event.target
+
+    if (!files) {
+      return
+    }
+
+    const previewURL = URL.createObjectURL(files[0])
+
+    setPreview(previewURL)
+  }
 
   async function handleUpdateProfile(data: UpdateProfileFormData) {
     let avatarUrl = ''
@@ -81,6 +94,7 @@ export function UpdateProfileForm() {
     })
 
     reset()
+    setPreview(null)
   }
 
   return (
@@ -105,27 +119,45 @@ export function UpdateProfileForm() {
           )}
         </label>
 
-        <label htmlFor="file" className="mt-4 block">
-          <Text>Avatar</Text>
-          <div className="flex cursor-pointer items-center gap-1.5 text-sm text-gray-800 hover:text-gray-600 bg-gray-300 rounded-[12px] h-20 p-4">
-            <Camera className="h-4 w-4" />
-            Anexar mídia <br />
-            <Text color="gray">Tamanho máximo 5mb.</Text>
-          </div>
+        <div className="flex items-center gap-5">
+          <label htmlFor="file" className="mt-4 block flex-grow">
+            <Text>Avatar</Text>
+            <div className="flex cursor-pointer items-center gap-1.5 text-sm text-gray-800 hover:text-gray-600 bg-gray-300 rounded-[12px] h-20 p-4">
+              <Camera className="h-4 w-4" />
+              Anexar mídia <br />
+              <Text color="gray">Tamanho máximo 5mb.</Text>
+            </div>
 
-          <input
-            {...register('file')}
-            type="file"
-            id="file"
-            className="invisible h-0 w-0"
-          />
+            <input
+              onChangeCapture={onFileSelected}
+              {...register('file')}
+              type="file"
+              id="file"
+              className="invisible h-0 w-0"
+            />
 
-          {errors.file && (
-            <Text color="red" size={'2'}>
-              {errors.file.message}
-            </Text>
+            {errors.file && (
+              <Text color="red" size={'2'}>
+                {errors.file.message}
+              </Text>
+            )}
+          </label>
+
+          {preview && (
+            <Avatar
+              radius="full"
+              color="orange"
+              variant="solid"
+              fallback={'A'}
+              src={preview}
+              size={{
+                initial: '4',
+                sm: '5',
+                md: '7',
+              }}
+            />
           )}
-        </label>
+        </div>
       </div>
       <Button disabled={isSubmitting}>Salvar</Button>
     </form>
