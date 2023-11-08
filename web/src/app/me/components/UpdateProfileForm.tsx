@@ -138,7 +138,7 @@ export function UpdateProfileForm() {
 
             {errors.file && (
               <Text color="red" size={'2'}>
-                {errors.file.message}
+                {errors.file.message?.toString()}
               </Text>
             )}
           </label>
