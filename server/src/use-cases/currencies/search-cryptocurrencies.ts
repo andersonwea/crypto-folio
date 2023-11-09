@@ -1,3 +1,4 @@
+import { ApiCurrency, ApiService } from '@/adapters/api-service'
 import { CryptocurrenciesRepository } from '@/repositories/cryptocurrencies-repository'
 import { Cryptocurrency } from '@prisma/client'
 
@@ -6,11 +7,14 @@ interface SearchCryptocurrenciesUseCaseRequest {
 }
 
 interface SearchCryptocurrenciesUseCaseResponse {
-  cryptocurrencies: Cryptocurrency[]
+  currencies: ApiCurrency[]
 }
 
 export class SearchCryptocurrenciesUseCase {
-  constructor(private cryptocurrenciesRepository: CryptocurrenciesRepository) {}
+  constructor(
+    private cryptocurrenciesRepository: CryptocurrenciesRepository,
+    private apiService: ApiService,
+  ) {}
 
   async execute({
     search,
@@ -18,8 +22,14 @@ export class SearchCryptocurrenciesUseCase {
     const cryptocurrencies =
       await this.cryptocurrenciesRepository.findMany(search)
 
+    const cryptocurrenciesIds = cryptocurrencies.map(
+      (cryptocurrency) => cryptocurrency.id,
+    )
+
+    const currencies = await this.apiService.fetchManyByIds(cryptocurrenciesIds)
+
     return {
-      cryptocurrencies,
+      currencies,
     }
   }
 }

@@ -2,14 +2,20 @@ import { InMemoryCryptocurrenciesRepository } from '@/repositories/in-memory/in-
 import { beforeEach, describe, expect, it } from 'vitest'
 import { SearchCryptocurrenciesUseCase } from './search-cryptocurrencies'
 import { prisma } from '@/lib/prisma'
+import { AxiosApiService } from '@/adapters/axios/axios-api-service'
 
 describe('Search Cryptocurrencies Use Case', () => {
   let cryptocurrenciesRepository: InMemoryCryptocurrenciesRepository
+  let apiService: AxiosApiService
   let sut: SearchCryptocurrenciesUseCase
 
   beforeEach(() => {
     cryptocurrenciesRepository = new InMemoryCryptocurrenciesRepository()
-    sut = new SearchCryptocurrenciesUseCase(cryptocurrenciesRepository)
+    apiService = new AxiosApiService()
+    sut = new SearchCryptocurrenciesUseCase(
+      cryptocurrenciesRepository,
+      apiService,
+    )
   })
 
   it('should be able to search cryptocurrencies', async () => {
@@ -34,11 +40,11 @@ describe('Search Cryptocurrencies Use Case', () => {
       image: 'solana-image',
     })
 
-    const { cryptocurrencies } = await sut.execute({
+    const { currencies } = await sut.execute({
       search: 'bitcoin',
     })
 
-    expect(cryptocurrencies).toHaveLength(1)
-    expect(cryptocurrencies[0].name).toEqual('bitcoin')
+    expect(currencies).toHaveLength(1)
+    expect(currencies[0].name).toEqual('bitcoin')
   })
 })

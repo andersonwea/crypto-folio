@@ -14,9 +14,9 @@ export async function searchCryptocurrencies(
 
   const searchCryptocurrenciesUseCase = makeSearchCryptocurrenciesUseCase()
 
-  const { cryptocurrencies } = await searchCryptocurrenciesUseCase.execute({
+  const { currencies } = await searchCryptocurrenciesUseCase.execute({
     search,
   })
 
-  return reply.status(200).send(cryptocurrencies)
+  return reply.status(200).send(currencies)
 }
