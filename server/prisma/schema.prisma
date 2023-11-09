@@ -39,6 +39,15 @@ model Watchlist {
   @@map("watchlist")
 }
 
+model Cryptocurrency {
+  id     Int    @id
+  name   String
+  symbol String
+  image  String
+
+  @@map("cryptocurrencies")
+}
+
 model Currency {
   id                String  @id @default(uuid())
   cryptocurrency_id Int
