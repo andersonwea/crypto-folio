@@ -10,9 +10,9 @@
   @apply cursor-pointer
 }
 
-.rt-DialogContent {
+/* .rt-DialogContent {
   @apply max-w-[550px] rounded-[45px]
-}
+} */
 
 /* .rt-TabsList {
   @apply grid grid-cols-2

@@ -32,7 +32,7 @@ export default async function RootLayout({
       <body className={poppins.variable}>
         <Providers>
           {/* <SignIn /> */}
-          <div className="bg-gray-800 rounded-[50px] p-4 max-sm:p-2 max-w-[1440px] h-[930px] max-[1920px]:h-screen m-auto max-md:rounded-none max-lg:pb-0">
+          <div className="bg-gray-800 rounded-[50px] max-sm:rounded-none p-4 max-sm:p-2 max-w-[1440px] h-[930px] max-[1920px]:h-screen m-auto max-md:rounded-none max-lg:pb-0">
             {isAuthenticated ? (
               <Grid
                 className="h-full"
@@ -49,7 +49,7 @@ export default async function RootLayout({
                 <MenuNav />
 
                 <ScrollArea
-                  className="bg-white max-h-full max-w-7xl rounded-[50px] px-16 py-6 max-lg:px-7 max-md:px-5 max-md:py-5 max-sm:px-2"
+                  className="bg-white max-h-full max-w-7xl rounded-[50px] max-sm:rounded-none px-16 py-6 max-lg:px-7 max-md:px-5 max-md:py-5 max-sm:px-2"
                   type="auto"
                   scrollbars="vertical"
                   style={{ height: '100%' }}
