@@ -53,8 +53,11 @@ export function WalletStats() {
         <Text as="p" color="gray">
           Lucro/Perda
         </Text>
-        <Text className="block" color="green">
-          {metrics?.profitOrLoss}
+        <Text
+          className="block"
+          color={metrics && metrics.profitOrLoss < 0 ? 'red' : 'green'}
+        >
+          {metrics?.profitOrLoss}%
         </Text>
       </div>
 
