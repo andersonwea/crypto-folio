@@ -9,7 +9,7 @@ interface NewTransactionInput {
   createdAt: Date
 }
 
-type Transaction = {
+export interface Transaction {
   id: string
   type: string
   value: number
@@ -27,6 +27,11 @@ type State = {
 type Actions = {
   setTransactions: (transactions: Transaction[]) => void
   fetchTransactions: (page: string) => Promise<void>
+  deleteTransaction: (
+    transactionId: string,
+    currencyId: string,
+  ) => Promise<void>
+  editTransaction: (transactionData: Omit<Transaction, 'type'>) => Promise<void>
   setIsTransactionModalOpen: (isTransactionModalOpen: boolean) => void
   createTransaction: (
     data: NewTransactionInput,
@@ -47,6 +52,53 @@ export const useTransactionStore = create<State & Actions>()((set, get) => ({
   },
   setIsTransactionModalOpen: (isTransactionModalOpen: boolean) => {
     set({ isTransactionModalOpen })
+  },
+  editTransaction: async (transactionData: Omit<Transaction, 'type'>) => {
+    try {
+      await api.put(
+        `/wallet/currencies/${transactionData.currency_id}/transactions/${transactionData.id}`,
+        {
+          amount: transactionData.amount,
+          value: transactionData.value,
+          createdAt: transactionData.created_at,
+        },
+      )
+
+      set({
+        transactions: get().transactions.map((transaction) => {
+          if (transaction.id === transactionData.id) {
+            return { ...transaction, ...transactionData }
+          }
+
+          return transaction
+        }),
+      })
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        return alert(err.response?.data.message) // TODO: add toastify lib
+      }
+
+      console.log(err)
+    }
+  },
+  deleteTransaction: async (transactionId: string, currencyId: string) => {
+    try {
+      await api.delete(
+        `/wallet/currencies/${currencyId}/transactions/${transactionId}`,
+      )
+
+      set({
+        transactions: get().transactions.filter(
+          (transaction) => transaction.id !== transactionId,
+        ),
+      })
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        return alert(err.response?.data.message) // TODO: add toastify lib
+      }
+
+      console.log(err)
+    }
   },
   fetchTransactions: async (page: string) => {
     try {
@@ -76,7 +128,6 @@ export const useTransactionStore = create<State & Actions>()((set, get) => ({
       )
 
       set({ transactions: [...get().transactions, response.data] })
-      set({ isTransactionCreated: true })
 
       return response.data
     } catch (err) {
