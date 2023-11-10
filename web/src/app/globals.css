@@ -17,7 +17,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 td, th {
-  @apply py-3 max-sm:py-2 px-2 whitespace-nowrap bg-white text-right min-w-[85px]
+  @apply py-3 max-sm:py-2 px-2 whitespace-nowrap bg-white text-right
 }
 
 th {
