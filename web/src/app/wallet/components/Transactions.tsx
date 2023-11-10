@@ -10,6 +10,8 @@ import { useCurrencyStore } from '@/store/useCurrencyStore'
 import dayjs from 'dayjs'
 import { priceFormatter } from '@/utils/priceFormatter'
 import { NavPages } from '@/app/market/components/NavPages'
+import { EditTransaction } from './EditTransaction'
+import { DeleteTransaction } from './DeleteTransaction'
 
 interface TransactionsProps {
   page?: string
@@ -49,11 +51,11 @@ export function Transactions({ page = '1' }: TransactionsProps) {
         </TransactionModal>
       </header>
 
-      <ScrollArea className="pt-1 pr-2" type="auto" style={{ maxHeight: 358 }}>
+      <ScrollArea className="mt-4 pr-2" type="auto" style={{ maxHeight: 358 }}>
         <table className="pt-7 w-full border-collapse">
-          <thead>
+          <thead className="border-b-[1px] border-slate-100">
             <tr className="space-x-10">
-              <th className="text-left sticky left-0">
+              <th className="text-left">
                 <Text color="gray">Tipo</Text>
               </th>
               <th>
@@ -83,7 +85,7 @@ export function Transactions({ page = '1' }: TransactionsProps) {
 
               return (
                 <tr key={transaction.id}>
-                  <td className="flex items-center gap-3 sticky left-0 shadow-sm min-w-[150px]">
+                  <td className="flex items-center gap-3">
                     <div className="w-8 h-8">
                       <div className="rounded-full w-8 h-8 bg-slate-400 flex items-end justify-center text-xl text-white">
                         {transaction.type.slice(0, 1).toLocaleUpperCase()}
@@ -92,8 +94,8 @@ export function Transactions({ page = '1' }: TransactionsProps) {
                     <div className="w-full">
                       <Heading as="h2" size={'3'} className="text-start">
                         {(transaction.type === 'buy' ? 'Compra' : 'Venda') +
-                          ' de ' +
-                          currency.name}
+                          ' ' +
+                          currency.symbol}
                       </Heading>
                       <Text
                         as="span"
@@ -115,12 +117,11 @@ export function Transactions({ page = '1' }: TransactionsProps) {
                   <td>{transaction.amount + ' ' + currency.symbol}</td>
                   <td>
                     <div className="flex gap-2 justify-end">
-                      <IconButton variant="ghost" color="gray">
-                        <Pencil size={18} />
-                      </IconButton>
-                      <IconButton variant="ghost" color="gray">
-                        <Trash2 size={18} />
-                      </IconButton>
+                      <EditTransaction transaction={transaction} />
+                      <DeleteTransaction
+                        transactionId={transaction.id}
+                        currencyId={currency.id}
+                      />
                     </div>
                   </td>
                 </tr>
