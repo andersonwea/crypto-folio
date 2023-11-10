@@ -42,3 +42,13 @@ export interface MarketCurrency {
   maxSupply: number
   circulatingSupply: number
 }
+
+export interface Currency {
+  id: string
+  cryptocurrency_id: number
+  name: string
+  image: string
+  symbol: string
+  amount: number
+  user_id: string
+}
