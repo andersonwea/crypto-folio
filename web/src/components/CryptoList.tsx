@@ -78,7 +78,10 @@ export function CryptoList({
                     {marketCurrency.rank}
                   </td>
                   <td className="sticky left-0 shadow-sm min-w-[150px]">
-                    <Link href={'#'} className="flex items-center gap-2">
+                    <Link
+                      href={`market/${marketCurrency.id}`}
+                      className="flex items-center gap-2"
+                    >
                       <div className="w-8 h-8">
                         <Image
                           src={marketCurrency.image}

@@ -69,6 +69,7 @@ type State = {
   watchlist: WatchlistResponse
   watchlistCurrenciesIds: number[]
   walletCurrencies: WalletCurrency[]
+  walletCurrency: WalletCurrency | null
 }
 
 interface Actions {
@@ -79,6 +80,7 @@ interface Actions {
   fetchMarketCurrencies: (page?: string) => Promise<void>
   fetchWatchlist: (page?: string) => Promise<void>
   fetchWalletCurrencies: () => Promise<void>
+  fetchWaletCurrency: (currencyId: string) => Promise<void>
   toggleWatchlist: (currencyId: number) => Promise<void>
   createWalletCurrency: (
     data: NewCurrencyInput,
@@ -92,6 +94,7 @@ const initialState: State = {
   selectedMarketCurrency: null,
   marketCurrencies: [],
   walletCurrencies: [],
+  walletCurrency: null,
   watchlistCurrenciesIds: [],
   watchlist: { totalItems: 0, watchlist: [] },
 }
@@ -108,10 +111,6 @@ export const useCurrencyStore = create<State & Actions>()((set, get) => ({
     set({ selectedMarketCurrency: value })
     set({ search: '' })
     set({ activeSearch: false })
-
-    // if (value) {
-    //   set({ marketCurrencies: [...get().marketCurrencies, value] })
-    // }
   },
   searchCryptocurrencies: async (search: string) => {
     if (search.length < 1) {
@@ -185,6 +184,19 @@ export const useCurrencyStore = create<State & Actions>()((set, get) => ({
 
         set({ watchlist: response.data })
         set({ watchlistCurrenciesIds })
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  },
+  fetchWaletCurrency: async (currencyId: string) => {
+    try {
+      const response = await api<WalletCurrency>(
+        `/wallet/currencies/${currencyId}`,
+      )
+
+      if (response.data) {
+        set({ walletCurrency: response.data })
       }
     } catch (err) {
       console.log(err)
