@@ -3,6 +3,7 @@ import { X } from 'lucide-react'
 import { CurrencyItem } from './CurrencyItem'
 import { useCurrencyStore } from '@/store/useCurrencyStore'
 import { useCallback } from 'react'
+import { SearchBar } from '@/components/SearchBar'
 
 export function SelectCurrency() {
   const marketCurrencies = useCurrencyStore(
@@ -26,9 +27,7 @@ export function SelectCurrency() {
         </Dialog.Close>
       </header>
 
-      {/* <SearchBar
-        onClick={(e) => setCryptocurrencyId(Number(e.currentTarget.id))}
-      /> */}
+      <SearchBar />
 
       <ul className="pt-7 flex flex-col gap-1">
         {marketCurrencies.map((marketCurrency) => (

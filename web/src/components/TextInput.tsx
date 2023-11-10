@@ -21,7 +21,7 @@ export const TextInput = forwardRef(function TextInput(
     >
       <input
         ref={ref}
-        className="b-0 w-full bg-transparent font-default text-sm font-normal text-gray-800 focus:outline-none placeholder:text-gray-400"
+        className="b-0 h-6 w-full bg-transparent font-default text-sm font-normal text-gray-800 focus:outline-none placeholder:text-gray-400"
         {...props}
       />
     </div>

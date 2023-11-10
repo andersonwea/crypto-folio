@@ -62,6 +62,8 @@ interface WatchlistResponse {
 
 type State = {
   search: string
+  activeSearch: boolean
+  searchResult: MarketCurrency[]
   selectedMarketCurrency: MarketCurrency | null
   marketCurrencies: MarketCurrency[]
   watchlist: WatchlistResponse
@@ -71,7 +73,9 @@ type State = {
 
 interface Actions {
   setSearch: (value: string) => void
+  setActiveSearch: (value: boolean) => void
   setSelectedMarketCurrency: (value: MarketCurrency | null) => void
+  searchCryptocurrencies: (search: string) => void
   fetchMarketCurrencies: (page?: string) => Promise<void>
   fetchWatchlist: (page?: string) => Promise<void>
   fetchWalletCurrencies: () => Promise<void>
@@ -83,6 +87,8 @@ interface Actions {
 
 const initialState: State = {
   search: '',
+  activeSearch: false,
+  searchResult: [],
   selectedMarketCurrency: null,
   marketCurrencies: [],
   walletCurrencies: [],
@@ -95,8 +101,30 @@ export const useCurrencyStore = create<State & Actions>()((set, get) => ({
   setSearch: (value: string) => {
     set({ search: value })
   },
+  setActiveSearch: (value: boolean) => {
+    set({ activeSearch: value })
+  },
   setSelectedMarketCurrency: (value: MarketCurrency | null) => {
     set({ selectedMarketCurrency: value })
+    set({ search: '' })
+    set({ activeSearch: false })
+
+    // if (value) {
+    //   set({ marketCurrencies: [...get().marketCurrencies, value] })
+    // }
+  },
+  searchCryptocurrencies: async (search: string) => {
+    if (search.length < 1) {
+      return
+    }
+    console.log('procurou')
+    try {
+      const response = await api(`/market/currencies/search?search=${search}`)
+
+      set({ searchResult: response.data })
+    } catch (err) {
+      console.log(err)
+    }
   },
   fetchMarketCurrencies: async (page?: string) => {
     try {
