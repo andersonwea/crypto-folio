@@ -22,12 +22,16 @@ export default function Market({ searchParams }: MarketProps) {
   const fetchMarketCurrencies = useCurrencyStore(
     useCallback((state) => state.fetchMarketCurrencies, []),
   )
+  const fetchWatchlist = useCurrencyStore(
+    useCallback((state) => state.fetchWatchlist, []),
+  )
   const watchlistCurrenciesIds = useCurrencyStore(
     useCallback((state) => state.watchlistCurrenciesIds, []),
   )
 
   useEffect(() => {
     fetchMarketCurrencies(page)
+    fetchWatchlist()
   }, [page])
 
   return (

@@ -24,12 +24,16 @@ export default function Dashboard({ searchParams }: DashboardProps) {
   const fetchMarketCurrencies = useCurrencyStore(
     useCallback((state) => state.fetchMarketCurrencies, []),
   )
+  const fetchWatchlist = useCurrencyStore(
+    useCallback((state) => state.fetchWatchlist, []),
+  )
   const watchlistCurrenciesIds = useCurrencyStore(
     useCallback((state) => state.watchlistCurrenciesIds, []),
   )
 
   useEffect(() => {
     fetchMarketCurrencies(page)
+    fetchWatchlist()
   }, [page])
 
   console.log(marketCurrencies)

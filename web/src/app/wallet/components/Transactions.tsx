@@ -108,14 +108,18 @@ export function Transactions({ page = '1' }: TransactionsProps) {
                       </Text>
                     </div>
                   </td>
-                  <td>
+                  <td className="min-w-[85px]">
                     {priceFormatter.format(
                       transaction.value / 100 / transaction.amount,
                     )}
                   </td>
-                  <td>{priceFormatter.format(transaction.value / 100)}</td>
-                  <td>{transaction.amount + ' ' + currency.symbol}</td>
-                  <td>
+                  <td className="min-w-[85px]">
+                    {priceFormatter.format(transaction.value / 100)}
+                  </td>
+                  <td className="min-w-[85px]">
+                    {transaction.amount + ' ' + currency.symbol}
+                  </td>
+                  <td className="min-w-[85px]">
                     <div className="flex gap-2 justify-end">
                       <EditTransaction transaction={transaction} />
                       <DeleteTransaction
