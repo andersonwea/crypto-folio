@@ -4,7 +4,6 @@ import { Heading, ScrollArea } from '@radix-ui/themes'
 import { Card } from './Card'
 import { TextInput } from '@/components/TextInput'
 import { useCallback, useEffect, useState } from 'react'
-import { EmptyCard } from './EmptyCard'
 import { useCurrencyStore } from '@/store/useCurrencyStore'
 import { useTransactionStore } from '@/store/useTransactionsStore'
 
@@ -45,22 +44,17 @@ export function Wallet({ maxWidth }: WalletProps) {
         style={{ maxWidth: maxWidth || '100%', maxHeight: 255 }}
       >
         <div className="flex space-x-7 py-4">
-          {
-            // currencies && currencies.length < 1 ? (
-            //   <EmptyCard />
-            // ) : (
-            walletCurrencies
-              .filter((walletCurrency) =>
-                walletCurrency.name.includes(search.toLocaleLowerCase()),
-              )
-              .map((walletCurrency, index) => (
-                <Card
-                  key={walletCurrency.id}
-                  currency={walletCurrency}
-                  color={colors[index % colors.length]}
-                />
-              ))
-          }
+          {walletCurrencies
+            .filter((walletCurrency) =>
+              walletCurrency.name.includes(search.toLocaleLowerCase()),
+            )
+            .map((walletCurrency, index) => (
+              <Card
+                key={walletCurrency.id}
+                currency={walletCurrency}
+                color={colors[index % colors.length]}
+              />
+            ))}
         </div>
       </ScrollArea>
     </section>
