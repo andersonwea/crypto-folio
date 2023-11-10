@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/Button'
 import { TextInput } from '@/components/TextInput'
-import { ScrollArea, Select, Text } from '@radix-ui/themes'
+import { Text } from '@radix-ui/themes'
 import { CurrencyItem } from './CurrencyItem'
 import dayjs from 'dayjs'
 import { useCurrencyStore } from '@/store/useCurrencyStore'
@@ -10,7 +10,8 @@ import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useTransactionStore } from '@/store/useTransactionsStore'
-import { useCallback } from 'react'
+import { useCallback, useEffect } from 'react'
+import { SearchBar } from '@/components/SearchBar'
 
 interface CreateTransactionFormProps {
   transactionType: string
@@ -39,15 +40,23 @@ function getActualDate() {
 export function CreateTransactionForm({
   transactionType,
 }: CreateTransactionFormProps) {
-  const selectedMarketCurrency = useCurrencyStore(
-    (state) => state.selectedMarketCurrency,
+  const activeSearch = useCurrencyStore(
+    useCallback((state) => state.activeSearch, []),
   )
-  const marketCurrencies = useCurrencyStore((state) => state.marketCurrencies)
+  const setActiveSearch = useCurrencyStore(
+    useCallback((state) => state.setActiveSearch, []),
+  )
+  const selectedMarketCurrency = useCurrencyStore(
+    useCallback((state) => state.selectedMarketCurrency, []),
+  )
   const createTransaction = useTransactionStore(
     useCallback((state) => state.createTransaction, []),
   )
   const createWalletCurrency = useCurrencyStore(
     useCallback((state) => state.createWalletCurrency, []),
+  )
+  const setIsTransactionModalOpen = useTransactionStore(
+    useCallback((state) => state.setIsTransactionModalOpen, []),
   )
 
   const {
@@ -55,6 +64,7 @@ export function CreateTransactionForm({
     handleSubmit,
     watch,
     reset,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<CreateTransactionForm>({
     resolver: zodResolver(createTransactionFormSchema),
@@ -63,6 +73,10 @@ export function CreateTransactionForm({
       currencyPrice: selectedMarketCurrency?.values.price ?? 0,
     },
   })
+
+  useEffect(() => {
+    setValue('currencyPrice', selectedMarketCurrency?.values.price ?? 0)
+  }, [selectedMarketCurrency])
 
   const amount = watch('amount')
   const currencyPrice = watch('currencyPrice')
@@ -97,9 +111,13 @@ export function CreateTransactionForm({
       )
 
       alert('Transação criada com sucesso.') // TODO: add toastify lib
-
+      setIsTransactionModalOpen(false)
       reset()
     }
+  }
+
+  function handleClickSearchItem() {
+    setActiveSearch(true)
   }
 
   return (
@@ -107,28 +125,19 @@ export function CreateTransactionForm({
       className="pt-10 flex flex-col"
       onSubmit={handleSubmit(handleCreateTransaction)}
     >
-      <Select.Root defaultValue={String(selectedMarketCurrency?.id)} size={'3'}>
-        <Select.Trigger radius="large" color="gray" />
-
-        <Select.Content color="gray">
-          <ScrollArea type="auto" scrollbars="vertical" style={{ height: 200 }}>
-            {marketCurrencies.map((marketCurrency) => (
-              <Select.Item
-                value={String(marketCurrency.id)}
-                key={marketCurrency.id}
-              >
-                <CurrencyItem
-                  currency={marketCurrency}
-                  icon={false}
-                  hover={false}
-                  logoHeight={24}
-                  logoWidth={24}
-                />
-              </Select.Item>
-            ))}
-          </ScrollArea>
-        </Select.Content>
-      </Select.Root>
+      {selectedMarketCurrency &&
+        (activeSearch ? (
+          <SearchBar />
+        ) : (
+          <div>
+            <CurrencyItem
+              onClick={handleClickSearchItem}
+              currency={selectedMarketCurrency}
+              logoHeight={26}
+              logoWidth={26}
+            />
+          </div>
+        ))}
 
       <div className="flex gap-4 pt-4">
         <label htmlFor="" className="w-full space-y-1">

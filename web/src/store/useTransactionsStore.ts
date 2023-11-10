@@ -21,11 +21,13 @@ type Transaction = {
 type State = {
   transactions: Transaction[]
   totalTransactions: number
+  isTransactionModalOpen: boolean
 }
 
 type Actions = {
   setTransactions: (transactions: Transaction[]) => void
   fetchTransactions: (page: string) => Promise<void>
+  setIsTransactionModalOpen: (isTransactionModalOpen: boolean) => void
   createTransaction: (
     data: NewTransactionInput,
     currencyId: string,
@@ -35,12 +37,16 @@ type Actions = {
 const initialState: State = {
   transactions: [],
   totalTransactions: 0,
+  isTransactionModalOpen: false,
 }
 
 export const useTransactionStore = create<State & Actions>()((set, get) => ({
   ...initialState,
   setTransactions: (transactions: Transaction[]) => {
     set({ transactions })
+  },
+  setIsTransactionModalOpen: (isTransactionModalOpen: boolean) => {
+    set({ isTransactionModalOpen })
   },
   fetchTransactions: async (page: string) => {
     try {
@@ -70,6 +76,7 @@ export const useTransactionStore = create<State & Actions>()((set, get) => ({
       )
 
       set({ transactions: [...get().transactions, response.data] })
+      set({ isTransactionCreated: true })
 
       return response.data
     } catch (err) {
