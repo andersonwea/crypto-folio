@@ -7,7 +7,8 @@ import { Providers } from './providers'
 import { Grid, ScrollArea } from '@radix-ui/themes'
 import { MenuNav } from '@/components/MenuNav'
 import { SignIn } from '@/components/SignIn'
-import { cookies } from 'next/headers'
+import { getServerSession } from 'next-auth'
+import { authOptions } from './api/auth/[...nextauth]/route'
 
 const poppins = Poppins({
   weight: ['500', '700'],
@@ -25,15 +26,14 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const isAuthenticated = cookies().has('cryptofolio.token')
+  const session = await getServerSession(authOptions)
 
   return (
     <html lang="en">
       <body className={poppins.variable}>
-        <Providers>
-          {/* <SignIn /> */}
+        <Providers session={session}>
           <div className="bg-gray-800 rounded-[50px] max-sm:rounded-none p-4 max-sm:p-2 max-w-[1440px] h-[930px] max-[1920px]:h-screen m-auto max-md:rounded-none max-lg:pb-0">
-            {isAuthenticated ? (
+            {session ? (
               <Grid
                 className="h-full"
                 columns={{

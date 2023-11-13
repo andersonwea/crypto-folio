@@ -8,9 +8,7 @@ import { Button } from './Button'
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useRouter } from 'next/navigation'
-import { api } from '@/libs/api'
-import cookies from 'js-cookie'
+import { signIn } from 'next-auth/react'
 
 const authenticateFormSchema = z.object({
   email: z
@@ -28,35 +26,18 @@ export function AuthenticateForm() {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors, isSubmitting },
   } = useForm<AuthenticateFormData>({
     resolver: zodResolver(authenticateFormSchema),
   })
 
-  const router = useRouter()
-
   async function handleAuthenticateUser(data: AuthenticateFormData) {
-    reset()
-
-    try {
-      const response = await api.post(
-        '/sessions',
-        {
-          email: data.email,
-          password: data.password,
-        },
-        { withCredentials: true },
-      )
-
-      const { token } = response.data
-
-      cookies.set('cryptofolio.token', token)
-
-      router.refresh()
-    } catch (err: any) {
-      alert(err.message) // TODO add react-toastify lib
-    }
+    await signIn('credentials', {
+      email: data.email,
+      password: data.password,
+      redirect: true,
+      callbackUrl: '/',
+    })
   }
 
   return (
