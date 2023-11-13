@@ -1,9 +1,10 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 
 export async function refresh(request: FastifyRequest, reply: FastifyReply) {
-  await request.jwtVerify({ onlyCookie: true })
+  await request.jwtVerify()
+  console.log('chamou a refresh')
 
-  const token = await reply.jwtSign(
+  const accessToken = await reply.jwtSign(
     {},
     {
       sign: {
@@ -23,13 +24,5 @@ export async function refresh(request: FastifyRequest, reply: FastifyReply) {
     },
   )
 
-  return reply
-    .setCookie('cryptofolio.refreshToken', refreshToken, {
-      path: '/',
-      secure: true,
-      sameSite: true,
-      httpOnly: true,
-    })
-    .status(200)
-    .send({ token })
+  return reply.status(200).send({ accessToken, refreshToken })
 }

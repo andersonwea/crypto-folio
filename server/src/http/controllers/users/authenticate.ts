@@ -22,7 +22,7 @@ export async function authenticate(
       password,
     })
 
-    const token = await reply.jwtSign(
+    const accessToken = await reply.jwtSign(
       {},
       {
         sign: {
@@ -42,21 +42,15 @@ export async function authenticate(
       },
     )
 
-    return reply
-      .setCookie('cryptofolio.refreshToken', refreshToken, {
-        path: '/',
-        secure: true,
-        sameSite: true,
-        httpOnly: true,
-      })
-      .status(200)
-      .send({
-        user: {
-          ...user,
-          password_hash: undefined,
-        },
-        token,
-      })
+    const tenMinutesInMilliseconds = 1000 * 60 * 10
+
+    const expireIn = new Date().getTime() + tenMinutesInMilliseconds
+
+    return reply.send({
+      accessToken,
+      refreshToken,
+      expireIn,
+    })
   } catch (err) {
     if (err instanceof InvalidCredentialsError) {
       return reply.status(400).send({ message: err.message })
