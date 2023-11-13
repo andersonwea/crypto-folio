@@ -1,4 +1,5 @@
 import 'next-auth'
+import 'next-auth/jwt'
 
 declare module 'next-auth' {
   interface Session {
@@ -8,7 +9,21 @@ declare module 'next-auth' {
       nickname: string
       avatarUrl: string | null
       createdAt: string
+      accessToken: string
     }
-    token: string
+  }
+
+  interface User {
+    accessToken: string
+    refreshToken: string
+    expireIn: number
+  }
+}
+
+declare module 'next-auth/jwt' {
+  interface JWT {
+    accessToken: string
+    refreshToken: string
+    expireIn: number
   }
 }
