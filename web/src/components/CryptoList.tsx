@@ -8,8 +8,9 @@ import Link from 'next/link'
 import { priceFormatter } from '@/utils/priceFormatter'
 import { bigNumberFormatter } from '@/utils/bigNumberFormatter'
 import { MarketCurrency } from '@/@types'
-import { useCurrencyStore } from '@/store/useCurrencyStore'
-import { useCallback } from 'react'
+import { api } from '@/libs/api'
+import { useSession } from 'next-auth/react'
+import { useState } from 'react'
 
 interface CryptoListProps {
   page?: string
@@ -24,12 +25,26 @@ export function CryptoList({
   currencies,
   watchlistCurrenciesIds,
 }: CryptoListProps) {
-  const toggleWatchlist = useCurrencyStore(
-    useCallback((state) => state.toggleWatchlist, []),
-  )
+  const [watchlist, setWatchlist] = useState(watchlistCurrenciesIds)
+
+  const { data: session } = useSession()
+
+  async function toggleWatchlist(currencyId: number) {
+    if (!session) return null
+    api.defaults.headers.Authorization = `Bearer ${session.user.accessToken}`
+
+    try {
+      await api.post(`/me/watchlist`, {
+        currencyId,
+      })
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   function handleToggleWatchlist(currencyId: number) {
     toggleWatchlist(currencyId)
+    setWatchlist((prev) => [...prev, currencyId])
   }
 
   return (
@@ -59,9 +74,7 @@ export function CryptoList({
 
           <tbody>
             {currencies.map((marketCurrency) => {
-              const isWatchlisted = watchlistCurrenciesIds.includes(
-                marketCurrency.id,
-              )
+              const isWatchlisted = watchlist.includes(marketCurrency.id)
 
               return (
                 <tr key={marketCurrency.id}>
