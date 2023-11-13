@@ -1,12 +1,12 @@
-'use client'
-
 import { Header } from '@/components/Header'
 import { CryptoList } from '@/components/CryptoList'
 import { Wallet } from '@/app/wallet/components/Wallet'
 import { Heading } from '@radix-ui/themes'
 import { WalletStats } from '@/components/WalletStats'
-import { useCurrencyStore } from '@/store/useCurrencyStore'
-import { useCallback, useEffect } from 'react'
+import { api } from '@/libs/api'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '../api/auth/[...nextauth]/route'
+import { MarketCurrency, WatchlistResponse } from '@/@types'
 
 interface DashboardProps {
   searchParams: {
@@ -14,29 +14,37 @@ interface DashboardProps {
   }
 }
 
-export default function Dashboard({ searchParams }: DashboardProps) {
+export default async function Dashboard({ searchParams }: DashboardProps) {
+  const session = await getServerSession(authOptions)
+
   const { page } = searchParams
   const totalPages = 791
 
-  const marketCurrencies = useCurrencyStore(
-    useCallback((state) => state.marketCurrencies, [page]),
-  )
-  const fetchMarketCurrencies = useCurrencyStore(
-    useCallback((state) => state.fetchMarketCurrencies, []),
-  )
-  const fetchWatchlist = useCurrencyStore(
-    useCallback((state) => state.fetchWatchlist, []),
-  )
-  const watchlistCurrenciesIds = useCurrencyStore(
-    useCallback((state) => state.watchlistCurrenciesIds, []),
-  )
+  if (session) {
+    api.defaults.headers.Authorization = `Bearer ${session.user.accessToken}`
+  }
 
-  useEffect(() => {
-    fetchMarketCurrencies(page)
-    fetchWatchlist()
-  }, [page])
+  async function fetchMarketCurrencies() {
+    const marketCurrenciesResponse = await api<MarketCurrency[]>(
+      `/market/currencies?page=${page}`,
+    )
+    const marketCurrencies = marketCurrenciesResponse.data
 
-  console.log(marketCurrencies)
+    return marketCurrencies
+  }
+
+  async function getWatchlistCurrenciesIds() {
+    const response = await api<WatchlistResponse>('/me/watchlist')
+
+    const watchlistCurrenciesIds = response.data.watchlist.map(
+      (watchlist) => watchlist.id,
+    )
+
+    return watchlistCurrenciesIds
+  }
+
+  const watchlistCurrenciesIds = await getWatchlistCurrenciesIds()
+  const marketCurrencies = await fetchMarketCurrencies()
 
   return (
     <div>

@@ -52,3 +52,8 @@ export interface Currency {
   amount: number
   user_id: string
 }
+
+export interface WatchlistResponse {
+  totalItems: number
+  watchlist: MarketCurrency[]
+}
