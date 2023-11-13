@@ -2,7 +2,6 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 
 export async function refresh(request: FastifyRequest, reply: FastifyReply) {
   await request.jwtVerify()
-  console.log('chamou a refresh')
 
   const accessToken = await reply.jwtSign(
     {},
