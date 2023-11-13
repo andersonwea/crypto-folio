@@ -1,12 +1,8 @@
-'use client'
-
 import { Heading, Text } from '@radix-ui/themes'
 import Image from 'next/image'
 import usdIcon from '@/assets/usd.svg'
 import { api } from '@/libs/api'
-import { useEffect, useState } from 'react'
 import { priceFormatter } from '@/utils/priceFormatter'
-import { useTransactionStore } from '@/store/useTransactionsStore'
 
 type WalletMetrics = {
   profitOrLoss: number
@@ -14,23 +10,8 @@ type WalletMetrics = {
   totalInvested: number
 }
 
-export function WalletStats() {
-  const [metrics, setMetrics] = useState<WalletMetrics | null>(null)
-  const transaction = useTransactionStore((state) => state.transactions)
-
-  useEffect(() => {
-    async function getMetrics() {
-      try {
-        const response = await api<WalletMetrics>('/me/metrics')
-
-        setMetrics(response.data)
-      } catch (err) {
-        console.log(err)
-      }
-    }
-
-    getMetrics()
-  }, [transaction])
+export async function WalletStats() {
+  const { data: metrics } = await api<WalletMetrics>('/me/metrics')
 
   return (
     <>
