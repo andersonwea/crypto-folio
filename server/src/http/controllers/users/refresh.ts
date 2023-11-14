@@ -23,5 +23,9 @@ export async function refresh(request: FastifyRequest, reply: FastifyReply) {
     },
   )
 
-  return reply.status(200).send({ accessToken, refreshToken })
+  const tenMinutesInMilliseconds = 1000 * 60 * 10
+
+  const expireIn = new Date().getTime() + tenMinutesInMilliseconds
+
+  return reply.status(200).send({ accessToken, refreshToken, expireIn })
 }
