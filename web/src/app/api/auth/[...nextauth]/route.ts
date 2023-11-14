@@ -55,7 +55,6 @@ export const authOptions = {
   callbacks: {
     async jwt({ token, user }: { token: JWT; user: User }) {
       if (user) {
-        console.log('tem user')
         token.accessToken = user.accessToken
         token.refreshToken = user.refreshToken
         token.expireIn = user.expireIn
@@ -67,7 +66,13 @@ export const authOptions = {
         return token
       }
 
-      return await refreshToken(token.refreshToken)
+      const refreshedToken = await refreshToken(token.refreshToken)
+
+      token.accessToken = refreshedToken.accessToken
+      token.refreshToken = refreshedToken.refreshToken
+      token.expireIn = refreshedToken.expireIn
+
+      return token
     },
 
     async session({ session, token }: { session: Session; token: JWT }) {
