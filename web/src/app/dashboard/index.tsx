@@ -3,10 +3,9 @@ import { CryptoList } from '@/components/CryptoList'
 import { Wallet } from '@/app/wallet/components/Wallet'
 import { Heading } from '@radix-ui/themes'
 import { WalletStats } from '@/components/WalletStats'
-import { api } from '@/libs/api'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '../api/auth/[...nextauth]/route'
-import { MarketCurrency, WatchlistResponse } from '@/@types'
+import { getWatchlist } from '@/actions/getWatchlist'
+import { getMarketCurrencies } from '@/actions/getMarketCurrencies'
+import { getWalletCurrencies } from '@/actions/getWalletCurrencies'
 
 interface DashboardProps {
   searchParams: {
@@ -15,36 +14,12 @@ interface DashboardProps {
 }
 
 export default async function Dashboard({ searchParams }: DashboardProps) {
-  const session = await getServerSession(authOptions)
-
   const { page } = searchParams
   const totalPages = 791
 
-  if (session) {
-    api.defaults.headers.Authorization = `Bearer ${session.user.accessToken}`
-  }
-
-  async function fetchMarketCurrencies() {
-    const marketCurrenciesResponse = await api<MarketCurrency[]>(
-      `/market/currencies?page=${page}`,
-    )
-    const marketCurrencies = marketCurrenciesResponse.data
-
-    return marketCurrencies
-  }
-
-  async function getWatchlistCurrenciesIds() {
-    const response = await api<WatchlistResponse>('/me/watchlist')
-
-    const watchlistCurrenciesIds = response.data.watchlist.map(
-      (watchlist) => watchlist.id,
-    )
-
-    return watchlistCurrenciesIds
-  }
-
-  const watchlistCurrenciesIds = await getWatchlistCurrenciesIds()
-  const marketCurrencies = await fetchMarketCurrencies()
+  const { watchlist } = await getWatchlist()
+  const { marketCurrencies } = await getMarketCurrencies(page)
+  const { walletCurrencies } = await getWalletCurrencies()
 
   return (
     <div>
@@ -58,15 +33,19 @@ export default async function Dashboard({ searchParams }: DashboardProps) {
           </div>
         </section>
 
-        <Wallet maxWidth={630} />
+        {walletCurrencies && (
+          <Wallet maxWidth={630} walletCurrencies={walletCurrencies} />
+        )}
 
         <div className="mt-7 md:col-span-2 max-h-[350px]">
-          <CryptoList
-            page={page}
-            totalPages={totalPages}
-            currencies={marketCurrencies}
-            watchlistCurrenciesIds={watchlistCurrenciesIds}
-          />
+          {watchlist && marketCurrencies && (
+            <CryptoList
+              page={page}
+              totalPages={totalPages}
+              watchlist={watchlist}
+              marketCurrencies={marketCurrencies}
+            />
+          )}
         </div>
       </main>
     </div>
