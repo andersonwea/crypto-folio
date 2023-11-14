@@ -8,43 +8,37 @@ import Link from 'next/link'
 import { priceFormatter } from '@/utils/priceFormatter'
 import { bigNumberFormatter } from '@/utils/bigNumberFormatter'
 import { MarketCurrency } from '@/@types'
-import { api } from '@/libs/api'
-import { useSession } from 'next-auth/react'
-import { useState } from 'react'
+import { experimental_useOptimistic as useOptimistic } from 'react'
+import { toggleWatchlist } from '@/actions/toggleWatchlist'
 
 interface CryptoListProps {
   page?: string
   totalPages: number
-  currencies: MarketCurrency[]
-  watchlistCurrenciesIds: number[]
+  marketCurrencies: MarketCurrency[]
+  watchlist: MarketCurrency[]
 }
 
 export function CryptoList({
-  page = '1',
+  page,
   totalPages,
-  currencies,
-  watchlistCurrenciesIds,
+  watchlist,
+  marketCurrencies,
 }: CryptoListProps) {
-  const [watchlist, setWatchlist] = useState(watchlistCurrenciesIds)
+  const [optimisticWatchlist, addOptimisticWatchlist] = useOptimistic(
+    watchlist,
+    (state, newWatchlist: MarketCurrency) => {
+      if (state.find((watchlist) => watchlist.id === newWatchlist.id)) {
+        return state.filter((watchlist) => watchlist.id !== newWatchlist.id)
+      }
 
-  const { data: session } = useSession()
+      return [...state, newWatchlist]
+    },
+  )
 
-  async function toggleWatchlist(currencyId: number) {
-    if (!session) return null
-    api.defaults.headers.Authorization = `Bearer ${session.user.accessToken}`
+  async function handleToggleWatchlist(marketCurrency: MarketCurrency) {
+    addOptimisticWatchlist(marketCurrency)
 
-    try {
-      await api.post(`/me/watchlist`, {
-        currencyId,
-      })
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
-  function handleToggleWatchlist(currencyId: number) {
-    toggleWatchlist(currencyId)
-    setWatchlist((prev) => [...prev, currencyId])
+    await toggleWatchlist(marketCurrency.id)
   }
 
   return (
@@ -73,14 +67,16 @@ export function CryptoList({
           </thead>
 
           <tbody>
-            {currencies.map((marketCurrency) => {
-              const isWatchlisted = watchlist.includes(marketCurrency.id)
+            {marketCurrencies?.map((marketCurrency) => {
+              const isWatchlisted = !!optimisticWatchlist?.find(
+                (watchlist) => watchlist.id === marketCurrency.id,
+              )
 
               return (
                 <tr key={marketCurrency.id}>
                   <td>
                     <Star
-                      onClick={() => handleToggleWatchlist(marketCurrency.id)}
+                      onClick={() => handleToggleWatchlist(marketCurrency)}
                       data-watchlist={isWatchlisted}
                       size={20}
                       className="data-[watchlist=true]:fill-blue-500 cursor-pointer"
@@ -133,7 +129,7 @@ export function CryptoList({
           </tbody>
         </table>
       </ScrollArea>
-      <NavPages page={Number(page)} totalPages={totalPages} />
+      <NavPages page={Number(page ?? '1')} totalPages={totalPages} />
     </section>
   )
 }

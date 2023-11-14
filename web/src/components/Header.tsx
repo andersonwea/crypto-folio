@@ -1,21 +1,14 @@
-'use client'
-
-import { useUserStore } from '@/store/useUserStore'
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { Avatar, Heading, Text } from '@radix-ui/themes'
+import { getServerSession } from 'next-auth'
 import Link from 'next/link'
-import { useCallback, useEffect } from 'react'
 
 interface HeaderProps {
   title: string
 }
 
-export function Header({ title }: HeaderProps) {
-  const fetchUser = useUserStore(useCallback((state) => state.fetchUser, []))
-  const user = useUserStore((state) => state.user)
-
-  useEffect(() => {
-    fetchUser()
-  }, [])
+export async function Header({ title }: HeaderProps) {
+  const session = await getServerSession(authOptions)
 
   return (
     <header className="flex justify-between items-center pt-3">
@@ -34,7 +27,7 @@ export function Header({ title }: HeaderProps) {
       >
         <Avatar
           className="absolute left-1 bottom-1 "
-          src={user?.avatarUrl ? user.avatarUrl : ''}
+          src={session?.user.avatarUrl ? session?.user.avatarUrl : ''}
           radius="full"
           color="orange"
           variant="solid"
@@ -45,7 +38,9 @@ export function Header({ title }: HeaderProps) {
           }}
         />
 
-        <Text className="pl-[64px] max-md:pl-[48px]">{user?.nickname}</Text>
+        <Text className="pl-[64px] max-md:pl-[48px]">
+          {session?.user.nickname}
+        </Text>
       </Link>
     </header>
   )
