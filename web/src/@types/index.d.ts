@@ -57,3 +57,14 @@ export interface WatchlistResponse {
   totalItems: number
   watchlist: MarketCurrency[]
 }
+
+export interface TransactionResponse {
+  totalTransactions: number
+  transactions: Transaction[]
+}
+
+export type Metrics = {
+  profitOrLoss: number
+  totalBalance: number
+  totalInvested: number
+}
