@@ -3,48 +3,22 @@
 import { Heading, ScrollArea } from '@radix-ui/themes'
 import { Card } from './Card'
 import { TextInput } from '@/components/TextInput'
-import { useEffect, useState } from 'react'
-import { useSession } from 'next-auth/react'
-import { api } from '@/libs/api'
+import { useState } from 'react'
 import { WalletCurrency } from '@/@types'
 
 interface WalletProps {
   maxWidth?: number
+  walletCurrencies: WalletCurrency[]
 }
 
 const colors = ['bg-green-300', 'bg-purple-300', 'bg-yellow-300']
 
-export function Wallet({ maxWidth }: WalletProps) {
+export function Wallet({ maxWidth, walletCurrencies }: WalletProps) {
   const [search, setSearch] = useState('')
-  const [walletCurrencies, setWalletCurrencies] = useState<WalletCurrency[]>([])
-
-  const { data: session } = useSession()
-
-  async function fecthWalletCurrencies() {
-    if (!session) {
-      return null
-    }
-
-    try {
-      const response = await api('/wallet/currencies', {
-        headers: {
-          Authorization: `Bearer ${session.user.accessToken}`,
-        },
-      })
-
-      setWalletCurrencies(response.data)
-    } catch (err) {
-      console.log(err)
-    }
-  }
 
   function onSearch(event: React.ChangeEvent<HTMLInputElement>) {
     setSearch(event.target.value)
   }
-
-  useEffect(() => {
-    fecthWalletCurrencies()
-  }, [])
 
   return (
     <section className="pt-4">
