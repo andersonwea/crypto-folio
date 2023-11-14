@@ -1,18 +1,14 @@
 import { Heading, Text } from '@radix-ui/themes'
 import Image from 'next/image'
 import usdIcon from '@/assets/usd.svg'
-import { api } from '@/libs/api'
 import { priceFormatter } from '@/utils/priceFormatter'
+import { Metrics } from '@/@types'
 
-type WalletMetrics = {
-  profitOrLoss: number
-  totalBalance: number
-  totalInvested: number
+interface WalletStatsProps {
+  metrics: Metrics
 }
 
-export async function WalletStats() {
-  const { data: metrics } = await api<WalletMetrics>('/me/metrics')
-
+export async function WalletStats({ metrics }: WalletStatsProps) {
   return (
     <>
       <div>

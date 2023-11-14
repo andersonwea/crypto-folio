@@ -6,6 +6,7 @@ import { WalletStats } from '@/components/WalletStats'
 import { getWatchlist } from '@/actions/getWatchlist'
 import { getMarketCurrencies } from '@/actions/getMarketCurrencies'
 import { getWalletCurrencies } from '@/actions/getWalletCurrencies'
+import { getWalletStats } from '@/actions/getWalletStats'
 
 interface DashboardProps {
   searchParams: {
@@ -20,6 +21,7 @@ export default async function Dashboard({ searchParams }: DashboardProps) {
   const { watchlist } = await getWatchlist()
   const { marketCurrencies } = await getMarketCurrencies(page)
   const { walletCurrencies } = await getWalletCurrencies()
+  const { metrics } = await getWalletStats()
 
   return (
     <div>
@@ -29,7 +31,7 @@ export default async function Dashboard({ searchParams }: DashboardProps) {
         <section className="mt-[26px]">
           <Heading as="h2">Portifolio</Heading>
           <div className="bg-blue-300 h-[222px] rounded-3xl px-9 py-6 mt-4 flex flex-wrap justify-between">
-            <WalletStats />
+            {metrics && <WalletStats metrics={metrics} />}
           </div>
         </section>
 
