@@ -1,45 +1,23 @@
-'use client'
-
-import { Heading, IconButton, ScrollArea, Text } from '@radix-ui/themes'
-import { Pencil, Trash2 } from 'lucide-react'
+import { Heading, ScrollArea, Text } from '@radix-ui/themes'
 import { TransactionModal } from './TransactionModal'
 import { Button } from '@/components/Button'
-import { useTransactionStore } from '@/store/useTransactionsStore'
-import { useCallback, useEffect } from 'react'
-import { useCurrencyStore } from '@/store/useCurrencyStore'
 import dayjs from 'dayjs'
 import { priceFormatter } from '@/utils/priceFormatter'
 import { NavPages } from '@/app/market/components/NavPages'
 import { EditTransaction } from './EditTransaction'
 import { DeleteTransaction } from './DeleteTransaction'
+import { getWalletCurrencies } from '@/actions/getWalletCurrencies'
+import { getTransactions } from '@/actions/getTransactions'
 
 interface TransactionsProps {
   page?: string
 }
 
-export function Transactions({ page = '1' }: TransactionsProps) {
-  const transactions = useTransactionStore(
-    useCallback((state) => state.transactions, []),
-  )
-  const totalTransactions = useTransactionStore(
-    useCallback((state) => state.totalTransactions, []),
-  )
-  const fetchTransactions = useTransactionStore(
-    useCallback((state) => state.fetchTransactions, [page]),
-  )
-  const walletCurrencies = useCurrencyStore(
-    useCallback((state) => state.walletCurrencies, []),
-  )
-  const fetchWalletCurrencies = useCurrencyStore(
-    useCallback((state) => state.fetchWalletCurrencies, []),
-  )
+export async function Transactions({ page = '1' }: TransactionsProps) {
+  const { walletCurrencies } = await getWalletCurrencies()
+  const { totalTransactions, transactions } = await getTransactions(page)
 
-  const totalPages = Math.floor(totalTransactions / 7) + 1
-
-  useEffect(() => {
-    fetchWalletCurrencies()
-    fetchTransactions(page)
-  }, [page])
+  const totalPages = Math.floor((totalTransactions ?? 0) / 7) + 1
 
   return (
     <section className="pt-7">
@@ -74,63 +52,65 @@ export function Transactions({ page = '1' }: TransactionsProps) {
           </thead>
 
           <tbody>
-            {transactions.map((transaction) => {
-              const currency = walletCurrencies.find(
-                (currency) => currency.id === transaction.currency_id,
-              )
+            {transactions &&
+              walletCurrencies &&
+              transactions.map((transaction) => {
+                const currency = walletCurrencies.find(
+                  (currency) => currency.id === transaction.currency_id,
+                )
 
-              if (!currency) {
-                return null
-              }
+                if (!currency) {
+                  return null
+                }
 
-              return (
-                <tr key={transaction.id}>
-                  <td className="flex items-center gap-3">
-                    <div className="w-8 h-8">
-                      <div className="rounded-full w-8 h-8 bg-slate-400 flex items-end justify-center text-xl text-white">
-                        {transaction.type.slice(0, 1).toLocaleUpperCase()}
+                return (
+                  <tr key={transaction.id}>
+                    <td className="flex items-center gap-3">
+                      <div className="w-8 h-8">
+                        <div className="rounded-full w-8 h-8 bg-slate-400 flex items-end justify-center text-xl text-white">
+                          {transaction.type.slice(0, 1).toLocaleUpperCase()}
+                        </div>
                       </div>
-                    </div>
-                    <div className="w-full">
-                      <Heading as="h2" size={'3'} className="text-start">
-                        {(transaction.type === 'buy' ? 'Compra' : 'Venda') +
-                          ' ' +
-                          currency.symbol}
-                      </Heading>
-                      <Text
-                        as="span"
-                        size={'2'}
-                        className="text-start block w-full"
-                      >
-                        {dayjs(transaction.created_at).format(
-                          'DD [de] MMM [de] YYYY',
-                        )}
-                      </Text>
-                    </div>
-                  </td>
-                  <td className="min-w-[85px]">
-                    {priceFormatter.format(
-                      transaction.value / 100 / transaction.amount,
-                    )}
-                  </td>
-                  <td className="min-w-[85px]">
-                    {priceFormatter.format(transaction.value / 100)}
-                  </td>
-                  <td className="min-w-[85px]">
-                    {transaction.amount + ' ' + currency.symbol}
-                  </td>
-                  <td className="min-w-[85px]">
-                    <div className="flex gap-2 justify-end">
-                      <EditTransaction transaction={transaction} />
-                      <DeleteTransaction
-                        transactionId={transaction.id}
-                        currencyId={currency.id}
-                      />
-                    </div>
-                  </td>
-                </tr>
-              )
-            })}
+                      <div className="w-full">
+                        <Heading as="h2" size={'3'} className="text-start">
+                          {(transaction.type === 'buy' ? 'Compra' : 'Venda') +
+                            ' ' +
+                            currency.symbol}
+                        </Heading>
+                        <Text
+                          as="span"
+                          size={'2'}
+                          className="text-start block w-full"
+                        >
+                          {dayjs(transaction.created_at).format(
+                            'DD [de] MMM [de] YYYY',
+                          )}
+                        </Text>
+                      </div>
+                    </td>
+                    <td className="min-w-[85px]">
+                      {priceFormatter.format(
+                        transaction.value / 100 / Number(transaction.amount),
+                      )}
+                    </td>
+                    <td className="min-w-[85px]">
+                      {priceFormatter.format(transaction.value / 100)}
+                    </td>
+                    <td className="min-w-[85px]">
+                      {transaction.amount + ' ' + currency.symbol}
+                    </td>
+                    <td className="min-w-[85px]">
+                      <div className="flex gap-2 justify-end">
+                        <EditTransaction transaction={transaction} />
+                        <DeleteTransaction
+                          transactionId={transaction.id}
+                          currencyId={currency.id}
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                )
+              })}
           </tbody>
         </table>
       </ScrollArea>
