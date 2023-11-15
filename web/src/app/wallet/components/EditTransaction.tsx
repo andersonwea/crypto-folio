@@ -1,11 +1,14 @@
+'use client'
+
+import { Transaction } from '@/@types'
+import { editTransaction } from '@/actions/editTransaction'
 import { Button } from '@/components/Button'
 import { TextInput } from '@/components/TextInput'
-import { Transaction, useTransactionStore } from '@/store/useTransactionsStore'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Dialog, Flex, IconButton, Text } from '@radix-ui/themes'
 import dayjs from 'dayjs'
 import { Pencil, X } from 'lucide-react'
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -30,9 +33,7 @@ type EditTransactionForm = z.infer<typeof editTransactionFormSchema>
 export function EditTransaction({ transaction }: EditTransactionProps) {
   const [isEditTransactionModalOpen, setIsEditTransactionModalOpen] =
     useState(false)
-  const editTransaction = useTransactionStore(
-    useCallback((state) => state.editTransaction, []),
-  )
+
   const transactionCurrencyPrice = transaction.value / 100 / transaction.amount
 
   const {
@@ -56,13 +57,17 @@ export function EditTransaction({ transaction }: EditTransactionProps) {
     const value = amount * currencyPrice
     const valueInCents = value * 100
 
-    await editTransaction({
+    const { editTransactionError } = await editTransaction({
       amount,
       created_at: createdAt,
       value: valueInCents,
       id: transaction.id,
       currency_id: transaction.currency_id,
     })
+
+    if (editTransactionError) {
+      return alert(editTransactionError)
+    }
 
     setIsEditTransactionModalOpen(false)
   }
