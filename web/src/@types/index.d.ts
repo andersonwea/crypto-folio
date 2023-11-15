@@ -2,8 +2,8 @@ interface Transaction {
   id: string
   type: 'buy' | 'sell'
   value: number
-  amount: string
-  created_at: string
+  amount: number
+  created_at: Date
   currency_id: string
 }
 
