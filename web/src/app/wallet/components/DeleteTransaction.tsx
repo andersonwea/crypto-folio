@@ -1,7 +1,8 @@
-import { useTransactionStore } from '@/store/useTransactionsStore'
+'use client'
+
+import { deleteTransaction } from '@/actions/deleteTransaction'
 import { AlertDialog, Button, Flex, IconButton } from '@radix-ui/themes'
 import { Trash2 } from 'lucide-react'
-import { useCallback } from 'react'
 
 interface DeleteTransactionProps {
   transactionId: string
@@ -12,12 +13,12 @@ export function DeleteTransaction({
   transactionId,
   currencyId,
 }: DeleteTransactionProps) {
-  const deleteTransaction = useTransactionStore(
-    useCallback((state) => state.deleteTransaction, []),
-  )
+  async function handleDeleteTransaction(transactionId: string) {
+    const response = await deleteTransaction(transactionId, currencyId)
 
-  function handleDeleteTransaction(transactionId: string) {
-    deleteTransaction(transactionId, currencyId)
+    if (response?.deleteTransactionError) {
+      alert(response.deleteTransactionError)
+    }
   }
 
   return (
@@ -42,6 +43,7 @@ export function DeleteTransaction({
           </AlertDialog.Cancel>
           <AlertDialog.Action>
             <Button
+              style={{ backgroundColor: '#e5484d' }}
               variant="solid"
               color="red"
               onClick={() => handleDeleteTransaction(transactionId)}
