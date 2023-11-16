@@ -33,7 +33,6 @@ export async function addTransaction(
     }
   } catch (err) {
     if (err instanceof AxiosError) {
-      console.log(err.response?.data.issues)
       return {
         addTransactionError: err.response?.data.message as string,
       }
