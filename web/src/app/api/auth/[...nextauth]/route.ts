@@ -54,7 +54,15 @@ export const authOptions = {
   },
 
   callbacks: {
-    async jwt({ token, user }: { token: JWT; user: User }) {
+    async jwt({
+      token,
+      user,
+      trigger,
+    }: {
+      token: JWT
+      user: User
+      trigger: string
+    }) {
       if (user) {
         token.accessToken = user.accessToken
         token.refreshToken = user.refreshToken
@@ -73,11 +81,16 @@ export const authOptions = {
       token.refreshToken = refreshedToken.refreshToken
       token.expireIn = refreshedToken.expireIn
 
+      if (trigger === 'update') {
+        return { ...token }
+      }
+
       return token
     },
 
     async session({ session, token }: { session: Session; token: JWT }) {
       session.user.accessToken = token.accessToken
+      session.user.expireIn = token.expireIn
 
       if (session.user.accessToken ?? false) {
         const response = await fetch('http://localhost:3333/me', {
