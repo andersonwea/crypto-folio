@@ -2,6 +2,7 @@
 
 import { WatchlistResponse } from '@/@types'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { AxiosError } from 'axios'
 import { getServerSession } from 'next-auth'
 
 export async function getWatchlist(page?: string) {
@@ -25,7 +26,11 @@ export async function getWatchlist(page?: string) {
       totalItems,
     }
   } catch (err) {
-    console.log(err)
+    if (err instanceof AxiosError) {
+      return {
+        getWatchlistError: err.response?.data.message as string,
+      }
+    }
 
     return {
       error: err,

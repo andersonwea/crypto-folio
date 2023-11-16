@@ -2,6 +2,7 @@
 
 import { MarketCurrency } from '@/@types'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { AxiosError } from 'axios'
 import { getServerSession } from 'next-auth'
 
 export async function getMarketCurrencies(page?: string) {
@@ -22,7 +23,11 @@ export async function getMarketCurrencies(page?: string) {
       marketCurrencies,
     }
   } catch (err) {
-    console.log(err)
+    if (err instanceof AxiosError) {
+      return {
+        getMarketCurrenciesError: err.response?.data.message as string,
+      }
+    }
 
     return {
       error: err,
