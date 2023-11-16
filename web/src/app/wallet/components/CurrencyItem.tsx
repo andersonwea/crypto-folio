@@ -23,7 +23,7 @@ export function CurrencyItem({
   return (
     <li
       {...props}
-      className={`flex w-full items-center gap-2 py-2 px-1 cursor-pointer rounded-lg bg-white border ${
+      className={`flex w-full items-center gap-2 py-2 px-1 cursor-pointer rounded-lg bg-white ${
         hover ? 'hover:bg-gray-100' : ''
       }`}
     >
