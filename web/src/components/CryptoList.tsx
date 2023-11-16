@@ -88,7 +88,7 @@ export function CryptoList({
                   </td>
                   <td className="sticky left-0 shadow-sm min-w-[150px]">
                     <Link
-                      href={`market/${marketCurrency.id}`}
+                      href={`/market/currency/${marketCurrency.id}`}
                       className="flex items-center gap-2"
                     >
                       <div className="w-8 h-8">
