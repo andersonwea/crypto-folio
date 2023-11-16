@@ -8,6 +8,7 @@ import { EditTransaction } from './EditTransaction'
 import { DeleteTransaction } from './DeleteTransaction'
 import { getWalletCurrencies } from '@/actions/getWalletCurrencies'
 import { getTransactions } from '@/actions/getTransactions'
+import { getMarketCurrencies } from '@/actions/getMarketCurrencies'
 
 interface TransactionsProps {
   page?: string
@@ -15,6 +16,7 @@ interface TransactionsProps {
 
 export async function Transactions({ page = '1' }: TransactionsProps) {
   const { walletCurrencies } = await getWalletCurrencies()
+  const { marketCurrencies } = await getMarketCurrencies()
   const { totalTransactions, transactions } = await getTransactions(page)
 
   const totalPages = Math.floor((totalTransactions ?? 0) / 7) + 1
@@ -24,9 +26,11 @@ export async function Transactions({ page = '1' }: TransactionsProps) {
       <header className="flex items-center justify-between">
         <Heading as="h2">Transações</Heading>
 
-        <TransactionModal>
-          <Button>Add transação</Button>
-        </TransactionModal>
+        {marketCurrencies && (
+          <TransactionModal marketCurrencies={marketCurrencies}>
+            <Button>Add transação</Button>
+          </TransactionModal>
+        )}
       </header>
 
       <ScrollArea className="mt-4 pr-2" type="auto" style={{ maxHeight: 358 }}>

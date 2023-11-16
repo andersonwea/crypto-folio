@@ -1,44 +1,40 @@
 'use client'
 
 import { Dialog } from '@radix-ui/themes'
-import { ReactNode, useCallback, useEffect } from 'react'
+import { ReactNode, useCallback, useEffect, useState } from 'react'
 import { SelectCurrency } from './SelectCurrency'
 import { CreateTransaction } from './CreateTransaction'
 import { useCurrencyStore } from '@/store/useCurrencyStore'
 import { useTransactionStore } from '@/store/useTransactionsStore'
+import { MarketCurrency } from '@/@types'
+import { useStore } from '@/store/useStore'
 
 interface TransactionModalProps {
   children: ReactNode
+  marketCurrencies: MarketCurrency[]
 }
 
-export function TransactionModal({ children }: TransactionModalProps) {
+export function TransactionModal({
+  children,
+  marketCurrencies,
+}: TransactionModalProps) {
+  const isTransactionModalOpen = useStore(
+    useCallback((state) => state.isTransactionModalOpen, []),
+  )
+  const setIsTransactionModalOpen = useStore(
+    useCallback((state) => state.setIsTransactionModalOpen, []),
+  )
+
   const selectedMarketCurrency = useCurrencyStore(
     (state) => state.selectedMarketCurrency,
   )
   const setSelectedMarketCurrency = useCurrencyStore(
     (state) => state.setSelectedMarketCurrency,
   )
-  const fetchMarketCurrencies = useCurrencyStore(
-    useCallback((state) => state.fetchMarketCurrencies, []),
-  )
-  const setSearch = useCurrencyStore(
-    useCallback((state) => state.setSearch, []),
-  )
-  const isTransactionModalOpen = useTransactionStore(
-    (state) => state.isTransactionModalOpen,
-  )
-  const setIsTransactionModalOpen = useTransactionStore(
-    (state) => state.setIsTransactionModalOpen,
-  )
 
   function handleOpenModal() {
     setSelectedMarketCurrency(null)
-    setSearch('')
   }
-
-  useEffect(() => {
-    fetchMarketCurrencies()
-  }, [])
 
   return (
     <Dialog.Root
@@ -47,7 +43,11 @@ export function TransactionModal({ children }: TransactionModalProps) {
     >
       <Dialog.Trigger onClick={handleOpenModal}>{children}</Dialog.Trigger>
 
-      {selectedMarketCurrency ? <CreateTransaction /> : <SelectCurrency />}
+      {selectedMarketCurrency ? (
+        <CreateTransaction />
+      ) : (
+        <SelectCurrency marketCurrencies={marketCurrencies} />
+      )}
     </Dialog.Root>
   )
 }
