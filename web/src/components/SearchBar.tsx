@@ -9,6 +9,7 @@ import debounce from 'lodash/debounce'
 import { MarketCurrency } from '@/@types'
 import { api } from '@/libs/api'
 import { useSession } from 'next-auth/react'
+import { usePathname, useRouter } from 'next/navigation'
 
 export function SearchBar() {
   const search = useCurrencyStore((state) => state.search)
@@ -17,6 +18,10 @@ export function SearchBar() {
   const setSelectedMarketCurrency = useCurrencyStore(
     (state) => state.setSelectedMarketCurrency,
   )
+
+  const pathName = usePathname()
+
+  const router = useRouter()
 
   const { data: session, update } = useSession()
 
@@ -53,8 +58,15 @@ export function SearchBar() {
 
     debouncedHandleSearch(event.target.value)
   }
-  // const debouncedHandleSearch = debounce(handleSearch, 300)
-  console.log({ searchResult })
+
+  function handleClickSearchItem(marketCurrency: MarketCurrency) {
+    if (pathName === '/wallet') {
+      setSelectedMarketCurrency(marketCurrency)
+    } else {
+      router.push(`/market/currency/${marketCurrency.id}`)
+    }
+  }
+
   return (
     <div className="relative w-full">
       <TextInput
@@ -77,7 +89,7 @@ export function SearchBar() {
             {searchResult.map((marketCurrency) => (
               <CurrencyItem
                 key={marketCurrency.id}
-                onClick={() => setSelectedMarketCurrency(marketCurrency)}
+                onClick={() => handleClickSearchItem(marketCurrency)}
                 currency={marketCurrency}
                 logoHeight={26}
                 logoWidth={26}
