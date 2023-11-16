@@ -1,6 +1,6 @@
 interface Transaction {
   id: string
-  type: 'buy' | 'sell'
+  type: string
   value: number
   amount: number
   created_at: Date
@@ -13,7 +13,7 @@ export interface WalletCurrency {
   name: string
   image: string
   symbol: string
-  amount: string
+  amount: number
   user_id: string
   balance: number
   transactions: Transaction[]
@@ -67,4 +67,19 @@ export type Metrics = {
   profitOrLoss: number
   totalBalance: number
   totalInvested: number
+}
+
+export type NewWalletCurrencyInput = {
+  name: string
+  symbol: string
+  image: string
+  amount: number
+  cryptocurrencyId: number
+}
+
+export type NewTransactionInput = {
+  type: string
+  value: number
+  amount: number
+  createdAt: Date
 }
