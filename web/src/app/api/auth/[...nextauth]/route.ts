@@ -61,9 +61,10 @@ export const authOptions = {
     }: {
       token: JWT
       user: User
-      trigger: string
+      trigger?: 'signIn' | 'signUp' | 'update' | undefined
     }) {
       if (user) {
+        console.log('tem user')
         token.accessToken = user.accessToken
         token.refreshToken = user.refreshToken
         token.expireIn = user.expireIn
