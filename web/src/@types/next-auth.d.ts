@@ -10,6 +10,7 @@ declare module 'next-auth' {
       avatarUrl: string | null
       createdAt: string
       accessToken: string
+      expireIn: number
     }
   }
 
