@@ -1,4 +1,4 @@
-import { WalletCurrency } from '@/store/useCurrencyStore'
+import { WalletCurrency } from '@/@types'
 import { priceFormatter } from '@/utils/priceFormatter'
 import { Heading, Text } from '@radix-ui/themes'
 import Image from 'next/image'
@@ -12,7 +12,7 @@ interface CardProps {
 export function Card({ color, currency }: CardProps) {
   return (
     <Link
-      className={`${color} rounded-3xl px-9 py-6 space-y-16 max-w-[194px]`}
+      className={`${color} rounded-3xl px-9 py-6 min-h-[222px] flex flex-col justify-between max-w-[194px]`}
       href={`/wallet/currency/${currency.id}`}
     >
       <div>
