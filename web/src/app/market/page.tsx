@@ -1,10 +1,9 @@
-'use client'
-
 import { Header } from '@/components/Header'
-import { Search } from './components/Search'
 import { CryptoList } from '@/components/CryptoList'
-import { useCurrencyStore } from '@/store/useCurrencyStore'
-import { useCallback, useEffect } from 'react'
+import { getMarketCurrencies } from '@/actions/getMarketCurrencies'
+import { getWatchlist } from '@/actions/getWatchlist'
+import { Heading } from '@radix-ui/themes'
+import { SearchBar } from '@/components/SearchBar'
 
 interface MarketProps {
   searchParams: {
@@ -12,41 +11,31 @@ interface MarketProps {
   }
 }
 
-export default function Market({ searchParams }: MarketProps) {
+export default async function Market({ searchParams }: MarketProps) {
   const { page } = searchParams
   const totalPages = 791
 
-  const marketCurrencies = useCurrencyStore(
-    useCallback((state) => state.marketCurrencies, [page]),
-  )
-  const fetchMarketCurrencies = useCurrencyStore(
-    useCallback((state) => state.fetchMarketCurrencies, []),
-  )
-  const fetchWatchlist = useCurrencyStore(
-    useCallback((state) => state.fetchWatchlist, []),
-  )
-  const watchlistCurrenciesIds = useCurrencyStore(
-    useCallback((state) => state.watchlistCurrenciesIds, []),
-  )
-
-  useEffect(() => {
-    fetchMarketCurrencies(page)
-    fetchWatchlist()
-  }, [page])
+  const { marketCurrencies } = await getMarketCurrencies(page)
+  const { watchlist } = await getWatchlist()
 
   return (
     <div>
       <Header title="Mercado" />
 
       <main className="pt-4 grid grid-cols-1 gap-4">
-        <Search />
+        <div className="flex items-center gap-10 max-sm:gap-3 relative max-w-lg">
+          <Heading>Criptomoedas</Heading>
+          <SearchBar />
+        </div>
 
-        <CryptoList
-          page={page}
-          totalPages={totalPages}
-          currencies={marketCurrencies}
-          watchlistCurrenciesIds={watchlistCurrenciesIds}
-        />
+        {marketCurrencies && watchlist && (
+          <CryptoList
+            page={page}
+            totalPages={totalPages}
+            marketCurrencies={marketCurrencies}
+            watchlist={watchlist}
+          />
+        )}
       </main>
     </div>
   )
