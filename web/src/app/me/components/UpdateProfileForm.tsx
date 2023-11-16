@@ -1,14 +1,13 @@
 'use client'
 
+import { updateUserProfile } from '@/actions/updateUserProfile'
+import { upload } from '@/actions/upload'
 import { Button } from '@/components/Button'
 import { TextInput } from '@/components/TextInput'
-import { api } from '@/libs/api'
-import { useUserStore } from '@/store/useUserStore'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Avatar, Heading, Text } from '@radix-ui/themes'
-import { AxiosError } from 'axios'
 import { Camera } from 'lucide-react'
-import { ChangeEvent, useCallback, useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -43,9 +42,6 @@ type UpdateProfileFormData = z.infer<typeof updateProfileFormSchema>
 
 export function UpdateProfileForm() {
   const [preview, setPreview] = useState<string | null>(null)
-  const updateUserProfile = useUserStore(
-    useCallback((state) => state.updateUserProfile, []),
-  )
 
   const {
     register,
@@ -69,29 +65,23 @@ export function UpdateProfileForm() {
   }
 
   async function handleUpdateProfile(data: UpdateProfileFormData) {
-    let avatarUrl = ''
-
     const formData = new FormData()
     formData.append('file', data.file[0])
 
-    try {
-      const response = await api.post('/me/profile/upload', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      })
+    const uploadResponse = await upload(formData)
 
-      avatarUrl = response.data.avatarUrl
-    } catch (err) {
-      if (err instanceof AxiosError && err.response?.data.message) {
-        return alert(err.response.data.message) // TODO: add toastify lib
-      }
-
-      console.log(err)
+    if (uploadResponse?.uploadError) {
+      return alert(uploadResponse.uploadError) // TODO: add toastify lib
     }
 
-    await updateUserProfile({
-      avatarUrl,
+    const updateUserProfileResponse = await updateUserProfile({
+      avatarUrl: uploadResponse?.avatarUrl ?? '',
       nickname: data.nickname,
     })
+
+    if (updateUserProfileResponse?.updateUserProfileError) {
+      return alert(updateUserProfileResponse.updateUserProfileError) // TODO: add toastify lib
+    }
 
     reset()
     setPreview(null)
