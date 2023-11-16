@@ -9,9 +9,11 @@ import { useCurrencyStore } from '@/store/useCurrencyStore'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useTransactionStore } from '@/store/useTransactionsStore'
 import { useCallback, useEffect } from 'react'
 import { SearchBar } from '@/components/SearchBar'
+import { addWalletCurrency } from '@/actions/addWalletCurrency'
+import { addTransaction } from '@/actions/addTransaction'
+import { useStore } from '@/store/useStore'
 
 interface CreateTransactionFormProps {
   transactionType: string
@@ -49,13 +51,7 @@ export function CreateTransactionForm({
   const selectedMarketCurrency = useCurrencyStore(
     useCallback((state) => state.selectedMarketCurrency, []),
   )
-  const createTransaction = useTransactionStore(
-    useCallback((state) => state.createTransaction, []),
-  )
-  const createWalletCurrency = useCurrencyStore(
-    useCallback((state) => state.createWalletCurrency, []),
-  )
-  const setIsTransactionModalOpen = useTransactionStore(
+  const setIsTransactionModalOpen = useStore(
     useCallback((state) => state.setIsTransactionModalOpen, []),
   )
 
@@ -91,7 +87,7 @@ export function CreateTransactionForm({
     const value = amount * currencyPrice
     const valueInCents = value * 100
 
-    const currency = await createWalletCurrency({
+    const addWalletCurrencyResponse = await addWalletCurrency({
       amount,
       cryptocurrencyId: id,
       image,
@@ -99,16 +95,26 @@ export function CreateTransactionForm({
       symbol,
     })
 
-    if (currency) {
-      await createTransaction(
+    if (addWalletCurrencyResponse?.addWalletCurrencyError) {
+      return alert('Erro ao adicionar cryptomoeda') // TODO: add toastify lib
+    }
+
+    if (addWalletCurrencyResponse?.walletCurrency) {
+      const currencyId = addWalletCurrencyResponse.walletCurrency.id
+
+      const addTransactionResponse = await addTransaction(
         {
           amount,
           createdAt,
           type: transactionType,
           value: valueInCents,
         },
-        currency.id,
+        currencyId,
       )
+
+      if (addTransactionResponse?.addTransactionError) {
+        return alert(addTransactionResponse?.addTransactionError)
+      }
 
       alert('Transação criada com sucesso.') // TODO: add toastify lib
       setIsTransactionModalOpen(false)

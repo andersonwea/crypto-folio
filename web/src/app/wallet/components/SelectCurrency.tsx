@@ -2,13 +2,14 @@ import { Dialog, IconButton } from '@radix-ui/themes'
 import { X } from 'lucide-react'
 import { CurrencyItem } from './CurrencyItem'
 import { useCurrencyStore } from '@/store/useCurrencyStore'
-import { useCallback } from 'react'
 import { SearchBar } from '@/components/SearchBar'
+import { MarketCurrency } from '@/@types'
 
-export function SelectCurrency() {
-  const marketCurrencies = useCurrencyStore(
-    useCallback((state) => state.marketCurrencies, []),
-  )
+interface SelectCurrencyProps {
+  marketCurrencies: MarketCurrency[]
+}
+
+export function SelectCurrency({ marketCurrencies }: SelectCurrencyProps) {
   const setSelectedMarketCurrency = useCurrencyStore(
     (state) => state.setSelectedMarketCurrency,
   )
