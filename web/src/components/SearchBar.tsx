@@ -4,41 +4,57 @@ import { ScrollArea } from '@radix-ui/themes'
 import { TextInput } from './TextInput'
 import { CurrencyItem } from '@/app/wallet/components/CurrencyItem'
 import { useCurrencyStore } from '@/store/useCurrencyStore'
-import { ChangeEvent, useCallback } from 'react'
+import { ChangeEvent, useCallback, useState } from 'react'
 import debounce from 'lodash/debounce'
+import { MarketCurrency } from '@/@types'
+import { api } from '@/libs/api'
+import { useSession } from 'next-auth/react'
 
 export function SearchBar() {
   const search = useCurrencyStore((state) => state.search)
   const setSearch = useCurrencyStore((state) => state.setSearch)
-  const searchResult = useCurrencyStore(
-    useCallback((state) => state.searchResult, []),
-  )
-  const searchCurrencies = useCurrencyStore(
-    useCallback((state) => state.searchCryptocurrencies, []),
-  )
-  const marketCurrencies = useCurrencyStore(
-    useCallback((state) => state.marketCurrencies, []),
-  )
+  const [searchResult, setSearchResult] = useState<MarketCurrency[]>([])
   const setSelectedMarketCurrency = useCurrencyStore(
     (state) => state.setSelectedMarketCurrency,
   )
 
-  const selectedMarketCurrency = useCurrencyStore(
-    useCallback((state) => state.selectedMarketCurrency, []),
-  )
+  const { data: session, update } = useSession()
+
+  async function searchMarketCurrencies(search: string) {
+    if (search.length < 2) {
+      return
+    }
+    console.log('procurou')
+    if (session && Date.now() < session.user.expireIn) {
+      console.log('atualizando token...')
+      update()
+    }
+
+    try {
+      const response = await api(`/market/currencies/search?search=${search}`, {
+        headers: {
+          Authorization: `Bearer ${session?.user.accessToken}`,
+        },
+      })
+
+      setSearchResult(response.data)
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   const debouncedHandleSearch = useCallback(
-    debounce(searchCurrencies, 1000),
+    debounce(searchMarketCurrencies, 1000),
     [],
   )
 
-  function handleSearch(event: ChangeEvent<HTMLInputElement>) {
+  async function handleSearch(event: ChangeEvent<HTMLInputElement>) {
     setSearch(event.target.value)
+
     debouncedHandleSearch(event.target.value)
   }
-
   // const debouncedHandleSearch = debounce(handleSearch, 300)
-
+  console.log({ searchResult })
   return (
     <div className="relative w-full">
       <TextInput
