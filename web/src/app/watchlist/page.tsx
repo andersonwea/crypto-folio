@@ -1,10 +1,8 @@
-'use client'
-
+import { getMarketCurrencies } from '@/actions/getMarketCurrencies'
+import { getWatchlist } from '@/actions/getWatchlist'
 import { CryptoList } from '@/components/CryptoList'
 import { Header } from '@/components/Header'
-import { useCurrencyStore } from '@/store/useCurrencyStore'
 import { Heading } from '@radix-ui/themes'
-import { useCallback, useEffect } from 'react'
 
 interface WatchlistProps {
   searchParams: {
@@ -12,25 +10,13 @@ interface WatchlistProps {
   }
 }
 
-export default function Watchlist({ searchParams }: WatchlistProps) {
+export default async function Watchlist({ searchParams }: WatchlistProps) {
   const { page } = searchParams
-  console.log({ page })
 
-  const watchlistCurrenciesIds = useCurrencyStore(
-    useCallback((state) => state.watchlistCurrenciesIds, []),
-  )
-  const fetchWatchlist = useCurrencyStore(
-    useCallback((state) => state.fetchWatchlist, [page]),
-  )
-  const watchlistResponse = useCurrencyStore(
-    useCallback((state) => state.watchlist, []),
-  )
+  const { marketCurrencies } = await getMarketCurrencies(page)
+  const { totalItems, watchlist } = await getWatchlist(page)
 
-  const totalPages = Math.floor(watchlistResponse.totalItems / 7) + 1
-
-  useEffect(() => {
-    fetchWatchlist(page)
-  }, [page])
+  const totalPages = Math.floor((totalItems ?? 0) / 7) + 1
 
   return (
     <div>
@@ -46,12 +32,14 @@ export default function Watchlist({ searchParams }: WatchlistProps) {
           Suas cryptos favoritas
         </Heading>
 
-        <CryptoList
-          page={page}
-          totalPages={totalPages}
-          currencies={watchlistResponse.watchlist}
-          watchlistCurrenciesIds={watchlistCurrenciesIds}
-        />
+        {marketCurrencies && watchlist && (
+          <CryptoList
+            page={page}
+            totalPages={totalPages}
+            marketCurrencies={watchlist}
+            watchlist={watchlist}
+          />
+        )}
       </main>
     </div>
   )
