@@ -4,8 +4,50 @@ import bitcoinLogo from '@/assets/bitcoin.png'
 import Image from 'next/image'
 import { Star } from 'lucide-react'
 import { CardItem } from '../../components/CardItem'
+import { getMarketCurrencies } from '@/actions/getMarketCurrencies'
+import { getMarketCurrency } from '@/actions/getMarketCurrency'
+import { Metadata } from 'next'
+import { priceFormatter } from '@/utils/priceFormatter'
+import { getWatchlist } from '@/actions/getWatchlist'
+import { WatchlistButton } from '@/components/WatchlistButton'
+import { numberFormat } from '@/utils/number-format'
 
-export default function MarketCurrency() {
+interface Props {
+  params: {
+    id: string
+  }
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const cryptocurrencyId = params.id
+
+  const { marketCurrency } = await getMarketCurrency(cryptocurrencyId)
+
+  return {
+    title: `${marketCurrency?.name} | Crypto folio`,
+  }
+}
+
+async function staticParams() {
+  const { marketCurrencies } = await getMarketCurrencies()
+
+  if (!marketCurrencies) return null
+
+  const marketCurrenciesIds = marketCurrencies.map((marketCurrency) => ({
+    id: marketCurrency.id,
+  }))
+
+  return marketCurrenciesIds
+}
+
+export const revalidate = 60 * 5 // 5 Minutes
+
+export default async function MarketCurrency({ params }: Props) {
+  const cryptocurrencyId = params.id
+
+  const { marketCurrency } = await getMarketCurrency(cryptocurrencyId)
+  const { watchlist } = await getWatchlist()
+
   return (
     <div>
       <Header title="Mercado" />
@@ -14,27 +56,45 @@ export default function MarketCurrency() {
         <Grid columns={'1fr 0.7fr'}>
           <section>
             <Heading>Criptotomoedas</Heading>
-            <Flex justify={'between'} className="mt-5">
+            <Flex className="mt-5 space-x-16">
               <Flex gap={'2'} align={'center'}>
                 <Image
-                  src="https://img.api.cryptorank.io/coins/60x60.bitcoin1524754012028.png"
+                  src={marketCurrency?.image ?? ''}
                   alt="bitcoin logo"
                   width={48}
                   height={48}
                 />
-                <Heading as="h2">Bitcoin</Heading>
-                <Text color="gray">BTC</Text>
-                <Star size={20} stroke="gray" />
+                <Heading as="h2" className="capitalize">
+                  {marketCurrency?.name}
+                </Heading>
+                <Text color="gray">{marketCurrency?.symbol}</Text>
+                {marketCurrency && watchlist && (
+                  <WatchlistButton
+                    marketCurrency={marketCurrency}
+                    watchlist={watchlist}
+                  />
+                )}
               </Flex>
 
               <Flex align={'end'} gap={'2'}>
                 <div>
                   <Text color="gray" className="block">
-                    BTC Preço
+                    {marketCurrency?.symbol} Preço
                   </Text>
-                  <Heading>$37545,25</Heading>
+                  <Heading>
+                    {priceFormatter.format(marketCurrency?.values.price ?? 0)}
+                  </Heading>
                 </div>
-                <Text color="green">+13,25%</Text>
+                <Text
+                  color={
+                    marketCurrency &&
+                    marketCurrency?.values.percentChange24h > 0
+                      ? 'green'
+                      : 'red'
+                  }
+                >
+                  {marketCurrency?.values.percentChange24h.toFixed(2)}%
+                </Text>
               </Flex>
             </Flex>
           </section>
@@ -44,24 +104,54 @@ export default function MarketCurrency() {
               <Heading>BTC Estatísticas</Heading>
 
               <div className="mt-5">
-                <CardItem title="Cap de Mercado" value="$ 501,755,298,553" />
-                <CardItem
-                  title="Cap. de Mercado Dil."
-                  value="$ 541,755,298,553"
-                />
-                <CardItem title="Volume (24H)" value="$ 1,755,298,553" />
-                <CardItem
-                  title="Suply circulante"
-                  value="19,481,612 BTC"
-                  extra="92.77%"
-                />
-                <CardItem title="Suply Total" value="21,000,000 BTC" />
-                <CardItem title="Suply Máximo" value="21,000,000 BTC" />
-                <CardItem
-                  title="Alta histórica"
-                  value="$ 68,672"
-                  extra="10 de Nov 2021"
-                />
+                {marketCurrency && (
+                  <>
+                    <CardItem
+                      title="Cap de Mercado"
+                      value={priceFormatter.format(
+                        marketCurrency?.values.marketCap ?? 0,
+                      )}
+                    />
+                    <CardItem
+                      title="Cap. de Mercado Dil."
+                      value={priceFormatter.format(
+                        marketCurrency?.values.price *
+                          marketCurrency?.maxSupply,
+                      )}
+                    />
+                    <CardItem
+                      title="Volume (24H)"
+                      value={priceFormatter.format(
+                        marketCurrency?.values.volume24h,
+                      )}
+                    />
+                    <CardItem
+                      title="Suply circulante"
+                      value={numberFormat.format(
+                        marketCurrency?.circulatingSupply,
+                      )}
+                      extra={
+                        String(
+                          (
+                            (marketCurrency?.circulatingSupply /
+                              marketCurrency?.maxSupply) *
+                            100
+                          ).toFixed(2),
+                        ) + '%'
+                      }
+                    />
+                    <CardItem
+                      title="Suply Total"
+                      value={numberFormat.format(marketCurrency?.maxSupply)}
+                      symbol={marketCurrency.symbol}
+                    />
+                    <CardItem
+                      title="Suply Máximo"
+                      value={numberFormat.format(marketCurrency?.maxSupply)}
+                      symbol={marketCurrency?.symbol}
+                    />
+                  </>
+                )}
               </div>
             </div>
           </section>
@@ -70,3 +160,8 @@ export default function MarketCurrency() {
     </div>
   )
 }
+
+export const generateStaticParams =
+  process.env.NODE_ENV === 'production' ? staticParams : undefined
+export const dynamic =
+  process.env.NODE_ENV === 'production' ? 'auto' : 'force-dynamic'
