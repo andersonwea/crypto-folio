@@ -11,6 +11,7 @@ export async function getTransactions(page: string) {
         page ?? '1'
       }`,
       {
+        next: { revalidate: 60 * 5, tags: ['transactions'] },
         headers: {
           Authorization: `Bearer ${session?.user.accessToken}`,
         },

@@ -12,6 +12,7 @@ export async function getWatchlist(page?: string) {
     const response = await fetch(
       `${process.env.NEXTBASE_URL}/me/watchlist?page=${page ?? '1'}`,
       {
+        next: { revalidate: 60 * 5, tags: ['watchlist'] },
         headers: {
           Authorization: `Bearer ${session?.user.accessToken}`,
         },

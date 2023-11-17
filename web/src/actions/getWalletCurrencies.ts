@@ -11,6 +11,7 @@ export async function getWalletCurrencies() {
     const response = await fetch(
       `${process.env.NEXTBASE_URL}/wallet/currencies`,
       {
+        next: { revalidate: 60 * 5, tags: ['walletCurrencies'] },
         headers: {
           Authorization: `Bearer ${session?.user.accessToken}`,
         },

@@ -12,6 +12,7 @@ export async function getMarketCurrencies(page?: string) {
     const response = await fetch(
       `${process.env.NEXTBASE_URL}/market/currencies?page=${page ?? '1'}`,
       {
+        next: { revalidate: 60 * 5, tags: ['marketCurrencies'] },
         headers: {
           Authorization: `Bearer ${session?.user.accessToken}`,
         },

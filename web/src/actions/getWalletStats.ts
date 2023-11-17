@@ -7,6 +7,7 @@ export async function getWalletStats() {
 
   try {
     const response = await fetch(`${process.env.NEXTBASE_URL}/me/metrics`, {
+      next: { revalidate: 60 * 5, tags: ['walletStats'] },
       headers: {
         Authorization: `Bearer ${session?.user.accessToken}`,
       },
