@@ -66,16 +66,20 @@ export function CreateTransactionForm({
     resolver: zodResolver(createTransactionFormSchema),
     defaultValues: {
       amount: 0,
-      currencyPrice: selectedMarketCurrency?.values.price ?? 0,
+      currencyPrice:
+        Number(selectedMarketCurrency?.values.price.toFixed(2)) ?? 0,
     },
   })
 
   useEffect(() => {
-    setValue('currencyPrice', selectedMarketCurrency?.values.price ?? 0)
+    setValue(
+      'currencyPrice',
+      Number(selectedMarketCurrency?.values.price.toFixed(2)) ?? 0,
+    )
   }, [selectedMarketCurrency])
 
   const amount = watch('amount')
-  const currencyPrice = watch('currencyPrice')
+  const currencyPrice = Number(watch('currencyPrice').toFixed(2))
 
   async function handleCreateTransaction(data: CreateTransactionForm) {
     if (!selectedMarketCurrency) {
@@ -188,7 +192,8 @@ export function CreateTransactionForm({
         <input
           className="bg-transparent font-bold text-2xl block outline-0"
           readOnly={true}
-          value={amount * currencyPrice}
+          type="number"
+          value={(amount * currencyPrice).toFixed(2)}
         />
       </label>
 
