@@ -4,9 +4,10 @@ interface CardItemProps {
   title: string
   value: string
   extra?: string
+  symbol?: string
 }
 
-export function CardItem({ title, value, extra }: CardItemProps) {
+export function CardItem({ title, value, extra, symbol }: CardItemProps) {
   return (
     <Flex
       justify={'between'}
@@ -15,8 +16,10 @@ export function CardItem({ title, value, extra }: CardItemProps) {
       <Text className="text-zinc-400">{title}</Text>
 
       <div className="text-end">
-        <Text className="block">{value}</Text>
-        {extra && <Text className="text-zinc-400">92.77%</Text>}
+        <Text className="block">
+          {value || '∞'} {symbol}
+        </Text>
+        {extra && <Text className="text-zinc-400">{extra}</Text>}
       </div>
     </Flex>
   )
