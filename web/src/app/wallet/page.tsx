@@ -9,6 +9,8 @@ interface WalletPageProps {
   }
 }
 
+export const revalidate = 60 * 5 // 5 Minutes
+
 export default async function WalletPage({ searchParams }: WalletPageProps) {
   const { page } = searchParams
 
