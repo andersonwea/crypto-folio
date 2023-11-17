@@ -37,11 +37,11 @@ export const authOptions = {
           body: JSON.stringify(credentials),
         })
 
-        const user = await res.json()
-
-        if (!user) {
+        if (!res.ok) {
           return null
         }
+
+        const user = await res.json()
 
         return user
       },

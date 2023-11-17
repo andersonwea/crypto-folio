@@ -9,6 +9,7 @@ import * as z from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { signIn } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 
 const authenticateFormSchema = z.object({
   email: z
@@ -31,13 +32,21 @@ export function AuthenticateForm() {
     resolver: zodResolver(authenticateFormSchema),
   })
 
+  const router = useRouter()
+
   async function handleAuthenticateUser(data: AuthenticateFormData) {
-    await signIn('credentials', {
+    const res = await signIn('credentials', {
       email: data.email,
       password: data.password,
-      redirect: true,
+      redirect: false,
       callbackUrl: '/',
     })
+
+    if (res?.status === 401) {
+      return alert('Email ou senha incorretos')
+    }
+
+    router.refresh()
   }
 
   return (
