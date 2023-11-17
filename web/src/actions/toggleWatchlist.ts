@@ -19,8 +19,6 @@ export async function toggleWatchlist(currencyId: number) {
         },
       },
     )
-
-    revalidatePath('/')
   } catch (err) {
     console.log(err)
 
