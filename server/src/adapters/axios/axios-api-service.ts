@@ -26,7 +26,7 @@ export class AxiosApiService implements ApiService {
       symbol: data.symbol,
       image: data.images['60x60'],
       values: data.values.USD,
-      maxSupply: data.maxSupply,
+      maxSupply: data.totalSupply,
       circulatingSupply: data.circulatingSupply,
     }
 
