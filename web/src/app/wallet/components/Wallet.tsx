@@ -5,6 +5,7 @@ import { Card } from './Card'
 import { TextInput } from '@/components/TextInput'
 import { useState } from 'react'
 import { WalletCurrency } from '@/@types'
+import { EmptyCard } from './EmptyCard'
 
 interface WalletProps {
   maxWidth?: number
@@ -33,17 +34,21 @@ export function Wallet({ maxWidth, walletCurrencies }: WalletProps) {
         style={{ maxWidth: maxWidth || '100%', maxHeight: 255 }}
       >
         <div className="flex space-x-7 py-4">
-          {walletCurrencies
-            .filter((walletCurrency) =>
-              walletCurrency.name.includes(search.toLocaleLowerCase()),
-            )
-            .map((walletCurrency, index) => (
-              <Card
-                key={walletCurrency.id}
-                currency={walletCurrency}
-                color={colors[index % colors.length]}
-              />
-            ))}
+          {walletCurrencies.length === 0 ? (
+            <EmptyCard />
+          ) : (
+            walletCurrencies
+              .filter((walletCurrency) =>
+                walletCurrency.name.includes(search.toLocaleLowerCase()),
+              )
+              .map((walletCurrency, index) => (
+                <Card
+                  key={walletCurrency.id}
+                  currency={walletCurrency}
+                  color={colors[index % colors.length]}
+                />
+              ))
+          )}
         </div>
       </ScrollArea>
     </section>
