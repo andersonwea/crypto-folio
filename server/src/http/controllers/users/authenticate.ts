@@ -27,7 +27,7 @@ export async function authenticate(
       {
         sign: {
           sub: user.id,
-          expiresIn: '10m',
+          expiresIn: '30m',
         },
       },
     )
@@ -42,7 +42,7 @@ export async function authenticate(
       },
     )
 
-    const tenMinutesInMilliseconds = 1000 * 60 * 10
+    const tenMinutesInMilliseconds = 1000 * 60 * 30
 
     const expireIn = new Date().getTime() + tenMinutesInMilliseconds
 

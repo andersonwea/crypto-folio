@@ -8,7 +8,7 @@ export async function refresh(request: FastifyRequest, reply: FastifyReply) {
     {
       sign: {
         sub: request.user.sub,
-        expiresIn: '10m',
+        expiresIn: '30m',
       },
     },
   )
@@ -23,7 +23,7 @@ export async function refresh(request: FastifyRequest, reply: FastifyReply) {
     },
   )
 
-  const tenMinutesInMilliseconds = 1000 * 60 * 10
+  const tenMinutesInMilliseconds = 1000 * 60 * 30
 
   const expireIn = new Date().getTime() + tenMinutesInMilliseconds
 
