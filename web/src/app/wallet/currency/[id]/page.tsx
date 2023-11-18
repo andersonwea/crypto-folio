@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 async function staticParams() {
   const { walletCurrencies } = await getWalletCurrencies()
 
-  if (!walletCurrencies) return null
+  if (!walletCurrencies) return []
 
   const walletCurrenciesIds = walletCurrencies.map((walletCurrency) => ({
     id: walletCurrency.id,
