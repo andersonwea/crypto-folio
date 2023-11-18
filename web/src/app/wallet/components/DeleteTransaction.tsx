@@ -23,7 +23,7 @@ export function DeleteTransaction({
 
   return (
     <AlertDialog.Root>
-      <AlertDialog.Trigger>
+      <AlertDialog.Trigger className="hover:bg-[#f0f0f3] transition-colors">
         <IconButton variant="ghost" color="gray">
           <Trash2 size={18} />
         </IconButton>

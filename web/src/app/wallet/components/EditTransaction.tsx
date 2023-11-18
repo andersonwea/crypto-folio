@@ -77,8 +77,8 @@ export function EditTransaction({ transaction }: EditTransactionProps) {
       open={isEditTransactionModalOpen}
       onOpenChange={setIsEditTransactionModalOpen}
     >
-      <Dialog.Trigger>
-        <IconButton variant="ghost" color="gray">
+      <Dialog.Trigger className="hover:bg-[#f0f0f3] transition-colors">
+        <IconButton variant="ghost" color="gray" className="">
           <Pencil size={18} />
         </IconButton>
       </Dialog.Trigger>
