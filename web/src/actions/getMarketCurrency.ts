@@ -7,17 +7,18 @@ import { getServerSession } from 'next-auth'
 
 export async function getMarketCurrency(cryptocurrencyId: string) {
   const session = await getServerSession(authOptions)
-
   try {
-    const response = await fetch(`/market/currencies/${cryptocurrencyId}`, {
-      next: { revalidate: 60 * 5, tags: ['marketCurrency'] },
-      headers: {
-        Authorization: `Bearer ${session?.user.accessToken}`,
+    const response = await fetch(
+      `${process.env.NEXTBASE_URL}/market/currencies/${cryptocurrencyId}`,
+      {
+        next: { revalidate: 60 * 5, tags: ['marketCurrency'] },
+        headers: {
+          Authorization: `Bearer ${session?.user.accessToken}`,
+        },
       },
-    })
+    )
 
     const marketCurrency = (await response.json()) as MarketCurrency
-
     return {
       marketCurrency,
     }
