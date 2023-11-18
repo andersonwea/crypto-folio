@@ -106,6 +106,7 @@ export const authOptions = {
           session.user = {
             ...user,
             accessToken: token.accessToken,
+            expireIn: token.expireIn,
           }
         }
       }
