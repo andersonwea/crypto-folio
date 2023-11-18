@@ -16,6 +16,8 @@ export interface WalletCurrency {
   amount: number
   user_id: string
   balance: number
+  amountInvested: number
+  profitOrLoss: number
   transactions: Transaction[]
 }
 
