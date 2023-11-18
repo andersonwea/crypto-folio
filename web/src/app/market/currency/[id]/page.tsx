@@ -1,8 +1,6 @@
 import { Header } from '@/components/Header'
-import { Box, Card, Flex, Grid, Heading, Text } from '@radix-ui/themes'
-import bitcoinLogo from '@/assets/bitcoin.png'
+import { Flex, Heading, Text } from '@radix-ui/themes'
 import Image from 'next/image'
-import { Star } from 'lucide-react'
 import { CardItem } from '../../components/CardItem'
 import { getMarketCurrencies } from '@/actions/getMarketCurrencies'
 import { getMarketCurrency } from '@/actions/getMarketCurrency'
@@ -32,7 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 async function staticParams() {
   const { marketCurrencies } = await getMarketCurrencies()
 
-  if (!marketCurrencies) return null
+  if (!marketCurrencies) return []
 
   const marketCurrenciesIds = marketCurrencies.map((marketCurrency) => ({
     id: marketCurrency.id,
