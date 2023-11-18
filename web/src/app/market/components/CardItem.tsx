@@ -11,9 +11,10 @@ export function CardItem({ title, value, extra, symbol }: CardItemProps) {
   return (
     <Flex
       justify={'between'}
+      align={'center'}
       className="p-2 border-b-[1px] border-zinc-400 last:border-b-0"
     >
-      <Text className="text-zinc-400">{title}</Text>
+      <Text className="text-zinc-400 py-1 mr-3">{title}</Text>
 
       <div className="text-end">
         <Text className="block">
