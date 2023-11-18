@@ -11,6 +11,7 @@ import { priceFormatter } from '@/utils/priceFormatter'
 import { getWatchlist } from '@/actions/getWatchlist'
 import { WatchlistButton } from '@/components/WatchlistButton'
 import { numberFormat } from '@/utils/number-format'
+import TradingViewWidget from '@/components/TradingViewWidget'
 
 interface Props {
   params: {
@@ -49,58 +50,79 @@ export default async function MarketCurrency({ params }: Props) {
   const { watchlist } = await getWatchlist()
 
   return (
-    <div>
+    <div className="h-[850px] flex flex-col">
       <Header title="Mercado" />
 
-      <main className="mt-7">
-        <Grid columns={'1fr 0.7fr'}>
-          <section>
+      <main className="mt-7 max-h-full flex-grow">
+        <div className="grid grid-cols-[1fr_0.7fr] h-full max-lg:grid-cols-1 lg:gap-4 xl:gap-7">
+          <section className="flex-flex-col justify-between">
             <Heading>Criptotomoedas</Heading>
-            <Flex className="mt-5 space-x-16">
-              <Flex gap={'2'} align={'center'}>
-                <Image
-                  src={marketCurrency?.image ?? ''}
-                  alt="bitcoin logo"
-                  width={48}
-                  height={48}
-                />
-                <Heading as="h2" className="capitalize">
-                  {marketCurrency?.name}
-                </Heading>
-                <Text color="gray">{marketCurrency?.symbol}</Text>
-                {marketCurrency && watchlist && (
-                  <WatchlistButton
-                    marketCurrency={marketCurrency}
-                    watchlist={watchlist}
+
+            <div className="flex flex-col h-[90%] justify-between">
+              <Flex
+                className="mt-5"
+                direction={{
+                  initial: 'column',
+                  sm: 'row',
+                }}
+                gap={{
+                  initial: '3',
+                  sm: '9',
+                }}
+              >
+                <Flex gap={'2'} align={'center'}>
+                  <Image
+                    src={marketCurrency?.image ?? ''}
+                    alt="bitcoin logo"
+                    width={48}
+                    height={48}
                   />
-                )}
+                  <Heading as="h2" className="capitalize">
+                    {marketCurrency?.name}
+                  </Heading>
+                  <Text color="gray">{marketCurrency?.symbol}</Text>
+                  {marketCurrency && watchlist && (
+                    <WatchlistButton
+                      marketCurrency={marketCurrency}
+                      watchlist={watchlist}
+                    />
+                  )}
+                </Flex>
+
+                <Flex align={'end'} gap={'2'}>
+                  <div>
+                    <Text color="gray" className="block">
+                      {marketCurrency?.symbol} Preço
+                    </Text>
+                    <Heading>
+                      {priceFormatter.format(marketCurrency?.values.price ?? 0)}
+                    </Heading>
+                  </div>
+                  <Text
+                    color={
+                      marketCurrency &&
+                      marketCurrency?.values.percentChange24h > 0
+                        ? 'green'
+                        : 'red'
+                    }
+                  >
+                    {marketCurrency?.values.percentChange24h.toFixed(2)}%
+                  </Text>
+                </Flex>
               </Flex>
 
-              <Flex align={'end'} gap={'2'}>
-                <div>
-                  <Text color="gray" className="block">
-                    {marketCurrency?.symbol} Preço
-                  </Text>
-                  <Heading>
-                    {priceFormatter.format(marketCurrency?.values.price ?? 0)}
-                  </Heading>
+              {marketCurrency && (
+                <div className="h-[500px] max-lg:mt-10">
+                  <TradingViewWidget
+                    marketCurrencySymbol={marketCurrency?.symbol}
+                  />
                 </div>
-                <Text
-                  color={
-                    marketCurrency &&
-                    marketCurrency?.values.percentChange24h > 0
-                      ? 'green'
-                      : 'red'
-                  }
-                >
-                  {marketCurrency?.values.percentChange24h.toFixed(2)}%
-                </Text>
-              </Flex>
-            </Flex>
+              )}
+            </div>
           </section>
 
-          <section>
-            <div className="mx-4 p-8 rounded-[30px] bg-gray-800 text-white mt-auto">
+          <section className="flex mb-[70px]">
+            <div className="mx-2 py-8 px-5 rounded-[30px] bg-gray-800 text-white mt-auto self-end w-full">
               <Heading>BTC Estatísticas</Heading>
 
               <div className="mt-5">
@@ -155,7 +177,7 @@ export default async function MarketCurrency({ params }: Props) {
               </div>
             </div>
           </section>
-        </Grid>
+        </div>
       </main>
     </div>
   )
