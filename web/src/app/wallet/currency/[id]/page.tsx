@@ -1,12 +1,67 @@
 import { Heading, Text } from '@radix-ui/themes'
 import Image from 'next/image'
 import { Transactions } from '../../components/Transactions'
+import { getWalletCurrencies } from '@/actions/getWalletCurrencies'
+import { getWalletCurrency } from '@/actions/getWalletCurrency'
+import { Metadata } from 'next'
+import { priceFormatter } from '@/utils/priceFormatter'
 
-export default async function currency() {
+interface Props {
+  params: {
+    id: string
+  }
+  searchParams: {
+    page: string
+  }
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const currencyId = params.id
+
+  const { walletCurrency } = await getWalletCurrency(currencyId)
+
+  return {
+    title: `${walletCurrency?.name} | Crypto folio`,
+  }
+}
+
+async function staticParams() {
+  const { walletCurrencies } = await getWalletCurrencies()
+
+  if (!walletCurrencies) return null
+
+  const walletCurrenciesIds = walletCurrencies.map((walletCurrency) => ({
+    id: walletCurrency.id,
+  }))
+
+  return walletCurrenciesIds
+}
+
+export const revalidate = 60 * 5 // 5 Minutes
+
+export default async function currency({ params, searchParams }: Props) {
+  const currencyId = params.id
+  const { page } = searchParams
+
+  const { walletCurrency } = await getWalletCurrency(currencyId)
+
+  if (!walletCurrency) {
+    return null
+  }
+
+  const transactionsTotalValueInCents = walletCurrency?.transactions.reduce(
+    (acc, curr) => (acc += curr.value),
+    0,
+  )
+  const mediaPrice =
+    transactionsTotalValueInCents / 100 / walletCurrency?.amount
+
   return (
     <>
       <section className="pt-7">
-        <Heading as="h2">Bitcoin</Heading>
+        <Heading as="h2" className="capitalize">
+          {walletCurrency?.name}
+        </Heading>
 
         <div className="pt-7">
           <Text as="p" color="gray">
@@ -16,13 +71,15 @@ export default async function currency() {
           <div className="flex items-center gap-3 pt-3">
             <div>
               <Image
-                src="https://img.api.cryptorank.io/coins/60x60.bitcoin1524754012028.png"
-                alt="icone do USD"
+                src={walletCurrency?.image || ''}
+                alt={`icone do ${walletCurrency?.name}`}
                 width={32}
                 height={32}
               />
             </div>
-            <Heading as="h3">$ 25,888.59</Heading>
+            <Heading as="h3">
+              {priceFormatter.format(walletCurrency?.balance)}
+            </Heading>
           </div>
         </div>
 
@@ -32,7 +89,7 @@ export default async function currency() {
               Quantidade
             </Text>
             <Text weight={'bold'} size={'3'}>
-              1 BTC
+              {walletCurrency?.amount} {walletCurrency?.symbol}
             </Text>
           </div>
 
@@ -41,7 +98,7 @@ export default async function currency() {
               Preço médio
             </Text>
             <Text weight={'bold'} size={'3'}>
-              $ 25,888,59
+              {priceFormatter.format(mediaPrice)}
             </Text>
           </div>
 
@@ -49,14 +106,26 @@ export default async function currency() {
             <Text as={'p'} color="gray">
               Lucro/Perda total
             </Text>
-            <Text size={'3'} color="green">
-              +13.38%
+            <Text
+              size={'3'}
+              color={walletCurrency.profitOrLoss < 0 ? 'red' : 'green'}
+            >
+              {walletCurrency.profitOrLoss}%
             </Text>
           </div>
         </div>
       </section>
 
-      <Transactions />
+      <Transactions
+        page={page}
+        transactions={walletCurrency.transactions}
+        totalTransactions={walletCurrency.transactions.length}
+      />
     </>
   )
 }
+
+export const generateStaticParams =
+  process.env.NODE_ENV === 'production' ? staticParams : undefined
+export const dynamic =
+  process.env.NODE_ENV === 'production' ? 'auto' : 'force-dynamic'
