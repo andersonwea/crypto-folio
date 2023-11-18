@@ -44,7 +44,7 @@ export function Wallet({ maxWidth, walletCurrencies }: WalletProps) {
               .map((walletCurrency, index) => (
                 <Card
                   key={walletCurrency.id}
-                  currency={walletCurrency}
+                  walletCurrency={walletCurrency}
                   color={colors[index % colors.length]}
                 />
               ))
