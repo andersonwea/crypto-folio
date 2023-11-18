@@ -1,7 +1,7 @@
 import { Dialog, IconButton } from '@radix-ui/themes'
 import { X } from 'lucide-react'
 import { CurrencyItem } from './CurrencyItem'
-import { useCurrencyStore } from '@/store/useCurrencyStore'
+import { useStore } from '@/store/useStore'
 import { SearchBar } from '@/components/SearchBar'
 import { MarketCurrency } from '@/@types'
 
@@ -10,7 +10,7 @@ interface SelectCurrencyProps {
 }
 
 export function SelectCurrency({ marketCurrencies }: SelectCurrencyProps) {
-  const setSelectedMarketCurrency = useCurrencyStore(
+  const setSelectedMarketCurrency = useStore(
     (state) => state.setSelectedMarketCurrency,
   )
 

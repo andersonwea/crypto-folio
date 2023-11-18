@@ -5,7 +5,6 @@ import { TextInput } from '@/components/TextInput'
 import { Text } from '@radix-ui/themes'
 import { CurrencyItem } from './CurrencyItem'
 import dayjs from 'dayjs'
-import { useCurrencyStore } from '@/store/useCurrencyStore'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -42,13 +41,11 @@ function getActualDate() {
 export function CreateTransactionForm({
   transactionType,
 }: CreateTransactionFormProps) {
-  const activeSearch = useCurrencyStore(
-    useCallback((state) => state.activeSearch, []),
-  )
-  const setActiveSearch = useCurrencyStore(
+  const activeSearch = useStore(useCallback((state) => state.activeSearch, []))
+  const setActiveSearch = useStore(
     useCallback((state) => state.setActiveSearch, []),
   )
-  const selectedMarketCurrency = useCurrencyStore(
+  const selectedMarketCurrency = useStore(
     useCallback((state) => state.selectedMarketCurrency, []),
   )
   const setIsTransactionModalOpen = useStore(

@@ -3,7 +3,7 @@
 import { ScrollArea } from '@radix-ui/themes'
 import { TextInput } from './TextInput'
 import { CurrencyItem } from '@/app/wallet/components/CurrencyItem'
-import { useCurrencyStore } from '@/store/useCurrencyStore'
+import { useStore } from '@/store/useStore'
 import { ChangeEvent, useCallback, useState } from 'react'
 import debounce from 'lodash/debounce'
 import { MarketCurrency } from '@/@types'
@@ -12,10 +12,9 @@ import { useSession } from 'next-auth/react'
 import { usePathname, useRouter } from 'next/navigation'
 
 export function SearchBar() {
-  const search = useCurrencyStore((state) => state.search)
-  const setSearch = useCurrencyStore((state) => state.setSearch)
+  const [search, setSearch] = useState('')
   const [searchResult, setSearchResult] = useState<MarketCurrency[]>([])
-  const setSelectedMarketCurrency = useCurrencyStore(
+  const setSelectedMarketCurrency = useStore(
     (state) => state.setSelectedMarketCurrency,
   )
 
@@ -30,7 +29,8 @@ export function SearchBar() {
       return
     }
     console.log('procurou')
-    if (session && Date.now() < session.user.expireIn) {
+    console.log(session)
+    if (session && Date.now() > session.user.expireIn) {
       console.log('atualizando token...')
       update()
     }
