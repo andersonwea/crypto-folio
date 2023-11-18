@@ -25,3 +25,7 @@
 .rt-SelectTrigger {
   @apply w-full grid grid-cols-[1fr_auto] cursor-pointer
 }
+
+.rt-ScrollAreaViewport > div {
+  @apply min-h-full
+}
