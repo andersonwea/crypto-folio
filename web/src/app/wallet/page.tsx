@@ -2,6 +2,7 @@ import { Heading } from '@radix-ui/themes'
 import { Transactions } from './components/Transactions'
 import { WalletStats } from '@/components/WalletStats'
 import { getWalletStats } from '@/actions/getWalletStats'
+import { getTransactions } from '@/actions/getTransactions'
 
 interface WalletPageProps {
   searchParams: {
@@ -15,6 +16,7 @@ export default async function WalletPage({ searchParams }: WalletPageProps) {
   const { page } = searchParams
 
   const { metrics } = await getWalletStats()
+  const { totalTransactions, transactions } = await getTransactions(page)
 
   return (
     <>
@@ -26,7 +28,13 @@ export default async function WalletPage({ searchParams }: WalletPageProps) {
         </div>
       </section>
 
-      <Transactions page={page} />
+      {transactions && (
+        <Transactions
+          page={page}
+          transactions={transactions}
+          totalTransactions={totalTransactions}
+        />
+      )}
     </>
   )
 }

@@ -7,17 +7,22 @@ import { NavPages } from '@/app/market/components/NavPages'
 import { EditTransaction } from './EditTransaction'
 import { DeleteTransaction } from './DeleteTransaction'
 import { getWalletCurrencies } from '@/actions/getWalletCurrencies'
-import { getTransactions } from '@/actions/getTransactions'
 import { getMarketCurrencies } from '@/actions/getMarketCurrencies'
+import { Transaction } from '@/@types'
 
 interface TransactionsProps {
+  transactions: Transaction[]
+  totalTransactions: number
   page?: string
 }
 
-export async function Transactions({ page = '1' }: TransactionsProps) {
+export async function Transactions({
+  transactions,
+  totalTransactions,
+  page = '1',
+}: TransactionsProps) {
   const { walletCurrencies } = await getWalletCurrencies()
   const { marketCurrencies } = await getMarketCurrencies()
-  const { totalTransactions, transactions } = await getTransactions(page)
 
   const totalPages = Math.floor((totalTransactions ?? 0) / 7) + 1
 
@@ -100,7 +105,13 @@ export async function Transactions({ page = '1' }: TransactionsProps) {
                     <td className="min-w-[85px]">
                       {priceFormatter.format(transaction.value / 100)}
                     </td>
-                    <td className="min-w-[85px]">
+                    <td
+                      className={`min-w-[85px] ${
+                        transaction.amount < 0
+                          ? 'text-red-500'
+                          : 'text-green-500'
+                      }`}
+                    >
                       {transaction.amount + ' ' + currency.symbol}
                     </td>
                     <td className="min-w-[85px]">
