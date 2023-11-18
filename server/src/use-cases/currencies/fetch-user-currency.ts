@@ -1,14 +1,10 @@
-import {
-  CurrenciesRepository,
-  CurrencyWithTransactions,
-} from '@/repositories/currencies-repository'
+import { CurrenciesRepository } from '@/repositories/currencies-repository'
 import { ResourceNotFoundError } from '../errors/resource-not-found-error'
-import { calculateUserCurrenciesBalance } from '@/utils/calculate-user-currencies-balance'
+import {
+  UserCurrencyWithBalance,
+  calculateUserCurrenciesBalance,
+} from '@/utils/calculate-user-currencies-balance'
 import { ApiService } from '@/adapters/api-service'
-
-export interface UserCurrencyWithBalance extends CurrencyWithTransactions {
-  balance: number
-}
 
 interface FetchUserCurrencyUseCaseRequest {
   currencyId: string
