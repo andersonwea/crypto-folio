@@ -3,20 +3,12 @@
 }
 
 .rt-variant-ghost {
-  @apply p-0 h-8 w-8
+  @apply p-0 h-8 w-8 
 }
 
 .rt-BaseButton {
   @apply cursor-pointer
 }
-
-/* .rt-DialogContent {
-  @apply max-w-[550px] rounded-[45px]
-} */
-
-/* .rt-TabsList {
-  @apply grid grid-cols-2
-} */
 
 .rt-TabsTrigger {
   @apply block cursor-pointer
