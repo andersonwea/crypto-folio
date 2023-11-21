@@ -1,5 +1,5 @@
-import { getMarketCurrencies } from '@/actions/getMarketCurrencies'
-import { getWatchlist } from '@/actions/getWatchlist'
+import { getMarketCurrencies } from '@/actions/currencies/getMarketCurrencies'
+import { getWatchlist } from '@/actions/watchlist/getWatchlist'
 import { CryptoList } from '@/components/CryptoList'
 import { Header } from '@/components/Header'
 import { Heading } from '@radix-ui/themes'

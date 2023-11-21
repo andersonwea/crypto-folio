@@ -1,7 +1,7 @@
 'use client'
 
 import { Transaction } from '@/@types'
-import { editTransaction } from '@/actions/editTransaction'
+import { editTransaction } from '@/actions/transactions/editTransaction'
 import { Button } from '@/components/Button'
 import { TextInput } from '@/components/TextInput'
 import { zodResolver } from '@hookform/resolvers/zod'

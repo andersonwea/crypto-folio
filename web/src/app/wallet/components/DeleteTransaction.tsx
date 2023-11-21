@@ -1,6 +1,6 @@
 'use client'
 
-import { deleteTransaction } from '@/actions/deleteTransaction'
+import { deleteTransaction } from '@/actions/transactions/deleteTransaction'
 import { AlertDialog, Button, Flex, IconButton } from '@radix-ui/themes'
 import { Trash2 } from 'lucide-react'
 import { toast } from 'react-toastify'

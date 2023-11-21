@@ -3,9 +3,9 @@ import { CryptoList } from '@/components/CryptoList'
 import { Wallet } from '@/app/wallet/components/Wallet'
 import { Heading } from '@radix-ui/themes'
 import { WalletStats } from '@/components/WalletStats'
-import { getWatchlist } from '@/actions/getWatchlist'
-import { getMarketCurrencies } from '@/actions/getMarketCurrencies'
-import { getWalletCurrencies } from '@/actions/getWalletCurrencies'
+import { getWatchlist } from '@/actions/watchlist/getWatchlist'
+import { getMarketCurrencies } from '@/actions/currencies/getMarketCurrencies'
+import { getWalletCurrencies } from '@/actions/currencies/getWalletCurrencies'
 import { getWalletStats } from '@/actions/getWalletStats'
 
 interface DashboardProps {

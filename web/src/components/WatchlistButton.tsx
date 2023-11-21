@@ -1,7 +1,7 @@
 'use client'
 
 import { MarketCurrency } from '@/@types'
-import { toggleWatchlist } from '@/actions/toggleWatchlist'
+import { toggleWatchlist } from '@/actions/watchlist/toggleWatchlist'
 import { Star } from 'lucide-react'
 import { experimental_useOptimistic as useOptimistic } from 'react'
 

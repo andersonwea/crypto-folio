@@ -34,5 +34,9 @@ export async function upload(formData: FormData) {
         uploadError: err.response?.data.message as string,
       }
     }
+
+    return {
+      error: 'Erro inesperado, tente novamente mais tarde.',
+    }
   }
 }

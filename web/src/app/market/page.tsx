@@ -1,7 +1,7 @@
 import { Header } from '@/components/Header'
 import { CryptoList } from '@/components/CryptoList'
-import { getMarketCurrencies } from '@/actions/getMarketCurrencies'
-import { getWatchlist } from '@/actions/getWatchlist'
+import { getMarketCurrencies } from '@/actions/currencies/getMarketCurrencies'
+import { getWatchlist } from '@/actions/watchlist/getWatchlist'
 import { Heading } from '@radix-ui/themes'
 import { SearchBar } from '@/components/SearchBar'
 

@@ -30,10 +30,13 @@ export async function updateUserProfile(data: updateUserProfileProps) {
     }
   } catch (err) {
     if (err instanceof AxiosError) {
-      console.log(err.response?.data.issues)
       return {
         updateUserProfileError: err.response?.data.message as string,
       }
+    }
+
+    return {
+      error: 'Erro inesperado, tente novamente mais tarde.',
     }
   }
 }

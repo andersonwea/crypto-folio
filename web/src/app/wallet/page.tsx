@@ -2,7 +2,7 @@ import { Heading } from '@radix-ui/themes'
 import { Transactions } from './components/Transactions'
 import { WalletStats } from '@/components/WalletStats'
 import { getWalletStats } from '@/actions/getWalletStats'
-import { getTransactions } from '@/actions/getTransactions'
+import { getTransactions } from '@/actions/transactions/getTransactions'
 
 interface WalletPageProps {
   searchParams: {

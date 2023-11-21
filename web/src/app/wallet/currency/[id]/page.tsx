@@ -1,7 +1,7 @@
 import { Heading, Text } from '@radix-ui/themes'
 import Image from 'next/image'
 import { Transactions } from '../../components/Transactions'
-import { getWalletCurrency } from '@/actions/getWalletCurrency'
+import { getWalletCurrency } from '@/actions/currencies/getWalletCurrency'
 import { Metadata } from 'next'
 import { priceFormatter } from '@/utils/priceFormatter'
 

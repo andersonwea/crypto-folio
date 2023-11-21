@@ -1,7 +1,7 @@
 'use client'
 
-import { updateUserProfile } from '@/actions/updateUserProfile'
-import { upload } from '@/actions/upload'
+import { updateUserProfile } from '@/actions/user/updateUserProfile'
+import { upload } from '@/actions/user/upload'
 import { Button } from '@/components/Button'
 import { TextInput } from '@/components/TextInput'
 import { zodResolver } from '@hookform/resolvers/zod'

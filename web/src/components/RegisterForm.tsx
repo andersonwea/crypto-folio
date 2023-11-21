@@ -8,7 +8,7 @@ import googleIcon from '@/assets/google.svg'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import { registerUser } from '@/actions/registerUser'
+import { registerUser } from '@/actions/user/registerUser'
 import { toast } from 'react-toastify'
 
 const registerFormSchema = z.object({

@@ -9,7 +9,7 @@ import { priceFormatter } from '@/utils/priceFormatter'
 import { bigNumberFormatter } from '@/utils/bigNumberFormatter'
 import { MarketCurrency } from '@/@types'
 import { experimental_useOptimistic as useOptimistic } from 'react'
-import { toggleWatchlist } from '@/actions/toggleWatchlist'
+import { toggleWatchlist } from '@/actions/watchlist/toggleWatchlist'
 
 interface CryptoListProps {
   page?: string

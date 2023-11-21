@@ -6,8 +6,8 @@ import { priceFormatter } from '@/utils/priceFormatter'
 import { NavPages } from '@/app/market/components/NavPages'
 import { EditTransaction } from './EditTransaction'
 import { DeleteTransaction } from './DeleteTransaction'
-import { getWalletCurrencies } from '@/actions/getWalletCurrencies'
-import { getMarketCurrencies } from '@/actions/getMarketCurrencies'
+import { getWalletCurrencies } from '@/actions/currencies/getWalletCurrencies'
+import { getMarketCurrencies } from '@/actions/currencies/getMarketCurrencies'
 import { Transaction } from '@/@types'
 
 interface TransactionsProps {
