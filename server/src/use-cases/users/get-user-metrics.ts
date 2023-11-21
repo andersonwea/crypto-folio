@@ -9,7 +9,7 @@ interface GetUserMetricsUseCaseRequest {
 interface GetUserMetricsUseCaseResponse {
   totalInvested: number
   totalBalance: number
-  profitOrLoss: number
+  profitOrLoss: string
 }
 
 export class GetUserMetricsUseCase {
@@ -63,7 +63,7 @@ export class GetUserMetricsUseCase {
       0,
     )
 
-    const profitOrLoss = Number((totalBalance / totalInvested - 1).toFixed(2))
+    const profitOrLoss = ((totalBalance / totalInvested - 1) * 100).toFixed(2)
 
     return {
       totalInvested,
