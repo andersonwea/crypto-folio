@@ -4,7 +4,7 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { api } from '@/libs/api'
 import { AxiosError } from 'axios'
 import { getServerSession } from 'next-auth'
-import { revalidatePath } from 'next/cache'
+import { revalidateTag } from 'next/cache'
 
 export async function deleteTransaction(
   transactionId: string,
@@ -22,7 +22,7 @@ export async function deleteTransaction(
       },
     )
 
-    revalidatePath('/wallet')
+    revalidateTag('walletCurrencies')
   } catch (err) {
     if (err instanceof AxiosError) {
       return {

@@ -5,7 +5,7 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { api } from '@/libs/api'
 import { AxiosError } from 'axios'
 import { getServerSession } from 'next-auth'
-import { revalidatePath } from 'next/cache'
+import { revalidateTag } from 'next/cache'
 
 export async function addTransaction(
   data: NewTransactionInput,
@@ -26,7 +26,7 @@ export async function addTransaction(
 
     const transaction = response.data
 
-    revalidatePath('/wallet')
+    revalidateTag('walletCurrencies')
 
     return {
       transaction,
