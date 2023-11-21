@@ -28,10 +28,8 @@ export function SearchBar() {
     if (search.length < 2) {
       return
     }
-    console.log('procurou')
-    console.log(session)
+
     if (session && Date.now() > session.user.expireIn) {
-      console.log('atualizando token...')
       update()
     }
 
