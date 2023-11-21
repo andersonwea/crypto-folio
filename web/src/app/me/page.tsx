@@ -18,7 +18,6 @@ export default async function Profile() {
         >
           <UpdateProfileForm />
           <ProfileCard />
-          {/* <UpdatePrivacyProfileForm /> */}
         </Grid>
       </main>
     </div>
