@@ -23,6 +23,8 @@ export async function deleteTransaction(
     )
 
     revalidateTag('walletCurrencies')
+    revalidateTag('transactions')
+    revalidateTag('walletStats')
   } catch (err) {
     if (err instanceof AxiosError) {
       return {

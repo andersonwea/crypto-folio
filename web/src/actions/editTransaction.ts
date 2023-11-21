@@ -28,6 +28,8 @@ export async function editTransaction(data: Omit<Transaction, 'type'>) {
     const transaction = response.data
 
     revalidateTag('walletCurrencies')
+    revalidateTag('transactions')
+    revalidateTag('walletStats')
 
     return {
       transaction,

@@ -27,6 +27,8 @@ export async function addTransaction(
     const transaction = response.data
 
     revalidateTag('walletCurrencies')
+    revalidateTag('transactions')
+    revalidateTag('walletStats')
 
     return {
       transaction,
