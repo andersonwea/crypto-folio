@@ -79,9 +79,23 @@ export type NewWalletCurrencyInput = {
   cryptocurrencyId: number
 }
 
+export type User = {
+  id: string
+  email: string
+  nickname: string
+  avatarUrl: string | null
+  createdAt: string
+}
+
 export type NewTransactionInput = {
   type: string
   value: number
   amount: number
   createdAt: Date
+}
+
+export type NewUserInput = {
+  email: string
+  nickname: string
+  password: string
 }
