@@ -39,10 +39,10 @@ export function RegisterForm() {
   })
 
   async function handleRegisterUser(data: RegisterFormData) {
-    const { registerError } = await registerUser(data)
+    const { registerError, error } = await registerUser(data)
 
-    if (registerError) {
-      return toast.error(registerError)
+    if (registerError || error) {
+      return toast.error(registerError || error)
     }
 
     toast.success('Conta criada com sucesso!')
