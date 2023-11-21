@@ -4,7 +4,7 @@ import { CurrencyWithTransactions } from '@/repositories/currencies-repository'
 export interface UserCurrencyWithBalance extends CurrencyWithTransactions {
   balance: number
   amountInvested: number
-  profitOrLoss: string
+  profitOrLoss: number
 }
 
 export function calculateUserCurrenciesBalance(
@@ -28,7 +28,9 @@ export function calculateUserCurrenciesBalance(
           )
 
           const amountInvested = amountInvestedInCents / 100
-          const profitOrLoss = ((balance / amountInvested - 1) * 100).toFixed(2)
+          const profitOrLoss = Number(
+            ((balance / amountInvested - 1) * 100).toFixed(2),
+          )
 
           acc.push({
             ...userCurrency,
