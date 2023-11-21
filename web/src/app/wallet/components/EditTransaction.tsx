@@ -10,6 +10,7 @@ import dayjs from 'dayjs'
 import { Pencil, X } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
 import { z } from 'zod'
 
 interface EditTransactionProps {
@@ -66,8 +67,10 @@ export function EditTransaction({ transaction }: EditTransactionProps) {
     })
 
     if (editTransactionError) {
-      return alert(editTransactionError)
+      return toast.error(editTransactionError)
     }
+
+    toast.success('Transação editada com sucesso!')
 
     setIsEditTransactionModalOpen(false)
   }

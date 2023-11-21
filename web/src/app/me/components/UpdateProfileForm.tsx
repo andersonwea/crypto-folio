@@ -10,6 +10,7 @@ import { Camera } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import { ChangeEvent, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
 import { z } from 'zod'
 
 const MAX_FILE_SIZE = 500000
@@ -91,13 +92,19 @@ export function UpdateProfileForm() {
       const formData = new FormData()
       formData.append('file', data.file[0])
 
-      const uploadResponse = await upload(formData)
+      const uploadResponse = upload(formData)
 
-      if (uploadResponse?.uploadError) {
-        return alert(uploadResponse.uploadError) // TODO: add toastify lib
+      toast.promise(uploadResponse, {
+        pending: 'Salvando...',
+      })
+
+      const { uploadError, avatarUrl: avatarUrlResponse } = await uploadResponse
+
+      if (uploadError) {
+        return toast.error(uploadError)
       }
 
-      avatarUrl = uploadResponse?.avatarUrl
+      avatarUrl = avatarUrlResponse
     }
 
     const updateUserProfileResponse = await updateUserProfile({
@@ -106,10 +113,10 @@ export function UpdateProfileForm() {
     })
 
     if (updateUserProfileResponse?.updateUserProfileError) {
-      return alert(updateUserProfileResponse.updateUserProfileError) // TODO: add toastify lib
+      return toast.error(updateUserProfileResponse.updateUserProfileError)
     }
 
-    alert('Perfil atualizado com sucesso!') // TODO: add toastify lib
+    toast.success('Perfil atualizado com sucesso!')
 
     update()
     reset()

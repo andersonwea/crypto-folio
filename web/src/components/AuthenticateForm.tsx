@@ -10,6 +10,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
+import { toast } from 'react-toastify'
 
 const authenticateFormSchema = z.object({
   email: z
@@ -43,7 +44,7 @@ export function AuthenticateForm() {
     })
 
     if (res?.status === 401) {
-      return alert('Email ou senha incorretos')
+      return toast.error('Email o senha inválidos.')
     }
 
     router.refresh()

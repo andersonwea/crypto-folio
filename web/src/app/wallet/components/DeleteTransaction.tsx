@@ -3,6 +3,7 @@
 import { deleteTransaction } from '@/actions/deleteTransaction'
 import { AlertDialog, Button, Flex, IconButton } from '@radix-ui/themes'
 import { Trash2 } from 'lucide-react'
+import { toast } from 'react-toastify'
 
 interface DeleteTransactionProps {
   transactionId: string
@@ -17,8 +18,10 @@ export function DeleteTransaction({
     const response = await deleteTransaction(transactionId, currencyId)
 
     if (response?.deleteTransactionError) {
-      alert(response.deleteTransactionError)
+      return toast.error(response.deleteTransactionError)
     }
+
+    toast.success('Transação excluída com sucesso!')
   }
 
   return (

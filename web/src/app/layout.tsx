@@ -1,4 +1,5 @@
 import './globals.css'
+import 'react-toastify/dist/ReactToastify.css'
 import '@radix-ui/themes/styles.css'
 import './theme-config.css'
 import type { Metadata } from 'next'
@@ -9,6 +10,7 @@ import { MenuNav } from '@/components/MenuNav'
 import { SignIn } from '@/components/SignIn'
 import { getServerSession } from 'next-auth'
 import { authOptions } from './api/auth/[...nextauth]/route'
+import { Notification } from '@/components/Notification'
 
 const poppins = Poppins({
   weight: ['500', '700'],
@@ -32,6 +34,7 @@ export default async function RootLayout({
     <html lang="en">
       <body className={poppins.variable}>
         <Providers session={session}>
+          <Notification />
           <div className="bg-gray-800 rounded-[50px] max-sm:rounded-none p-4 max-sm:p-2 max-w-[1440px] h-[930px] max-[1920px]:h-screen m-auto max-md:rounded-none max-lg:pb-0">
             {session ? (
               <Grid

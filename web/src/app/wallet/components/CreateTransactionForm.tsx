@@ -13,6 +13,7 @@ import { SearchBar } from '@/components/SearchBar'
 import { addWalletCurrency } from '@/actions/addWalletCurrency'
 import { addTransaction } from '@/actions/addTransaction'
 import { useStore } from '@/store/useStore'
+import { toast } from 'react-toastify'
 
 interface CreateTransactionFormProps {
   transactionType: string
@@ -80,7 +81,8 @@ export function CreateTransactionForm({
 
   async function handleCreateTransaction(data: CreateTransactionForm) {
     if (!selectedMarketCurrency) {
-      return alert('Selecione uma moeda') // TODO add toastify lib
+      toast.error('Selecione uma moeda')
+      return
     }
 
     const { amount, createdAt } = data
@@ -97,7 +99,8 @@ export function CreateTransactionForm({
     })
 
     if (addWalletCurrencyResponse?.addWalletCurrencyError) {
-      return alert('Erro ao adicionar cryptomoeda') // TODO: add toastify lib
+      toast.error('Erro ao adicionar cryptomoeda')
+      return
     }
 
     if (addWalletCurrencyResponse?.walletCurrency) {
@@ -114,10 +117,11 @@ export function CreateTransactionForm({
       )
 
       if (addTransactionResponse?.addTransactionError) {
-        return alert(addTransactionResponse?.addTransactionError)
+        toast.error(addTransactionResponse?.addTransactionError)
+        return
       }
 
-      alert('Transação criada com sucesso.') // TODO: add toastify lib
+      toast.success('Transação criada com sucesso.')
       setIsTransactionModalOpen(false)
       reset()
     }
@@ -128,75 +132,81 @@ export function CreateTransactionForm({
   }
 
   return (
-    <form
-      className="pt-10 flex flex-col"
-      onSubmit={handleSubmit(handleCreateTransaction)}
-    >
-      {selectedMarketCurrency &&
-        (activeSearch ? (
-          <SearchBar />
-        ) : (
-          <div>
-            <CurrencyItem
-              onClick={handleClickSearchItem}
-              currency={selectedMarketCurrency}
-              logoHeight={26}
-              logoWidth={26}
+    <>
+      <form
+        className="pt-10 flex flex-col"
+        onSubmit={handleSubmit(handleCreateTransaction)}
+      >
+        {selectedMarketCurrency &&
+          (activeSearch ? (
+            <SearchBar />
+          ) : (
+            <div>
+              <CurrencyItem
+                onClick={handleClickSearchItem}
+                currency={selectedMarketCurrency}
+                logoHeight={26}
+                logoWidth={26}
+              />
+            </div>
+          ))}
+
+        <div className="flex gap-4 pt-4">
+          <label htmlFor="" className="w-full space-y-1">
+            <Text>Quantidade</Text>
+            <TextInput
+              placeholder="0.00"
+              type="number"
+              {...register('amount')}
             />
-          </div>
-        ))}
 
-      <div className="flex gap-4 pt-4">
-        <label htmlFor="" className="w-full space-y-1">
-          <Text>Quantidade</Text>
-          <TextInput placeholder="0.00" type="number" {...register('amount')} />
+            {errors.amount && (
+              <Text color="red" size={'2'}>
+                {errors.amount.message}
+              </Text>
+            )}
+          </label>
 
-          {errors.amount && (
+          <label htmlFor="" className="w-full space-y-1">
+            <Text>Preço por moeda</Text>
+            <TextInput placeholder="0.00" {...register('currencyPrice')} />
+
+            {errors.currencyPrice && (
+              <Text color="red" size={'2'}>
+                {errors.currencyPrice.message}
+              </Text>
+            )}
+          </label>
+        </div>
+
+        <div className="max-w-[220px] mt-4">
+          <TextInput
+            type="date"
+            defaultValue={getActualDate()}
+            {...register('createdAt')}
+          />
+
+          {errors.createdAt && (
             <Text color="red" size={'2'}>
-              {errors.amount.message}
+              {errors.createdAt.message}
             </Text>
           )}
+        </div>
+
+        <label className="bg-gray-300 my-8 rounded-md py-3 px-4 space-y-4">
+          <Text>Total gasto</Text>
+          <input
+            className="bg-transparent font-bold text-2xl block outline-0"
+            readOnly={true}
+            type="number"
+            value={(amount * currencyPrice).toFixed(2)}
+          />
         </label>
 
-        <label htmlFor="" className="w-full space-y-1">
-          <Text>Preço por moeda</Text>
-          <TextInput placeholder="0.00" {...register('currencyPrice')} />
-
-          {errors.currencyPrice && (
-            <Text color="red" size={'2'}>
-              {errors.currencyPrice.message}
-            </Text>
-          )}
-        </label>
-      </div>
-
-      <div className="max-w-[220px] mt-4">
-        <TextInput
-          type="date"
-          defaultValue={getActualDate()}
-          {...register('createdAt')}
-        />
-
-        {errors.createdAt && (
-          <Text color="red" size={'2'}>
-            {errors.createdAt.message}
-          </Text>
-        )}
-      </div>
-
-      <label className="bg-gray-300 my-8 rounded-md py-3 px-4 space-y-4">
-        <Text>Total gasto</Text>
-        <input
-          className="bg-transparent font-bold text-2xl block outline-0"
-          readOnly={true}
-          type="number"
-          value={(amount * currencyPrice).toFixed(2)}
-        />
-      </label>
-
-      <Button disabled={isSubmitting} type="submit">
-        Add transação
-      </Button>
-    </form>
+        <Button disabled={isSubmitting} type="submit">
+          Add transação
+        </Button>
+      </form>
+    </>
   )
 }
