@@ -7,6 +7,7 @@ import { TextInput } from '@/components/TextInput'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Avatar, Heading, Text } from '@radix-ui/themes'
 import { Camera } from 'lucide-react'
+import { useSession } from 'next-auth/react'
 import { ChangeEvent, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -27,15 +28,32 @@ const updateProfileFormSchema = z.object({
     .transform((nickname) => nickname.toLowerCase()),
   file: z
     .any()
-    .refine((file) => file.length === 1, {
-      message: 'Imagem obrigatória',
-    })
-    .refine((file) => file[0]?.size <= MAX_FILE_SIZE, {
-      message: 'Tamanho máximo de 5mb',
-    })
-    .refine((file) => ACCEPTED_IMAGE_TYPES.includes(file[0]?.type), {
-      message: 'Formato inválido',
-    }),
+    .nullable()
+    .default(null)
+    .refine(
+      (file) => {
+        if (file[0]) {
+          return file[0]?.size <= MAX_FILE_SIZE
+        }
+
+        return true
+      },
+      {
+        message: 'Tamanho máximo de 5mb',
+      },
+    )
+    .refine(
+      (file) => {
+        if (file[0]) {
+          return ACCEPTED_IMAGE_TYPES.includes(file[0]?.type)
+        }
+
+        return true
+      },
+      {
+        message: 'Formato inválido',
+      },
+    ),
 })
 
 type UpdateProfileFormData = z.infer<typeof updateProfileFormSchema>
@@ -52,6 +70,8 @@ export function UpdateProfileForm() {
     resolver: zodResolver(updateProfileFormSchema),
   })
 
+  const { data: session, update } = useSession()
+
   function onFileSelected(event: ChangeEvent<HTMLInputElement>) {
     const { files } = event.target
 
@@ -65,17 +85,23 @@ export function UpdateProfileForm() {
   }
 
   async function handleUpdateProfile(data: UpdateProfileFormData) {
-    const formData = new FormData()
-    formData.append('file', data.file[0])
+    let avatarUrl: string | undefined
 
-    const uploadResponse = await upload(formData)
+    if (data.file) {
+      const formData = new FormData()
+      formData.append('file', data.file[0])
 
-    if (uploadResponse?.uploadError) {
-      return alert(uploadResponse.uploadError) // TODO: add toastify lib
+      const uploadResponse = await upload(formData)
+
+      if (uploadResponse?.uploadError) {
+        return alert(uploadResponse.uploadError) // TODO: add toastify lib
+      }
+
+      avatarUrl = uploadResponse?.avatarUrl
     }
 
     const updateUserProfileResponse = await updateUserProfile({
-      avatarUrl: uploadResponse?.avatarUrl ?? '',
+      avatarUrl: avatarUrl || session?.user.avatarUrl || null,
       nickname: data.nickname,
     })
 
@@ -83,6 +109,9 @@ export function UpdateProfileForm() {
       return alert(updateUserProfileResponse.updateUserProfileError) // TODO: add toastify lib
     }
 
+    alert('Perfil atualizado com sucesso!') // TODO: add toastify lib
+
+    update()
     reset()
     setPreview(null)
   }
@@ -113,7 +142,7 @@ export function UpdateProfileForm() {
           <label htmlFor="file" className="mt-4 block flex-grow">
             <Text>Avatar</Text>
             <div className="flex cursor-pointer items-center gap-1.5 text-sm text-gray-800 hover:text-gray-600 bg-gray-300 rounded-[12px] h-20 p-4">
-              <Camera className="h-4 w-4" />
+              <Camera className="min-h-4 min-w-4" />
               Anexar mídia <br />
               <Text color="gray">Tamanho máximo 5mb.</Text>
             </div>
@@ -141,8 +170,7 @@ export function UpdateProfileForm() {
               fallback={'A'}
               src={preview}
               size={{
-                initial: '4',
-                sm: '5',
+                initial: '6',
                 md: '7',
               }}
             />

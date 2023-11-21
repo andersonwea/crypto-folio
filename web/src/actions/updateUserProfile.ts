@@ -8,7 +8,7 @@ import { revalidatePath } from 'next/cache'
 
 type updateUserProfileProps = {
   nickname: string
-  avatarUrl: string
+  avatarUrl: string | null
 }
 
 export async function updateUserProfile(data: updateUserProfileProps) {
