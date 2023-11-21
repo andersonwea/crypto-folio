@@ -8,8 +8,8 @@ import googleIcon from '@/assets/google.svg'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import { AxiosError } from 'axios'
-import { api } from '@/libs/api'
+import { registerUser } from '@/actions/registerUser'
+import { toast } from 'react-toastify'
 
 const registerFormSchema = z.object({
   nickname: z
@@ -39,24 +39,15 @@ export function RegisterForm() {
   })
 
   async function handleRegisterUser(data: RegisterFormData) {
-    try {
-      await api.post('/users', {
-        email: data.email,
-        nickname: data.nickname,
-        password: data.password,
-      })
+    const { registerError } = await registerUser(data)
 
-      reset()
-
-      alert('Cadastrado com sucesso.') // TODO: Use a alert lib.
-    } catch (err) {
-      if (err instanceof AxiosError && err.response?.data.message) {
-        alert(err.response.data.message) // TODO: Use a alert lib.
-        return
-      }
-
-      console.log(err)
+    if (registerError) {
+      return toast.error(registerError)
     }
+
+    toast.success('Conta criada com sucesso!')
+
+    reset()
   }
 
   return (
