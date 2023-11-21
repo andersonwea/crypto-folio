@@ -8,7 +8,7 @@ import { priceFormatter } from '@/utils/priceFormatter'
 import { getWatchlist } from '@/actions/watchlist/getWatchlist'
 import { WatchlistButton } from '@/components/WatchlistButton'
 import { numberFormat } from '@/utils/number-format'
-import TradingViewWidget from '@/components/TradingViewWidget'
+import TradingViewWidget from '@/app/market/components/TradingViewWidget'
 
 interface Props {
   params: {
