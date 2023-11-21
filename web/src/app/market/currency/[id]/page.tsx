@@ -2,7 +2,6 @@ import { Header } from '@/components/Header'
 import { Flex, Heading, Text } from '@radix-ui/themes'
 import Image from 'next/image'
 import { CardItem } from '../../components/CardItem'
-import { getMarketCurrencies } from '@/actions/getMarketCurrencies'
 import { getMarketCurrency } from '@/actions/getMarketCurrency'
 import { Metadata } from 'next'
 import { priceFormatter } from '@/utils/priceFormatter'
@@ -25,18 +24,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${marketCurrency?.name} | Crypto folio`,
   }
-}
-
-async function staticParams() {
-  const { marketCurrencies } = await getMarketCurrencies()
-
-  if (!marketCurrencies) return []
-
-  const marketCurrenciesIds = marketCurrencies.map((marketCurrency) => ({
-    id: marketCurrency.id,
-  }))
-
-  return marketCurrenciesIds
 }
 
 export const revalidate = 60 * 5 // 5 Minutes
@@ -180,8 +167,3 @@ export default async function MarketCurrency({ params }: Props) {
     </div>
   )
 }
-
-export const generateStaticParams =
-  process.env.NODE_ENV === 'production' ? staticParams : undefined
-export const dynamic =
-  process.env.NODE_ENV === 'production' ? 'auto' : 'force-dynamic'

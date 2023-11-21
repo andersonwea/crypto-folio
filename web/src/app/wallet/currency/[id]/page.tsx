@@ -1,7 +1,6 @@
 import { Heading, Text } from '@radix-ui/themes'
 import Image from 'next/image'
 import { Transactions } from '../../components/Transactions'
-import { getWalletCurrencies } from '@/actions/getWalletCurrencies'
 import { getWalletCurrency } from '@/actions/getWalletCurrency'
 import { Metadata } from 'next'
 import { priceFormatter } from '@/utils/priceFormatter'
@@ -23,18 +22,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${walletCurrency?.name} | Crypto folio`,
   }
-}
-
-async function staticParams() {
-  const { walletCurrencies } = await getWalletCurrencies()
-
-  if (!walletCurrencies) return []
-
-  const walletCurrenciesIds = walletCurrencies.map((walletCurrency) => ({
-    id: walletCurrency.id,
-  }))
-
-  return walletCurrenciesIds
 }
 
 export const revalidate = 60 * 5 // 5 Minutes
@@ -124,8 +111,3 @@ export default async function currency({ params, searchParams }: Props) {
     </>
   )
 }
-
-export const generateStaticParams =
-  process.env.NODE_ENV === 'production' ? staticParams : undefined
-export const dynamic =
-  process.env.NODE_ENV === 'production' ? 'auto' : 'force-dynamic'
