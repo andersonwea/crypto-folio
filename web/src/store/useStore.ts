@@ -37,7 +37,7 @@ export const useStore = create<State & Actions>()((set) => ({
     if (search.length < 1) {
       return
     }
-    console.log('procurou')
+
     try {
       const response = await api(`/market/currencies/search?search=${search}`)
 

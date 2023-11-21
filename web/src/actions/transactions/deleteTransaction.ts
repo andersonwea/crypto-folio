@@ -33,7 +33,7 @@ export async function deleteTransaction(
     }
 
     return {
-      error: err,
+      error: 'Erro inesperado, tente novamente mais tarde.',
     }
   }
 }

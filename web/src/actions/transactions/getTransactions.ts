@@ -1,5 +1,6 @@
 import { TransactionResponse } from '@/@types'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { AxiosError } from 'axios'
 import { getServerSession } from 'next-auth'
 
 export async function getTransactions(page: string) {
@@ -27,8 +28,14 @@ export async function getTransactions(page: string) {
       transactions,
     }
   } catch (err) {
+    if (err instanceof AxiosError) {
+      return {
+        getTransactionsError: err.response?.data.message as string,
+      }
+    }
+
     return {
-      transactionsError: err,
+      error: 'Erro inesperado, tente novamente mais tarde.',
     }
   }
 }

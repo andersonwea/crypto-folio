@@ -31,7 +31,7 @@ export async function getMarketCurrencies(page?: string) {
     }
 
     return {
-      error: err,
+      error: 'Erro inesperado, tente novamente mais tarde.',
     }
   }
 }

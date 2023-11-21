@@ -1,5 +1,6 @@
 import { Metrics } from '@/@types'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { AxiosError } from 'axios'
 import { getServerSession } from 'next-auth'
 
 export async function getWalletStats() {
@@ -19,8 +20,14 @@ export async function getWalletStats() {
       metrics,
     }
   } catch (err) {
+    if (err instanceof AxiosError) {
+      return {
+        getWalletStatsError: err.response?.data.message as string,
+      }
+    }
+
     return {
-      metricsError: err,
+      error: 'Erro inesperado, tente novamente mais tarde.',
     }
   }
 }

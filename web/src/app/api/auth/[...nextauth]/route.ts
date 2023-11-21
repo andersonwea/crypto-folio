@@ -4,7 +4,6 @@ import { JWT } from 'next-auth/jwt'
 import { Session, User } from 'next-auth'
 
 async function refreshToken(refreshToken: string) {
-  console.log('atualizando token...')
   const res = await fetch('http://localhost:3333/token/refresh', {
     method: 'PATCH',
     headers: {

@@ -39,5 +39,9 @@ export async function addTransaction(
         addTransactionError: err.response?.data.message as string,
       }
     }
+
+    return {
+      error: 'Erro inesperado, tente novamente mais tarde.',
+    }
   }
 }

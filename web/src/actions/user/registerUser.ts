@@ -29,7 +29,7 @@ export async function registerUser(data: NewUserInput) {
     }
 
     return {
-      error: err,
+      error: 'Erro inesperado, tente novamente mais tarde.',
     }
   }
 }

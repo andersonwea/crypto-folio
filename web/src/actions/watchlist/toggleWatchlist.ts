@@ -2,6 +2,7 @@
 
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { api } from '@/libs/api'
+import { AxiosError } from 'axios'
 import { getServerSession } from 'next-auth'
 import { revalidateTag } from 'next/cache'
 
@@ -22,10 +23,14 @@ export async function toggleWatchlist(currencyId: number) {
 
     revalidateTag('watchlist')
   } catch (err) {
-    console.log(err)
+    if (err instanceof AxiosError) {
+      return {
+        toggleWatchlistError: err.response?.data.message as string,
+      }
+    }
 
     return {
-      error: err,
+      error: 'Erro inesperado, tente novamente mais tarde.',
     }
   }
 }

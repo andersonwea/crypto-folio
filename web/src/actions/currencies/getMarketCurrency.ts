@@ -30,7 +30,7 @@ export async function getMarketCurrency(cryptocurrencyId: string) {
     }
 
     return {
-      Error: err,
+      error: 'Erro inesperado, tente novamente mais tarde.',
     }
   }
 }

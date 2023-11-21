@@ -42,7 +42,7 @@ export async function editTransaction(data: Omit<Transaction, 'type'>) {
     }
 
     return {
-      error: err,
+      error: 'Erro inesperado, tente novamente mais tarde.',
     }
   }
 }

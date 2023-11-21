@@ -21,6 +21,7 @@ export async function addWalletCurrency(data: NewWalletCurrencyInput) {
     )
 
     const walletCurrency = response.data
+
     return {
       walletCurrency,
     }
@@ -29,6 +30,10 @@ export async function addWalletCurrency(data: NewWalletCurrencyInput) {
       return {
         addWalletCurrencyError: err.response?.data.message as string,
       }
+    }
+
+    return {
+      error: 'Erro inesperado, tente novamente mais tarde.',
     }
   }
 }
