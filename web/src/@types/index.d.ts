@@ -1,4 +1,4 @@
-interface Transaction {
+type Transaction = {
   id: string
   type: string
   value: number
@@ -7,7 +7,7 @@ interface Transaction {
   currency_id: string
 }
 
-export interface WalletCurrency {
+export type WalletCurrency = {
   id: string
   cryptocurrency_id: number
   name: string
@@ -34,7 +34,7 @@ type Value = {
   percentChange6m: number
 }
 
-export interface MarketCurrency {
+export type MarketCurrency = {
   id: number
   rank: number
   name: string
@@ -45,7 +45,7 @@ export interface MarketCurrency {
   circulatingSupply: number
 }
 
-export interface Currency {
+export type Currency = {
   id: string
   cryptocurrency_id: number
   name: string
@@ -55,12 +55,12 @@ export interface Currency {
   user_id: string
 }
 
-export interface WatchlistResponse {
+export type WatchlistResponse = {
   totalItems: number
   watchlist: MarketCurrency[]
 }
 
-export interface TransactionResponse {
+export type TransactionResponse = {
   totalTransactions: number
   transactions: Transaction[]
 }
