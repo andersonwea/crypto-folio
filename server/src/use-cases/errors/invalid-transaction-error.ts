@@ -1,5 +1,5 @@
 export class InvalidTransactionError extends Error {
   constructor() {
-    super('Balance unavailable.')
+    super('Saldo insuficiente.')
   }
 }

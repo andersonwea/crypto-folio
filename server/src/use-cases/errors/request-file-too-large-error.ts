@@ -1,5 +1,5 @@
 export class RequestFileTooLargeError extends Error {
   constructor() {
-    super('Request File is Too Large.')
+    super('Arquivo é muito grande.')
   }
 }
