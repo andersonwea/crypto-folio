@@ -27,7 +27,7 @@ export function NavPages({ page, totalPages }: NavPagesProps) {
   }
 
   function handleChangePage(page: number) {
-    if (page <= 1 || page >= totalPages) {
+    if (page < 1 || page > totalPages) {
       return null
     }
 
