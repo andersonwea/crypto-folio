@@ -1,5 +1,4 @@
 import { InvalidCredentialsError } from '@/use-cases/errors/invalid-credentials-error'
-import { ResourceNotFoundError } from '@/use-cases/errors/resource-not-found-error'
 import { makeAuthenticateUseCase } from '@/use-cases/factories/users/make-authenticate-use-case'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
@@ -54,10 +53,6 @@ export async function authenticate(
     })
   } catch (err) {
     if (err instanceof InvalidCredentialsError) {
-      return reply.status(400).send({ message: err.message })
-    }
-
-    if (err instanceof ResourceNotFoundError) {
       return reply.status(400).send({ message: err.message })
     }
 
