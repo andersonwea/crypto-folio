@@ -93,7 +93,7 @@ export const authOptions = {
       session.user.accessToken = token.accessToken
       session.user.expireIn = token.expireIn
 
-      if (session.user.accessToken ?? false) {
+      if ((session.user.accessToken ?? false) && !session.user.email) {
         const response = await fetch(`${process.env.NEXTBASE_URL}/me`, {
           method: 'GET',
           headers: {
