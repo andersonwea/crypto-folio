@@ -5,13 +5,15 @@ import { Session, User } from 'next-auth'
 import { api } from '@/libs/api'
 
 async function refreshToken(refreshToken: string) {
-  const response = await api.patch('/token/refresh', {
+  const response = await fetch('/token/refresh', {
+    method: 'PATCH',
     headers: {
       Authorization: `Bearer ${refreshToken}`,
     },
+    credentials: 'include',
   })
 
-  const data = response.data
+  const data = await response.json()
 
   return data
 }
@@ -93,12 +95,13 @@ export const authOptions = {
       session.user.expireIn = token.expireIn
 
       if (session.user.accessToken ?? false) {
-        const response = await api('/me', {
+        const response = await fetch('/me', {
+          method: 'GET',
           headers: {
             Authorization: `Bearer ${token.accessToken}`,
           },
         })
-        const { user } = response.data
+        const { user } = await response.json()
 
         if (user) {
           session.user = {
