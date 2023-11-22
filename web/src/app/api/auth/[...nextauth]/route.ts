@@ -2,16 +2,16 @@ import NextAuth from 'next-auth/next'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { JWT } from 'next-auth/jwt'
 import { Session, User } from 'next-auth'
+import { api } from '@/libs/api'
 
 async function refreshToken(refreshToken: string) {
-  const res = await fetch('http://localhost:3333/token/refresh', {
-    method: 'PATCH',
+  const response = await api.patch('/token/refresh', {
     headers: {
       Authorization: `Bearer ${refreshToken}`,
     },
   })
 
-  const data = await res.json()
+  const data = response.data
 
   return data
 }
@@ -26,21 +26,14 @@ export const authOptions = {
         password: { label: 'Senha', type: 'password' },
       },
 
-      async authorize(credentials, req) {
-        const res = await fetch('http://localhost:3333/sessions', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          credentials: 'include',
-          body: JSON.stringify(credentials),
-        })
+      async authorize(credentials) {
+        const response = await api.post('/sessions', credentials)
 
-        if (!res.ok) {
+        const { user } = response.data
+
+        if (!user) {
           return null
         }
-
-        const user = await res.json()
 
         return user
       },
@@ -93,15 +86,14 @@ export const authOptions = {
       session.user.expireIn = token.expireIn
 
       if (session.user.accessToken ?? false) {
-        const response = await fetch('http://localhost:3333/me', {
+        const response = await api('/me', {
           headers: {
             Authorization: `Bearer ${token.accessToken}`,
           },
         })
+        const { user } = response.data
 
-        if (response.ok) {
-          const { user } = await response.json()
-
+        if (user) {
           session.user = {
             ...user,
             accessToken: token.accessToken,
