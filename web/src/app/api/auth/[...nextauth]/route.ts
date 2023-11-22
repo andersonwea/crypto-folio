@@ -26,14 +26,21 @@ export const authOptions = {
         password: { label: 'Senha', type: 'password' },
       },
 
-      async authorize(credentials) {
-        const response = await api.post('/sessions', credentials)
+      async authorize(credentials, req) {
+        const res = await fetch(`${process.env.NEXTBASE_URL}/sessions`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify(credentials),
+        })
 
-        const { user } = response.data
-
-        if (!user) {
+        if (!res.ok) {
           return null
         }
+
+        const user = await res.json()
 
         return user
       },
