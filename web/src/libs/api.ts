@@ -1,5 +1,5 @@
 import axios from 'axios'
 
 export const api = axios.create({
-  baseURL: process.env.NEXTBASE_URL,
+  baseURL: 'https://enchanting-eel-peplum.cyclic.app',
 })
