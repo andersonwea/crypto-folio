@@ -9,7 +9,7 @@
     "test:create-prisma-environment": "npm link ./prisma/vitest-environment-prisma",
     "test:install-prisma-environment": "npm link vitest-environment-prisma",
     "build": "tsup src !src/**/*.spec.* --out-dir build && cp package.json ./build",
-    "postbuild": "npm prune --omit=dev && du -h --max-depth=1",
+    "postbuild": "npm prune --omit=dev && mv node_modules/ ./build && du -h --max-depth=1 && du -h --max-depth=1 build/",
     "test": "vitest run --dir src/use-cases",
     "pretest:e2e": "run-s test:create-prisma-environment test:install-prisma-environment",
     "test:e2e": "vitest run --dir src/http"
