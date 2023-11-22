@@ -2,10 +2,9 @@ import NextAuth from 'next-auth/next'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { JWT } from 'next-auth/jwt'
 import { Session, User } from 'next-auth'
-import { api } from '@/libs/api'
 
 async function refreshToken(refreshToken: string) {
-  const response = await fetch('/token/refresh', {
+  const response = await fetch(`${process.env.NEXTBASE_URL}/token/refresh`, {
     method: 'PATCH',
     headers: {
       Authorization: `Bearer ${refreshToken}`,
@@ -95,7 +94,7 @@ export const authOptions = {
       session.user.expireIn = token.expireIn
 
       if (session.user.accessToken ?? false) {
-        const response = await fetch('/me', {
+        const response = await fetch(`${process.env.NEXTBASE_URL}/me`, {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${token.accessToken}`,
