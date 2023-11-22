@@ -64,7 +64,6 @@ export const authOptions = {
       trigger?: 'signIn' | 'signUp' | 'update' | undefined
     }) {
       if (user) {
-        console.log('tem user')
         token.accessToken = user.accessToken
         token.refreshToken = user.refreshToken
         token.expireIn = user.expireIn
@@ -90,6 +89,7 @@ export const authOptions = {
     },
 
     async session({ session, token }: { session: Session; token: JWT }) {
+      let user
       session.user.accessToken = token.accessToken
       session.user.expireIn = token.expireIn
 
@@ -100,14 +100,16 @@ export const authOptions = {
             Authorization: `Bearer ${token.accessToken}`,
           },
         })
-        const { user } = await response.json()
+        const userResponse = await response.json()
 
-        if (user) {
-          session.user = {
-            ...user,
-            accessToken: token.accessToken,
-            expireIn: token.expireIn,
-          }
+        user = userResponse.user
+      }
+
+      if (user) {
+        session.user = {
+          ...user,
+          accessToken: token.accessToken,
+          expireIn: token.expireIn,
         }
       }
 
