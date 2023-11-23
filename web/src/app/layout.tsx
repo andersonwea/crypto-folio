@@ -35,7 +35,7 @@ export default async function RootLayout({
       <body className={poppins.variable}>
         <Providers session={session}>
           <Notification />
-          <div className="bg-gray-800 rounded-[50px] max-sm:rounded-none p-4 max-sm:p-2 max-w-[1440px] h-[930px] max-[1920px]:h-screen m-auto max-md:rounded-none max-lg:pb-0">
+          <div className="bg-gray-800 rounded-[50px] max-sm:rounded-none p-4 max-sm:p-0 max-w-[1440px] h-[930px] max-[1920px]:h-screen m-auto max-md:rounded-none max-lg:pb-0">
             {session ? (
               <Grid
                 className="h-full"
