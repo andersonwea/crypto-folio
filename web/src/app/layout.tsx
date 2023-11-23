@@ -11,6 +11,7 @@ import { SignIn } from '@/components/SignIn'
 import { getServerSession } from 'next-auth'
 import { authOptions } from './api/auth/[...nextauth]/route'
 import { Notification } from '@/components/Notification'
+import lines from '@/assets/lines.svg'
 
 const poppins = Poppins({
   weight: ['500', '700'],
@@ -32,7 +33,10 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={poppins.variable}>
+      <body
+        className={`${poppins.variable} bg-[#E5E5E5]`}
+        style={{ backgroundImage: `url(${lines.src})` }}
+      >
         <Providers session={session}>
           <Notification />
           <div className="bg-gray-800 rounded-[50px] max-sm:rounded-none p-4 max-sm:p-0 max-w-[1440px] h-[930px] max-[1920px]:h-screen m-auto max-md:rounded-none max-lg:pb-0">
