@@ -13,6 +13,7 @@ async function refreshToken(refreshToken: string) {
   })
 
   const data = await response.json()
+  console.log('atualizou o token', data.expireIn)
 
   return data
 }
@@ -88,28 +89,33 @@ export const authOptions = {
       return token
     },
 
-    async session({ session, token }: { session: Session; token: JWT }) {
-      let user
+    async session({
+      session,
+      token,
+      user,
+    }: {
+      session: Session
+      token: JWT
+      user: User
+    }) {
       session.user.accessToken = token.accessToken
       session.user.expireIn = token.expireIn
 
-      if (session.user.accessToken ?? false) {
+      if (session.user.accessToken) {
         const response = await fetch(`${process.env.NEXTBASE_URL}/me`, {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${token.accessToken}`,
           },
         })
-        const userResponse = await response.json()
+        const { user } = await response.json()
 
-        user = userResponse.user
-      }
-
-      if (user) {
-        session.user = {
-          ...user,
-          accessToken: token.accessToken,
-          expireIn: token.expireIn,
+        if (user) {
+          session.user = {
+            ...user,
+            accessToken: token.accessToken,
+            expireIn: token.expireIn,
+          }
         }
       }
 
