@@ -22,7 +22,7 @@ export async function Header({ title }: HeaderProps) {
       </Heading>
 
       <Link
-        className="min-w-[180px] py-4 bg-gray-300 rounded-3xl relative flex justify-end px-4"
+        className="py-4 bg-gray-300 rounded-3xl relative flex justify-end px-4"
         href={'/me'}
       >
         <Avatar
