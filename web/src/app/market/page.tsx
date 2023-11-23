@@ -11,6 +11,10 @@ interface MarketProps {
   }
 }
 
+export const metadata = {
+  title: 'Mercado | Crypto Folio',
+}
+
 export const revalidate = 60 * 5 // 5 Minutes
 
 export default async function Market({ searchParams }: MarketProps) {

@@ -3,6 +3,10 @@ import { Grid, Heading } from '@radix-ui/themes'
 import { UpdateProfileForm } from './components/UpdateProfileForm'
 import { ProfileCard } from './components/ProfileCard'
 
+export const metadata = {
+  title: 'Perfil | Crypto Folio',
+}
+
 export default async function Profile() {
   return (
     <div>

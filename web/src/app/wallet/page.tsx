@@ -10,6 +10,10 @@ interface WalletPageProps {
   }
 }
 
+export const metadata = {
+  title: 'Carteira | Crypto Folio',
+}
+
 export const revalidate = 60 * 5 // 5 Minutes
 
 export default async function WalletPage({ searchParams }: WalletPageProps) {
