@@ -1,21 +1,18 @@
 'use client'
 
 import { Dialog } from '@radix-ui/themes'
-import { ReactNode, useCallback } from 'react'
+import { useCallback } from 'react'
 import { SelectCurrency } from './SelectCurrency'
 import { CreateTransaction } from './CreateTransaction'
 import { MarketCurrency } from '@/@types'
 import { useStore } from '@/store/useStore'
+import { Button } from '@nextui-org/react'
 
 interface TransactionModalProps {
-  children: ReactNode
   marketCurrencies: MarketCurrency[]
 }
 
-export function TransactionModal({
-  children,
-  marketCurrencies,
-}: TransactionModalProps) {
+export function TransactionModal({ marketCurrencies }: TransactionModalProps) {
   const isTransactionModalOpen = useStore(
     useCallback((state) => state.isTransactionModalOpen, []),
   )
@@ -39,7 +36,11 @@ export function TransactionModal({
       open={isTransactionModalOpen}
       onOpenChange={setIsTransactionModalOpen}
     >
-      <Dialog.Trigger onClick={handleOpenModal}>{children}</Dialog.Trigger>
+      <Dialog.Trigger onClick={handleOpenModal}>
+        <Button variant="solid" className="bg-blue-300">
+          Add transação
+        </Button>
+      </Dialog.Trigger>
 
       {selectedMarketCurrency ? (
         <CreateTransaction />

@@ -1,7 +1,8 @@
 'use client'
 
 import { deleteTransaction } from '@/actions/transactions/deleteTransaction'
-import { AlertDialog, Button, Flex, IconButton } from '@radix-ui/themes'
+import { AlertDialog, Flex } from '@radix-ui/themes'
+import { Button } from '@nextui-org/react'
 import { Trash2 } from 'lucide-react'
 import { toast } from 'react-toastify'
 
@@ -27,9 +28,9 @@ export function DeleteTransaction({
   return (
     <AlertDialog.Root>
       <AlertDialog.Trigger className="hover:bg-[#f0f0f3] transition-colors">
-        <IconButton variant="ghost" color="gray">
+        <Button isIconOnly variant="light" className="text-gray-600">
           <Trash2 size={18} />
-        </IconButton>
+        </Button>
       </AlertDialog.Trigger>
 
       <AlertDialog.Content style={{ maxWidth: 450, borderRadius: 10 }}>
@@ -40,15 +41,12 @@ export function DeleteTransaction({
 
         <Flex gap="3" mt="4" justify="end">
           <AlertDialog.Cancel>
-            <Button variant="soft" color="gray">
-              Cancelar
-            </Button>
+            <Button variant="ghost">Cancelar</Button>
           </AlertDialog.Cancel>
           <AlertDialog.Action>
             <Button
-              style={{ backgroundColor: '#e5484d' }}
               variant="solid"
-              color="red"
+              color="danger"
               onClick={() => handleDeleteTransaction(transactionId)}
             >
               Excluir

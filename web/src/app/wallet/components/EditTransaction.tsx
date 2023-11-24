@@ -2,10 +2,10 @@
 
 import { Transaction } from '@/@types'
 import { editTransaction } from '@/actions/transactions/editTransaction'
-import { Button } from '@/components/Button'
+import { Button } from '@nextui-org/react'
 import { TextInput } from '@/components/TextInput'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Dialog, Flex, IconButton, Text } from '@radix-ui/themes'
+import { Dialog, Flex, Text } from '@radix-ui/themes'
 import dayjs from 'dayjs'
 import { Pencil, X } from 'lucide-react'
 import { useState } from 'react'
@@ -41,7 +41,7 @@ export function EditTransaction({ transaction }: EditTransactionProps) {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<EditTransactionForm>({
     resolver: zodResolver(editTransactionFormSchema),
     defaultValues: {
@@ -81,18 +81,18 @@ export function EditTransaction({ transaction }: EditTransactionProps) {
       onOpenChange={setIsEditTransactionModalOpen}
     >
       <Dialog.Trigger className="hover:bg-[#f0f0f3] transition-colors">
-        <IconButton variant="ghost" color="gray" className="">
+        <Button isIconOnly variant="light" className="text-gray-600">
           <Pencil size={18} />
-        </IconButton>
+        </Button>
       </Dialog.Trigger>
 
       <Dialog.Content style={{ borderRadius: 16, position: 'relative' }}>
         <Dialog.Title>Editar transação</Dialog.Title>
 
         <Dialog.Close className="absolute right-8 top-8">
-          <IconButton variant="ghost" color="gray">
+          <Button isIconOnly variant="light" className="text-gray-600">
             <X />
-          </IconButton>
+          </Button>
         </Dialog.Close>
 
         <form
@@ -161,7 +161,15 @@ export function EditTransaction({ transaction }: EditTransactionProps) {
             />
           </label>
 
-          <Button type="submit">Editar transação</Button>
+          <Button
+            type="submit"
+            variant="solid"
+            className="bg-blue-300"
+            isLoading={isSubmitting}
+            disabled={isSubmitting}
+          >
+            Editar transação
+          </Button>
         </form>
       </Dialog.Content>
     </Dialog.Root>

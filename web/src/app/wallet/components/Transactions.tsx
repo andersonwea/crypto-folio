@@ -32,9 +32,7 @@ export async function Transactions({
         <Heading as="h2">Transações</Heading>
 
         {marketCurrencies && (
-          <TransactionModal marketCurrencies={marketCurrencies}>
-            <Button>Add transação</Button>
-          </TransactionModal>
+          <TransactionModal marketCurrencies={marketCurrencies} />
         )}
       </header>
 
@@ -115,7 +113,7 @@ export async function Transactions({
                       {transaction.amount + ' ' + currency.symbol}
                     </td>
                     <td className="min-w-[85px]">
-                      <div className="flex gap-2 justify-end">
+                      <div className="flex justify-end">
                         <EditTransaction transaction={transaction} />
                         <DeleteTransaction
                           transactionId={transaction.id}
