@@ -10,6 +10,7 @@ import { bigNumberFormatter } from '@/utils/bigNumberFormatter'
 import { MarketCurrency } from '@/@types'
 import { experimental_useOptimistic as useOptimistic } from 'react'
 import { toggleWatchlist } from '@/actions/watchlist/toggleWatchlist'
+import { Button } from '@nextui-org/react'
 
 interface CryptoListProps {
   page?: string
@@ -74,14 +75,28 @@ export function CryptoList({
 
               return (
                 <tr key={marketCurrency.id}>
-                  <td>
-                    <Star
+                  <td className="w-10 h-10">
+                    {/* <Star
                       onClick={() => handleToggleWatchlist(marketCurrency)}
                       data-watchlist={isWatchlisted}
                       size={20}
                       className="data-[watchlist=true]:fill-blue-500 cursor-pointer"
                       stroke={isWatchlisted ? '#0587FF' : 'gray'}
-                    />
+                    /> */}
+                    <Button
+                      type="button"
+                      isIconOnly
+                      variant="light"
+                      radius="full"
+                      onClick={() => handleToggleWatchlist(marketCurrency)}
+                    >
+                      <Star
+                        size={20}
+                        data-watchlist={isWatchlisted}
+                        stroke={isWatchlisted ? '#0587FF' : 'gray'}
+                        className="data-[watchlist=true]:fill-blue-500"
+                      />
+                    </Button>
                   </td>
                   <td className="text-left max-sm:hidden">
                     {marketCurrency.rank}
