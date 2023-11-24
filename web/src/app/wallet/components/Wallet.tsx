@@ -1,7 +1,7 @@
 'use client'
 
 import { Heading, ScrollArea } from '@radix-ui/themes'
-import { Card } from './Card'
+import { CurrencyCard } from './Card'
 import { TextInput } from '@/components/TextInput'
 import { useState } from 'react'
 import { WalletCurrency } from '@/@types'
@@ -29,11 +29,11 @@ export function Wallet({ maxWidth, walletCurrencies }: WalletProps) {
       </div>
 
       <ScrollArea
-        type="always"
+        type="auto"
         scrollbars="horizontal"
         style={{ maxWidth: maxWidth || '100%', maxHeight: 255 }}
       >
-        <div className="flex space-x-7 py-4">
+        <div className="flex space-x-7 py-4 px-3">
           {walletCurrencies.length === 0 ? (
             <EmptyCard />
           ) : (
@@ -42,7 +42,7 @@ export function Wallet({ maxWidth, walletCurrencies }: WalletProps) {
                 walletCurrency.name.includes(search.toLocaleLowerCase()),
               )
               .map((walletCurrency, index) => (
-                <Card
+                <CurrencyCard
                   key={walletCurrency.id}
                   walletCurrency={walletCurrency}
                   color={colors[index % colors.length]}

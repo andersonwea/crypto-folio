@@ -32,13 +32,11 @@ export default async function Dashboard({ searchParams }: DashboardProps) {
       <main className="grid grid-cols-[0.6fr_minmax(0,_1fr)] max-md:grid-cols-1 sm:space-x-7">
         <section className="mt-[26px]">
           <Heading as="h2">Portifolio</Heading>
-          <div className="bg-blue-300 h-[222px] rounded-3xl px-9 py-6 mt-4 flex flex-wrap justify-between">
-            {metrics && <WalletStats metrics={metrics} />}
-          </div>
+          {metrics && <WalletStats metrics={metrics} />}
         </section>
 
         {walletCurrencies && (
-          <Wallet maxWidth={630} walletCurrencies={walletCurrencies} />
+          <Wallet maxWidth={665} walletCurrencies={walletCurrencies} />
         )}
 
         <div className="mt-7 md:col-span-2 max-h-[350px]">
