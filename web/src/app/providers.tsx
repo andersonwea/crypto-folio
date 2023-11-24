@@ -4,6 +4,7 @@ import { ReactNode } from 'react'
 import { Theme } from '@radix-ui/themes'
 import { SessionProvider } from 'next-auth/react'
 import { Session } from 'next-auth'
+import { NextUIProvider } from '@nextui-org/react'
 
 interface ProvidersProps {
   children: ReactNode
@@ -13,7 +14,9 @@ interface ProvidersProps {
 export function Providers({ children, session }: ProvidersProps) {
   return (
     <SessionProvider session={session}>
-      <Theme>{children}</Theme>
+      <NextUIProvider>
+        <Theme>{children}</Theme>
+      </NextUIProvider>
     </SessionProvider>
   )
 }

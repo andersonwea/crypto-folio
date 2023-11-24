@@ -10,10 +10,12 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",
+    "@nextui-org/react": "^2.2.9",
     "@radix-ui/themes": "^2.0.0",
     "axios": "^1.6.0",
     "clsx": "^2.0.0",
     "dayjs": "^1.11.10",
+    "framer-motion": "^10.16.5",
     "js-cookie": "^3.0.5",
     "lodash": "^4.17.21",
     "lucide-react": "^0.287.0",
