@@ -72,7 +72,7 @@ export function CryptoList({
               )
 
               return (
-                <tr key={marketCurrency.id}>
+                <tr key={marketCurrency.id} className="group">
                   <td className="w-10 h-10">
                     <Button
                       type="button"
@@ -106,7 +106,7 @@ export function CryptoList({
                         />
                       </div>
 
-                      <div className="text-base flex max-sm:flex-col gap-x-2 items-start">
+                      <div className="text-base flex max-sm:flex-col gap-x-2 items-start group-hover:text-blue-500 transition-colors">
                         <Text as="p">{marketCurrency.name}</Text>
                         <Text className="text-gray-500 text-sm" as="span">
                           {marketCurrency.symbol}

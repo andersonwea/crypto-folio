@@ -29,14 +29,13 @@ export default async function Market({ searchParams }: MarketProps) {
       <Header title="Mercado" />
 
       <main className="pt-4 grid grid-cols-1 gap-4">
-        <div className="flex max-sm:flex-col items-center gap-10 max-sm:gap-3 relative max-w-lg">
+        <div className="flex max-sm:flex-col items-center gap-10 max-sm:gap-3 relative max-w-2xl">
           <Heading>Criptomoedas</Heading>
           <SearchBar />
         </div>
 
         {marketCurrencies && watchlist && (
           <CryptoList
-            page={page}
             totalPages={totalPages}
             marketCurrencies={marketCurrencies}
             watchlist={watchlist}
