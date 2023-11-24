@@ -13,11 +13,11 @@ describe('Update porfile (e2e)', () => {
   })
 
   it('should be able to update profile', async () => {
-    const { token } = await createAndAuthenticateUser(app)
+    const { accessToken } = await createAndAuthenticateUser(app)
 
     const response = await request(app.server)
       .put('/me/profile')
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${accessToken}`)
       .send({
         nickname: 'Oni',
         avatarUrl: 'new-avatar-image',

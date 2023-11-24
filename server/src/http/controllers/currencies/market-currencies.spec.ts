@@ -13,11 +13,11 @@ describe('Market Currencies (e2e)', () => {
   })
 
   it('should be able to fetch market currencies', async () => {
-    const { token } = await createAndAuthenticateUser(app)
+    const { accessToken } = await createAndAuthenticateUser(app)
 
     const response = await request(app.server)
       .get('/market/currencies')
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${accessToken}`)
       .query({
         page: 1,
       })

@@ -14,7 +14,7 @@ describe('User Currency (e2e)', () => {
   })
 
   it('should be able to fetch user currency', async () => {
-    const { token } = await createAndAuthenticateUser(app)
+    const { accessToken } = await createAndAuthenticateUser(app)
 
     const user = await prisma.user.findFirstOrThrow()
 
@@ -31,7 +31,7 @@ describe('User Currency (e2e)', () => {
 
     const response = await request(app.server)
       .get(`/wallet/currencies/${currency.id}`)
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${accessToken}`)
       .send()
 
     expect(response.statusCode).toEqual(200)

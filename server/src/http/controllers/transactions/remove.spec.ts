@@ -14,7 +14,7 @@ describe('Delete a Transaction (e2e)', () => {
   })
 
   it('should be able to delete a transaction', async () => {
-    const { token, user } = await createAndAuthenticateUser(app)
+    const { accessToken, user } = await createAndAuthenticateUser(app)
 
     const currency = await prisma.currency.create({
       data: {
@@ -40,7 +40,7 @@ describe('Delete a Transaction (e2e)', () => {
       .delete(
         `/wallet/currencies/${currency.id}/transactions/${transaction.id}`,
       )
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${accessToken}`)
       .send()
 
     const deletedTransaction = await prisma.transaction.findUnique({

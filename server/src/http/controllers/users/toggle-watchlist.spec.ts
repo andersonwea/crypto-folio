@@ -13,11 +13,11 @@ describe('Toggle watchlist (e2e)', () => {
   })
 
   it('should be able to toggle a currency into watchlist', async () => {
-    const { token } = await createAndAuthenticateUser(app)
+    const { accessToken } = await createAndAuthenticateUser(app)
 
     const response = await request(app.server)
       .post('/me/watchlist')
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${accessToken}`)
       .send({
         currencyId: 1,
       })

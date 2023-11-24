@@ -1,4 +1,5 @@
 import { app } from '@/app'
+import { createAndAuthenticateUser } from '@/utils/tests/create-and-authenticate-user'
 import request from 'supertest'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
@@ -12,27 +13,18 @@ describe('Porfile (e2e)', () => {
   })
 
   it('should be able to get profile', async () => {
-    await request(app.server).post('/users').send({
-      nickname: 'John',
-      email: 'john@example.com',
-      password: '123456',
-    })
-
-    const authResponse = await request(app.server).post('/sessions').send({
-      email: 'john@example.com',
-      password: '123456',
-    })
-
-    const cookie = authResponse.get('Set-Cookie')
+    const { refreshToken } = await createAndAuthenticateUser(app)
 
     const response = await request(app.server)
       .patch('/token/refresh')
-      .set('Cookie', cookie)
+      .set('Authorization', `Bearer ${refreshToken}`)
       .send()
 
     expect(response.statusCode).toEqual(200)
-    expect(response.body).toEqual({
-      token: expect.any(String),
-    })
+    expect(response.body).toEqual(
+      expect.objectContaining({
+        refreshToken: expect.any(String),
+      }),
+    )
   })
 })

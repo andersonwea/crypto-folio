@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma'
 import { createAndAuthenticateUser } from '@/utils/tests/create-and-authenticate-user'
 import request from 'supertest'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
+import { object } from 'zod'
 
 describe('Transactions History (e2e)', () => {
   beforeAll(async () => {
@@ -14,7 +15,7 @@ describe('Transactions History (e2e)', () => {
   })
 
   it('should be able to fetch transactions history', async () => {
-    const { token, user } = await createAndAuthenticateUser(app)
+    const { accessToken, user } = await createAndAuthenticateUser(app)
 
     const currency = await prisma.currency.create({
       data: {
@@ -47,19 +48,24 @@ describe('Transactions History (e2e)', () => {
 
     const response = await request(app.server)
       .get('/wallet/currencies/transactions')
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${accessToken}`)
       .query({
         page: 1,
       })
 
     expect(response.statusCode).toEqual(200)
-    expect(response.body).toEqual([
-      expect.objectContaining({
-        type: 'buy',
-      }),
-      expect.objectContaining({
-        type: 'buy',
-      }),
-    ])
+    expect(response.body).toEqual({
+      totalTransactions: 2,
+      transactions: [
+        expect.objectContaining({
+          value: 2000000,
+          id: expect.any(String),
+        }),
+        expect.objectContaining({
+          value: 2300000,
+          id: expect.any(String),
+        }),
+      ],
+    })
   })
 })

@@ -13,11 +13,11 @@ describe('Market currency (e2e)', () => {
   })
 
   it('should be able to get market currency', async () => {
-    const { token } = await createAndAuthenticateUser(app)
+    const { accessToken } = await createAndAuthenticateUser(app)
 
     const response = await request(app.server)
       .get('/market/currencies/1')
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${accessToken}`)
       .send()
 
     expect(response.statusCode).toEqual(200)

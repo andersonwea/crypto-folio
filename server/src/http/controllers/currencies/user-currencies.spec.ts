@@ -13,11 +13,11 @@ describe('User Currencies (e2e)', () => {
   })
 
   it('should be able to fetch user currencies', async () => {
-    const { token } = await createAndAuthenticateUser(app)
+    const { accessToken } = await createAndAuthenticateUser(app)
 
     await request(app.server)
       .post('/wallet/currencies')
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${accessToken}`)
       .send({
         name: 'Bitcoin',
         symbol: 'BTC',
@@ -28,7 +28,7 @@ describe('User Currencies (e2e)', () => {
 
     const response = await request(app.server)
       .get('/wallet/currencies')
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${accessToken}`)
       .send()
 
     expect(response.statusCode).toEqual(200)

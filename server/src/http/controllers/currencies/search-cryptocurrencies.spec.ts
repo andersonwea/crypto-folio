@@ -14,7 +14,7 @@ describe('Search Cryptocurrencies (e2e)', () => {
   })
 
   it('should be able to search cryptocurrencies', async () => {
-    const { token } = await createAndAuthenticateUser(app)
+    const { accessToken } = await createAndAuthenticateUser(app)
 
     await prisma.cryptocurrency.createMany({
       data: [
@@ -41,7 +41,7 @@ describe('Search Cryptocurrencies (e2e)', () => {
 
     const response = await request(app.server)
       .get('/market/currencies/search')
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${accessToken}`)
       .query({
         search: 'bitcoin',
       })

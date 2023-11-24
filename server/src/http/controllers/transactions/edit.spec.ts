@@ -15,7 +15,7 @@ describe('Edit a Transaction (e2e)', () => {
   })
 
   it('should be able to edit a transaction', async () => {
-    const { token, user } = await createAndAuthenticateUser(app)
+    const { accessToken, user } = await createAndAuthenticateUser(app)
 
     const currency = await prisma.currency.create({
       data: {
@@ -39,7 +39,7 @@ describe('Edit a Transaction (e2e)', () => {
 
     const response = await request(app.server)
       .put(`/wallet/currencies/${currency.id}/transactions/${transaction.id}`)
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${accessToken}`)
       .send({
         value: 5400000,
         amount: 2,

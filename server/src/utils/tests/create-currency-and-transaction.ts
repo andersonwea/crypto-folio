@@ -1,10 +1,7 @@
 import { prisma } from '@/lib/prisma'
-import { FastifyInstance } from 'fastify'
-import { createAndAuthenticateUser } from './create-and-authenticate-user'
+import { User } from '@prisma/client'
 
-export async function createUserCurrencyAndTransaction(app: FastifyInstance) {
-  const { user, token } = await createAndAuthenticateUser(app)
-
+export async function createCurrencyAndTransaction(user: User) {
   const currency = await prisma.currency.create({
     data: {
       amount: 1,
@@ -24,10 +21,4 @@ export async function createUserCurrencyAndTransaction(app: FastifyInstance) {
       currency_id: currency.id,
     },
   })
-
-  return {
-    user,
-    token,
-    currency,
-  }
 }
