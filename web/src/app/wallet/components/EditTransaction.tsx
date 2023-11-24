@@ -81,19 +81,28 @@ export function EditTransaction({ transaction }: EditTransactionProps) {
       onOpenChange={setIsEditTransactionModalOpen}
     >
       <Dialog.Trigger className="hover:bg-[#f0f0f3] transition-colors">
-        <Button isIconOnly variant="light" className="text-gray-600">
+        <Button
+          isIconOnly
+          variant="light"
+          className="text-gray-600"
+          radius="full"
+        >
           <Pencil size={18} />
         </Button>
       </Dialog.Trigger>
 
-      <Dialog.Content style={{ borderRadius: 16, position: 'relative' }}>
-        <Dialog.Title>Editar transação</Dialog.Title>
+      <Dialog.Content className="max-w-[550px] relative" size={'4'}>
+        <header>
+          <Dialog.Title className="m-0" size={'6'}>
+            Editar transação
+          </Dialog.Title>
 
-        <Dialog.Close className="absolute right-8 top-8">
-          <Button isIconOnly variant="light" className="text-gray-600">
-            <X />
-          </Button>
-        </Dialog.Close>
+          <Dialog.Close className="absolute right-6 top-6">
+            <Button isIconOnly variant="light" className="text-gray-600">
+              <X />
+            </Button>
+          </Dialog.Close>
+        </header>
 
         <form
           onSubmit={handleSubmit(handleEditTransaction)}
@@ -164,7 +173,7 @@ export function EditTransaction({ transaction }: EditTransactionProps) {
           <Button
             type="submit"
             variant="solid"
-            className="bg-blue-300"
+            className="bg-blue-300 text-base"
             isLoading={isSubmitting}
             disabled={isSubmitting}
           >

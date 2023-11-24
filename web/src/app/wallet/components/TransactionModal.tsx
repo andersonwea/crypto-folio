@@ -37,7 +37,7 @@ export function TransactionModal({ marketCurrencies }: TransactionModalProps) {
       onOpenChange={setIsTransactionModalOpen}
     >
       <Dialog.Trigger onClick={handleOpenModal}>
-        <Button variant="solid" className="bg-blue-300">
+        <Button variant="solid" className="bg-blue-300 text-base">
           Add transação
         </Button>
       </Dialog.Trigger>

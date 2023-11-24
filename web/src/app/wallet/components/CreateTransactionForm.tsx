@@ -1,6 +1,6 @@
 'use client'
 
-import { Button } from '@/components/Button'
+import { Button } from '@nextui-org/react'
 import { TextInput } from '@/components/TextInput'
 import { Text } from '@radix-ui/themes'
 import { CurrencyItem } from './CurrencyItem'
@@ -203,7 +203,13 @@ export function CreateTransactionForm({
           />
         </label>
 
-        <Button disabled={isSubmitting} type="submit">
+        <Button
+          isLoading={isSubmitting}
+          disabled={isSubmitting}
+          type="submit"
+          className="bg-blue-300 text-base"
+          size="lg"
+        >
           Add transação
         </Button>
       </form>

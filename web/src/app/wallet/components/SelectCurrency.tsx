@@ -1,9 +1,10 @@
-import { Dialog, IconButton } from '@radix-ui/themes'
+import { Dialog } from '@radix-ui/themes'
 import { X } from 'lucide-react'
 import { CurrencyItem } from './CurrencyItem'
 import { useStore } from '@/store/useStore'
 import { SearchBar } from '@/components/SearchBar'
 import { MarketCurrency } from '@/@types'
+import { Button } from '@nextui-org/react'
 
 interface SelectCurrencyProps {
   marketCurrencies: MarketCurrency[]
@@ -21,10 +22,10 @@ export function SelectCurrency({ marketCurrencies }: SelectCurrencyProps) {
           Selecione uma moeda
         </Dialog.Title>
 
-        <Dialog.Close className="absolute right-8 top-8">
-          <IconButton variant="ghost" color="gray">
+        <Dialog.Close className="absolute right-7 top-6">
+          <Button variant="light" className="text-gray-500" isIconOnly>
             <X />
-          </IconButton>
+          </Button>
         </Dialog.Close>
       </header>
 
@@ -33,7 +34,6 @@ export function SelectCurrency({ marketCurrencies }: SelectCurrencyProps) {
       <ul className="pt-7 flex flex-col gap-1">
         {marketCurrencies.map((marketCurrency) => (
           <CurrencyItem
-            id={String(marketCurrency.id)}
             key={marketCurrency.id}
             currency={marketCurrency}
             icon={true}

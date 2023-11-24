@@ -1,9 +1,10 @@
 'use client'
 
-import { Dialog, IconButton } from '@radix-ui/themes'
+import { Dialog } from '@radix-ui/themes'
 import { X } from 'lucide-react'
 import { CreateTransactionForm } from './CreateTransactionForm'
 import { MouseEvent, useState } from 'react'
+import { Button } from '@nextui-org/react'
 
 export function CreateTransaction() {
   const [transactionType, setTransactionType] = useState('buy')
@@ -19,10 +20,10 @@ export function CreateTransaction() {
           Add Transação
         </Dialog.Title>
 
-        <Dialog.Close className="absolute right-8 top-8">
-          <IconButton variant="ghost" color="gray">
+        <Dialog.Close className="absolute right-7 top-6">
+          <Button variant="light" className="text-gray-500" isIconOnly>
             <X />
-          </IconButton>
+          </Button>
         </Dialog.Close>
       </header>
 

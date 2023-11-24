@@ -1,31 +1,30 @@
 import { MarketCurrency } from '@/@types'
+import { Button } from '@nextui-org/react'
 import { Text } from '@radix-ui/themes'
 import { ChevronRight } from 'lucide-react'
 import Image from 'next/image'
-import { LiHTMLAttributes } from 'react'
 
-interface CurrencyProps extends LiHTMLAttributes<HTMLElement> {
+interface CurrencyProps {
   icon?: boolean
-  hover?: boolean
   logoWidth?: number
   logoHeight?: number
   currency: MarketCurrency
+  onClick: () => void
 }
 
 export function CurrencyItem({
   icon = false,
-  hover = true,
   logoHeight = 32,
   logoWidth = 32,
   currency,
-  ...props
+  onClick,
 }: CurrencyProps) {
   return (
-    <li
-      {...props}
-      className={`flex w-full items-center gap-2 py-2 px-1 cursor-pointer rounded-lg bg-white ${
-        hover ? 'hover:bg-gray-100' : ''
-      }`}
+    <Button
+      onClick={onClick}
+      variant="light"
+      className="text-base text-start space-x-3 w-full"
+      endContent={icon && <ChevronRight />}
     >
       <Image
         src={currency.image}
@@ -36,11 +35,6 @@ export function CurrencyItem({
       <Text as="p" className="w-full">
         {currency.name} <Text color="gray">{currency.symbol}</Text>
       </Text>
-      {icon && (
-        <b className="ml-auto">
-          <ChevronRight />
-        </b>
-      )}
-    </li>
+    </Button>
   )
 }
