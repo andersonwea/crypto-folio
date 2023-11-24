@@ -1,13 +1,11 @@
-import { CurrenciesRepository } from '@/repositories/currencies-repository'
-import { TransactionsRepository } from '@/repositories/transactions-repository'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { FetchUserTransactionsHistoryUseCase } from './fetch-user-transactions-history'
 import { InMemoryTransactionsRepository } from '@/repositories/in-memory/in-memory-transactions-repository'
 import { InMemoryCurrenciesRepository } from '@/repositories/in-memory/in-memory-currencies-repository'
 
 describe('Fetch User Transactions History Use Case', () => {
-  let transactionsRepository: TransactionsRepository
-  let currenciesRepository: CurrenciesRepository
+  let transactionsRepository: InMemoryTransactionsRepository
+  let currenciesRepository: InMemoryCurrenciesRepository
   let sut: FetchUserTransactionsHistoryUseCase
 
   beforeEach(() => {
@@ -27,6 +25,20 @@ describe('Fetch User Transactions History Use Case', () => {
       image: 'crypto-image',
       symbol: 'BTC',
       user_id: 'user-01',
+    })
+
+    await currenciesRepository.createTransaction({
+      amount: 1.5,
+      currency_id: currency.id,
+      type: 'buy',
+      value: 32000000,
+    })
+
+    await currenciesRepository.createTransaction({
+      amount: 1,
+      currency_id: currency.id,
+      type: 'buy',
+      value: 15000000,
     })
 
     await transactionsRepository.create({
@@ -71,6 +83,15 @@ describe('Fetch User Transactions History Use Case', () => {
 
     for (let i = 1; i <= 10; i++) {
       await transactionsRepository.create({
+        amount: i,
+        currency_id: currency.id,
+        type: 'buy',
+        value: 12000000,
+      })
+    }
+
+    for (let i = 1; i <= 10; i++) {
+      await currenciesRepository.createTransaction({
         amount: i,
         currency_id: currency.id,
         type: 'buy',

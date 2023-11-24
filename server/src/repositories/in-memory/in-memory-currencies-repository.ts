@@ -11,7 +11,7 @@ export class InMemoryCurrenciesRepository implements CurrenciesRepository {
 
   async createTransaction(data: Prisma.TransactionUncheckedCreateInput) {
     const transaction = {
-      id: randomUUID(),
+      id: data.id || randomUUID(),
       type: data.type,
       value: data.value,
       amount: new Prisma.Decimal(data.amount.toString()),
@@ -26,7 +26,7 @@ export class InMemoryCurrenciesRepository implements CurrenciesRepository {
 
   async create(data: Prisma.CurrencyUncheckedCreateInput) {
     const currency = {
-      id: randomUUID(),
+      id: data.id || 'currency-id',
       cryptocurrency_id: data.cryptocurrency_id,
       name: data.name,
       image: data.image,

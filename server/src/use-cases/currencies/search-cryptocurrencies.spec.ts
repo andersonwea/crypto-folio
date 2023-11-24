@@ -1,7 +1,6 @@
 import { InMemoryCryptocurrenciesRepository } from '@/repositories/in-memory/in-memory-cryptocurrencies-repository'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { SearchCryptocurrenciesUseCase } from './search-cryptocurrencies'
-import { prisma } from '@/lib/prisma'
 import { AxiosApiService } from '@/adapters/axios/axios-api-service'
 
 describe('Search Cryptocurrencies Use Case', () => {

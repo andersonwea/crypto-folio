@@ -10,7 +10,12 @@ export class InMemoryWatchlistRepository implements WatchlistRepository {
       (currency) => currency.user_id === userId,
     )
 
-    return watchlist
+    const totalItems = watchlist.length
+
+    return {
+      watchlist,
+      totalItems,
+    }
   }
 
   async findbyUserIdAndCurrencyId(currencyId: number, userId: string) {

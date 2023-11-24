@@ -24,7 +24,6 @@ export class FetchUserTransactionsHistoryUseCase {
   }: FetchUserTransactionsHistoryRequest): Promise<FetchUserTransactionsHistoryResponse> {
     const currencies =
       await this.currenciesRepository.findManyWithTransactionsOnUserId(userId)
-
     const transactionsByCurrency = await Promise.all(
       currencies.map((currency) =>
         this.transactionsRepository.findManyByCurrencyId(currency.id),
