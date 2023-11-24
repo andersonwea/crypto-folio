@@ -2,14 +2,13 @@
 
 import { Text } from '@radix-ui/themes'
 import { TextInput } from './TextInput'
-import { Button } from './Button'
-import Image from 'next/image'
-import googleIcon from '@/assets/google.svg'
+import { Button } from '@nextui-org/react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { registerUser } from '@/actions/user/registerUser'
 import { toast } from 'react-toastify'
+import { GoogleIcon } from '@/assets/GoogleIcon'
 
 const registerFormSchema = z.object({
   nickname: z
@@ -101,15 +100,25 @@ export function RegisterForm() {
       </div>
 
       <div className="flex flex-col space-y-4">
-        <Button disabled={isSubmitting}>Cadastrar</Button>
+        <Button
+          variant="solid"
+          type="submit"
+          className="bg-blue-300"
+          isLoading={isSubmitting}
+        >
+          Cadastrar
+        </Button>
         <Text className='flex items-center gap-2 before:content-[""] before:block before:bg-gray-300 before:w-full before:h-[2px] after:content-[""] after:block after:bg-gray-300 after:w-full after:h-[2px]'>
           ou
         </Text>
-        <button className="flex items-end justify-center gap-4 border-[2px] rounded-xl py-[6px] hover:bg-gray-50">
-          {' '}
-          <Image src={googleIcon} width={28} height={28} alt="" />
+        <Button
+          variant="bordered"
+          className="border-gray-400"
+          startContent={<GoogleIcon />}
+          onClick={() => toast.info('Em desenvolvimento')}
+        >
           Continue com Google
-        </button>
+        </Button>
       </div>
     </form>
   )
