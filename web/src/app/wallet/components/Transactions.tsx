@@ -1,25 +1,22 @@
 import { Heading, ScrollArea, Text } from '@radix-ui/themes'
 import { TransactionModal } from './TransactionModal'
-import { Button } from '@/components/Button'
 import dayjs from 'dayjs'
 import { priceFormatter } from '@/utils/priceFormatter'
-import { NavPages } from '@/app/market/components/NavPages'
 import { EditTransaction } from './EditTransaction'
 import { DeleteTransaction } from './DeleteTransaction'
 import { getWalletCurrencies } from '@/actions/currencies/getWalletCurrencies'
 import { getMarketCurrencies } from '@/actions/currencies/getMarketCurrencies'
 import { Transaction } from '@/@types'
+import { PaginationNav } from '@/components/PaginationNav'
 
 interface TransactionsProps {
   transactions: Transaction[]
   totalTransactions: number
-  page?: string
 }
 
 export async function Transactions({
   transactions,
   totalTransactions,
-  page = '1',
 }: TransactionsProps) {
   const { walletCurrencies } = await getWalletCurrencies()
   const { marketCurrencies } = await getMarketCurrencies()
@@ -126,8 +123,8 @@ export async function Transactions({
               })}
           </tbody>
         </table>
+        <PaginationNav total={totalPages} />
       </ScrollArea>
-      <NavPages page={Number(page)} totalPages={totalPages} />
     </section>
   )
 }

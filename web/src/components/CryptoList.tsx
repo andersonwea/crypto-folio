@@ -3,7 +3,6 @@
 import { ScrollArea, Text } from '@radix-ui/themes'
 import { Star } from 'lucide-react'
 import Image from 'next/image'
-import { NavPages } from '../app/market/components/NavPages'
 import Link from 'next/link'
 import { priceFormatter } from '@/utils/priceFormatter'
 import { bigNumberFormatter } from '@/utils/bigNumberFormatter'
@@ -11,16 +10,15 @@ import { MarketCurrency } from '@/@types'
 import { experimental_useOptimistic as useOptimistic } from 'react'
 import { toggleWatchlist } from '@/actions/watchlist/toggleWatchlist'
 import { Button } from '@nextui-org/react'
+import { PaginationNav } from './PaginationNav'
 
 interface CryptoListProps {
-  page?: string
   totalPages: number
   marketCurrencies: MarketCurrency[]
   watchlist: MarketCurrency[]
 }
 
 export function CryptoList({
-  page,
   totalPages,
   watchlist,
   marketCurrencies,
@@ -76,13 +74,6 @@ export function CryptoList({
               return (
                 <tr key={marketCurrency.id}>
                   <td className="w-10 h-10">
-                    {/* <Star
-                      onClick={() => handleToggleWatchlist(marketCurrency)}
-                      data-watchlist={isWatchlisted}
-                      size={20}
-                      className="data-[watchlist=true]:fill-blue-500 cursor-pointer"
-                      stroke={isWatchlisted ? '#0587FF' : 'gray'}
-                    /> */}
                     <Button
                       type="button"
                       isIconOnly
@@ -144,7 +135,7 @@ export function CryptoList({
           </tbody>
         </table>
       </ScrollArea>
-      <NavPages page={Number(page ?? '1')} totalPages={totalPages} />
+      <PaginationNav total={totalPages} />
     </section>
   )
 }
