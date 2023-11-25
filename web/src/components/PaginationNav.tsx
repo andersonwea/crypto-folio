@@ -1,13 +1,14 @@
 'use client'
 
 import { Pagination } from '@nextui-org/react'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 interface PaginationNavProps {
   total: number
 }
 
 export function PaginationNav({ total }: PaginationNavProps) {
+  const searchParams = useSearchParams()
   const pathname = usePathname()
   const router = useRouter()
 
@@ -21,7 +22,7 @@ export function PaginationNav({ total }: PaginationNavProps) {
       <Pagination
         showControls
         total={total}
-        initialPage={1}
+        initialPage={Number(searchParams.get('page')) || 1}
         onChange={(page: number) => onChangePage(page)}
       />
     </div>
