@@ -22,7 +22,7 @@ export function CurrencyItem({
   return (
     <Button
       onClick={onClick}
-      variant="light"
+      variant={icon ? 'light' : 'bordered'}
       className="text-base text-start space-x-3 w-full"
       endContent={icon && <ChevronRight />}
     >
