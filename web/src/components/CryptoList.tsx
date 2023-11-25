@@ -37,8 +37,9 @@ export function CryptoList({
                 Nome
               </th>
               <th className="text-gray-500">Preço</th>
-              <th className="text-gray-500">Valorização</th>
+              <th className="text-gray-500">Valorização (24h)</th>
               <th className="text-gray-500">Cap. de Mercado</th>
+              <th className="text-gray-500">Volume (24h)</th>
               <th className="text-gray-500">Forn. Circulante</th>
             </tr>
           </thead>
@@ -88,9 +89,14 @@ export function CryptoList({
                   >
                     {marketCurrency.values.percentChange24h.toFixed(2)}%
                   </td>
-                  <td>{bigNumberFormatter(marketCurrency.values.marketCap)}</td>
                   <td>
-                    {bigNumberFormatter(marketCurrency.circulatingSupply)}{' '}
+                    $ {bigNumberFormatter(marketCurrency.values.marketCap)}
+                  </td>
+                  <td>
+                    $ {bigNumberFormatter(marketCurrency.values.volume24h)}
+                  </td>
+                  <td>
+                    $ {bigNumberFormatter(marketCurrency.circulatingSupply)}{' '}
                     <Text>{marketCurrency.symbol}</Text>
                   </td>
                 </tr>
