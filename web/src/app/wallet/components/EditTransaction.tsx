@@ -177,7 +177,7 @@ export function EditTransaction({ transaction }: EditTransactionProps) {
             isLoading={isSubmitting}
             disabled={isSubmitting}
           >
-            Editar transação
+            {isSubmitting ? 'Salvando...' : 'Salvar'}
           </Button>
         </form>
       </Dialog.Content>

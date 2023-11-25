@@ -89,11 +89,11 @@ export function AuthenticateForm() {
       <div className="flex flex-col space-y-4">
         <Button
           variant="solid"
-          className="bg-blue-300"
+          className="bg-blue-300 text-base"
           type="submit"
           isLoading={isSubmitting}
         >
-          Login
+          {isSubmitting ? 'Carregando...' : 'Entrar'}
         </Button>
         <Text className='flex items-center gap-2 before:content-[""] before:block before:bg-gray-300 before:w-full before:h-[2px] after:content-[""] after:block after:bg-gray-300 after:w-full after:h-[2px]'>
           ou

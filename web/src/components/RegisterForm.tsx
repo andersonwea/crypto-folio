@@ -103,10 +103,10 @@ export function RegisterForm() {
         <Button
           variant="solid"
           type="submit"
-          className="bg-blue-300"
+          className="bg-blue-300 text-base"
           isLoading={isSubmitting}
         >
-          Cadastrar
+          {isSubmitting ? 'Carregando...' : 'Criar conta'}
         </Button>
         <Text className='flex items-center gap-2 before:content-[""] before:block before:bg-gray-300 before:w-full before:h-[2px] after:content-[""] after:block after:bg-gray-300 after:w-full after:h-[2px]'>
           ou

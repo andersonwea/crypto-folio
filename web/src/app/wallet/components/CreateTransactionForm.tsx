@@ -210,7 +210,7 @@ export function CreateTransactionForm({
           className="bg-blue-300 text-base"
           size="lg"
         >
-          Add transação
+          {isSubmitting ? 'Criando...' : 'Criar transação'}
         </Button>
       </form>
     </>
