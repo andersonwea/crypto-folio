@@ -3,6 +3,7 @@
 
 Um aplicativo web para gerenciar sua carteira de cryptomoedas e acompanhar dados como preços, volumes de negociação e capitalização de mercado em criptomoedas
 
+Você pode acessar o aplicativo em produção [AQUI](https://crypto-folio-beta.vercel.app)
 
 ## 🖥️Screenshots
 
