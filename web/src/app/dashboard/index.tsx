@@ -42,7 +42,6 @@ export default async function Dashboard({ searchParams }: DashboardProps) {
         <div className="mt-7 md:col-span-2 max-h-[350px]">
           {watchlist && marketCurrencies && (
             <CryptoList
-              page={page}
               totalPages={totalPages}
               watchlist={watchlist}
               marketCurrencies={marketCurrencies}
