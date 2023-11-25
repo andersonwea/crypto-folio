@@ -18,7 +18,7 @@ export function PaginationNav({ total }: PaginationNavProps) {
   }
 
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center max-sm:mt-4">
       <Pagination
         showControls
         total={total}
