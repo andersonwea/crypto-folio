@@ -2,6 +2,7 @@
 
 import { MarketCurrency } from '@/@types'
 import { toggleWatchlist } from '@/actions/watchlist/toggleWatchlist'
+import { Button } from '@nextui-org/react'
 import { Star } from 'lucide-react'
 import { experimental_useOptimistic as useOptimistic } from 'react'
 
@@ -36,12 +37,19 @@ export function WatchlistButton({
   )
 
   return (
-    <Star
+    <Button
+      type="button"
+      isIconOnly
+      variant="light"
+      radius="full"
       onClick={() => handleToggleWatchlist(marketCurrency)}
-      data-watchlist={isWatchlisted}
-      size={20}
-      className="data-[watchlist=true]:fill-blue-500 cursor-pointer"
-      stroke={isWatchlisted ? '#0587FF' : 'gray'}
-    />
+    >
+      <Star
+        size={20}
+        data-watchlist={isWatchlisted}
+        stroke={isWatchlisted ? '#0587FF' : 'gray'}
+        className="data-[watchlist=true]:fill-blue-500"
+      />
+    </Button>
   )
 }

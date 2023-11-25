@@ -1,16 +1,11 @@
-'use client'
-
 import { ScrollArea, Text } from '@radix-ui/themes'
-import { Star } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { priceFormatter } from '@/utils/priceFormatter'
 import { bigNumberFormatter } from '@/utils/bigNumberFormatter'
 import { MarketCurrency } from '@/@types'
-import { experimental_useOptimistic as useOptimistic } from 'react'
-import { toggleWatchlist } from '@/actions/watchlist/toggleWatchlist'
-import { Button } from '@nextui-org/react'
 import { PaginationNav } from './PaginationNav'
+import { WatchlistButton } from './WatchlistButton'
 
 interface CryptoListProps {
   totalPages: number
@@ -23,23 +18,6 @@ export function CryptoList({
   watchlist,
   marketCurrencies,
 }: CryptoListProps) {
-  const [optimisticWatchlist, addOptimisticWatchlist] = useOptimistic(
-    watchlist,
-    (state, newWatchlist: MarketCurrency) => {
-      if (state.find((watchlist) => watchlist.id === newWatchlist.id)) {
-        return state.filter((watchlist) => watchlist.id !== newWatchlist.id)
-      }
-
-      return [...state, newWatchlist]
-    },
-  )
-
-  async function handleToggleWatchlist(marketCurrency: MarketCurrency) {
-    addOptimisticWatchlist(marketCurrency)
-
-    await toggleWatchlist(marketCurrency.id)
-  }
-
   return (
     <section className="pt-7">
       <ScrollArea
@@ -67,32 +45,18 @@ export function CryptoList({
 
           <tbody>
             {marketCurrencies?.map((marketCurrency) => {
-              const isWatchlisted = !!optimisticWatchlist?.find(
-                (watchlist) => watchlist.id === marketCurrency.id,
-              )
-
               return (
-                <tr key={marketCurrency.id} className="group">
+                <tr key={marketCurrency.id}>
                   <td className="w-10 h-10">
-                    <Button
-                      type="button"
-                      isIconOnly
-                      variant="light"
-                      radius="full"
-                      onClick={() => handleToggleWatchlist(marketCurrency)}
-                    >
-                      <Star
-                        size={20}
-                        data-watchlist={isWatchlisted}
-                        stroke={isWatchlisted ? '#0587FF' : 'gray'}
-                        className="data-[watchlist=true]:fill-blue-500"
-                      />
-                    </Button>
+                    <WatchlistButton
+                      marketCurrency={marketCurrency}
+                      watchlist={watchlist}
+                    />
                   </td>
                   <td className="text-left max-sm:hidden">
                     {marketCurrency.rank}
                   </td>
-                  <td className="sticky left-0 shadow-sm min-w-[150px]">
+                  <td className="sticky left-0 shadow-sm min-w-[150px] group">
                     <Link
                       href={`/market/currency/${marketCurrency.id}`}
                       className="flex items-center gap-2"
