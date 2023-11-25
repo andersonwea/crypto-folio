@@ -1,14 +1,14 @@
 import { S3Service } from '@/adapters/s3aws/s3-service'
 import { PrismaUsersRepository } from '@/repositories/prisma/prisma-users-repository'
-import { UploadBucketImageUseCase } from '@/use-cases/users/upload-bucket-image'
+import { DeleteBucketImageUseCase } from '@/use-cases/users/delete-bucket-image'
 
-export function makeUploadBucketImageUseCase() {
+export function makeDeleteBucketImageUseCase() {
   const s3Service = new S3Service()
   const usersRepository = new PrismaUsersRepository()
-  const uploadBucketImageUseCase = new UploadBucketImageUseCase(
+  const deleteBucketImageUseCase = new DeleteBucketImageUseCase(
     s3Service,
     usersRepository,
   )
 
-  return uploadBucketImageUseCase
+  return deleteBucketImageUseCase
 }

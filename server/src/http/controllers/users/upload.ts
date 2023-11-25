@@ -1,6 +1,7 @@
 import { InvalidFormatError } from '@/use-cases/errors/invalid-formart-error'
 import { UploadError } from '@/use-cases/errors/upload-error'
-import { makeUploadUseCase } from '@/use-cases/factories/users/make-upload-use-case'
+import { makeDeleteBucketImageUseCase } from '@/use-cases/factories/users/make-delete-image-bucket-use-case'
+import { makeUploadBucketImageUseCase } from '@/use-cases/factories/users/make-upload-use-case'
 import { FastifyReply, FastifyRequest } from 'fastify'
 
 export async function upload(request: FastifyRequest, reply: FastifyReply) {
@@ -17,9 +18,11 @@ export async function upload(request: FastifyRequest, reply: FastifyReply) {
       return reply.status(400).send()
     }
 
-    const uploadUseCase = makeUploadUseCase()
+    const deleteBucketImageUseCase = makeDeleteBucketImageUseCase()
+    const uploadBucketImageUseCase = makeUploadBucketImageUseCase()
 
-    const { avatarUrl } = await uploadUseCase.execute({
+    await deleteBucketImageUseCase.execute({ userId })
+    const { avatarUrl } = await uploadBucketImageUseCase.execute({
       userId,
       file,
     })

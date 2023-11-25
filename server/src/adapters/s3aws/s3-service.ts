@@ -16,7 +16,7 @@ export class S3Service implements BucketService {
       credentials: {
         accessKeyId: env.APP_AWS_ACCESS_KEY_ID,
         secretAccessKey: env.APP_AWS_SECRET_ACCESS_KEY,
-      }
+      },
     })
   }
 
@@ -35,13 +35,9 @@ export class S3Service implements BucketService {
   }
 
   async delete(fileName: string) {
-    const imageUrl = new URL(fileName)
-
-    const imageName = imageUrl.pathname.replace('/', '')
-
     const command = new DeleteObjectCommand({
       Bucket: env.APP_AWS_BUCKET_NAME,
-      Key: imageName,
+      Key: fileName,
     })
 
     await this.s3Client.send(command)

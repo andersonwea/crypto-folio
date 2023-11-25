@@ -4,23 +4,34 @@ import { InvalidFormatError } from '../errors/invalid-formart-error'
 import { randomUUID } from 'node:crypto'
 import { extname } from 'node:path'
 import { env } from '@/env'
+import { UsersRepository } from '@/repositories/users-repository'
+import { ResourceNotFoundError } from '../errors/resource-not-found-error'
 
-interface UploadUseCaseRequest {
+interface UploadBucketImageUseCaseRequest {
   userId: string
   file: MultipartFile
 }
 
-interface UploadUseCaseResponse {
+interface UploadBucketImageUseCaseResponse {
   avatarUrl: string
 }
 
-export class UploadUseCase {
-  constructor(private bucketService: BucketService) {}
+export class UploadBucketImageUseCase {
+  constructor(
+    private bucketService: BucketService,
+    private usersRepository: UsersRepository,
+  ) {}
 
   async execute({
     userId,
     file,
-  }: UploadUseCaseRequest): Promise<UploadUseCaseResponse> {
+  }: UploadBucketImageUseCaseRequest): Promise<UploadBucketImageUseCaseResponse> {
+    const user = await this.usersRepository.findById(userId)
+
+    if (!user) {
+      throw new ResourceNotFoundError()
+    }
+
     const mimeTypeRegex = /^(image)\/[a-zA-Z]+/
 
     const isValidFormat = mimeTypeRegex.test(file.mimetype)
