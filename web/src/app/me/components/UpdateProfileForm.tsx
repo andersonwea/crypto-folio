@@ -2,7 +2,7 @@
 
 import { updateUserProfile } from '@/actions/user/updateUserProfile'
 import { upload } from '@/actions/user/upload'
-import { Button } from '@/components/Button'
+import { Button } from '@nextui-org/react'
 import { TextInput } from '@/components/TextInput'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Avatar, Heading, Text } from '@radix-ui/themes'
@@ -94,10 +94,6 @@ export function UpdateProfileForm() {
 
       const uploadResponse = upload(formData)
 
-      toast.promise(uploadResponse, {
-        pending: 'Salvando...',
-      })
-
       const { uploadError, avatarUrl: avatarUrlResponse } = await uploadResponse
 
       if (uploadError) {
@@ -184,7 +180,15 @@ export function UpdateProfileForm() {
           )}
         </div>
       </div>
-      <Button disabled={isSubmitting}>Salvar</Button>
+      <Button
+        type="submit"
+        disabled={isSubmitting}
+        isLoading={isSubmitting}
+        variant="solid"
+        className="bg-blue-300 text-base"
+      >
+        {isSubmitting ? 'Salvando...' : 'Salvar'}
+      </Button>
     </form>
   )
 }
