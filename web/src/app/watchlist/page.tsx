@@ -40,7 +40,6 @@ export default async function Watchlist({ searchParams }: WatchlistProps) {
 
         {marketCurrencies && watchlist && (
           <CryptoList
-            page={page}
             totalPages={totalPages}
             marketCurrencies={watchlist}
             watchlist={watchlist}
