@@ -34,7 +34,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${poppins.variable} bg-[#E5E5E5]`}
+        className={`${poppins.variable} bg-[#E5E5E5] h-screen`}
         style={{ backgroundImage: `url(${lines.src})` }}
       >
         <Providers session={session}>
