@@ -28,7 +28,7 @@ export const revalidate = 60 * 5 // 5 Minutes
 
 export default async function currency({ params, searchParams }: Props) {
   const currencyId = params.id
-  const { page } = searchParams
+  const { page } = searchParams ?? '1'
 
   const { walletCurrency } = await getWalletCurrency(currencyId)
 
@@ -42,6 +42,11 @@ export default async function currency({ params, searchParams }: Props) {
   )
   const mediaPrice =
     transactionsTotalValueInCents / 100 / walletCurrency?.amount
+
+  const transactionsPaginated = walletCurrency?.transactions.slice(
+    (Number(page) - 1) * 7,
+    Number(page) * 7,
+  )
 
   return (
     <>
@@ -104,8 +109,7 @@ export default async function currency({ params, searchParams }: Props) {
       </section>
 
       <Transactions
-        page={page}
-        transactions={walletCurrency.transactions}
+        transactions={transactionsPaginated}
         totalTransactions={walletCurrency.transactions.length}
       />
     </>
