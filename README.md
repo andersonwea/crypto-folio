@@ -5,7 +5,7 @@ Um aplicativo web para gerenciar sua carteira de cryptomoedas e acompanhar dados
 
 Você pode acessar o aplicativo em produção [AQUI](https://crypto-folio-beta.vercel.app)
 
-## 🖥️Screenshots
+## 🖥️ Screenshots
 
 ![App Screenshot](https://crypto-folio-bucket.s3.us-east-2.amazonaws.com/screenshost-app/dashboard-screen.png)
 
@@ -18,7 +18,7 @@ Você pode acessar o aplicativo em produção [AQUI](https://crypto-folio-beta.v
 ![App Screenshot](https://crypto-folio-bucket.s3.us-east-2.amazonaws.com/screenshost-app/chart-screen.png)
 
 
-## 🥁Funcionalidades
+## 🥁 Funcionalidades
 
 - Adicionar cryptomoeda em sua carteira
 - Adicionar e gerenciar transações
@@ -27,19 +27,19 @@ Você pode acessar o aplicativo em produção [AQUI](https://crypto-folio-beta.v
 - Acompanhar preços e dados de criptomoedas no mercado
 
 
-## 🛠️Stack utilizada
+## 🛠️ Stack utilizada
 
 **Front-end:** React, Next, TailwindCSS, NextUI, RadixUI, Zustand, Zod, NextAuth
 
 **Back-end:** Node, Fastify, Prisma, PostgreSQL, Vitest, Zod
 
 
-## 📕Documentação da API
+## 📕 Documentação da API
 
 
 
 
-## ⚙️Variáveis de Ambiente
+## ⚙️ Variáveis de Ambiente
 
 Para rodar esse projeto, você vai precisar adicionar as seguintes variáveis de ambiente no seu .env
 
@@ -70,7 +70,7 @@ NEXTBASE_URL=
 NEXTAUTH_SECRET=
 ```
 
-## 🚀Rodando localmente
+## 🚀 Rodando localmente
 
 ### Back-end
 
@@ -121,7 +121,7 @@ Inicie o servidor
 ```bash
   npm run dev
 ```
-## 🧪Rodando os testes
+## 🧪 Rodando os testes
 
 Para rodar os testes no Back-end, rode o seguinte comando
 
@@ -138,7 +138,7 @@ Testes end to end
 ```
 
 
-## 📝Aprendizados
+## 📝 Aprendizados
 
 Desenvolvi este projeto totalmente do zero, abrangendo desde o design das telas até a elaboração dos requisitos e o processo de implantação. Obtive valiosos aprendizados durante essa experiência, demonstrando minha capacidade de lidar com projetos práticos.
 
@@ -147,17 +147,17 @@ Um dos desafios enfrentados foi a implementação da autenticação dos usuário
 Outra dificuldade surgiu durante a implantação do servidor da aplicação, quando o tamanho da build do projeto excedeu o limite máximo de armazenamento no ambiente de deploy. Consegui superar esse obstáculo ao otimizar o script de deploy, removendo todos os testes e dependências de desenvolvimento desnecessárias para o ambiente de produção, resultando na redução do tamanho do projeto.
 
 
-## 🔎Referência
+## 🔎 Referência
 
  - [Inspiração do design das telas](https://uikitfree.com/crypto-wallet-dashboard-ui-figma-design-template/)
 
 
-## 📢Feedback
+## 📢 Feedback
 
 Se você tiver algum feedback, por favor nos deixe saber por meio de andersonwea14@gmail.com
 
 
-## 🛣️Roadmap
+## 🛣️ Roadmap
 
 - Implementar login pelo Google
 
