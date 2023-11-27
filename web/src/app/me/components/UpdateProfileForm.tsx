@@ -6,14 +6,14 @@ import { Button } from '@nextui-org/react'
 import { TextInput } from '@/components/TextInput'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Avatar, Heading, Text } from '@radix-ui/themes'
-import { Camera } from 'lucide-react'
+import { Camera, XCircle } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import { ChangeEvent, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import { z } from 'zod'
 
-const MAX_FILE_SIZE = 500000
+const MAX_FILE_SIZE = 5000000
 const ACCEPTED_IMAGE_TYPES = [
   'image/jpeg',
   'image/jpg',
@@ -33,7 +33,7 @@ const updateProfileFormSchema = z.object({
     .default(null)
     .refine(
       (file) => {
-        if (file[0]) {
+        if (file && file[0]) {
           return file[0]?.size <= MAX_FILE_SIZE
         }
 
@@ -45,7 +45,7 @@ const updateProfileFormSchema = z.object({
     )
     .refine(
       (file) => {
-        if (file[0]) {
+        if (file && file[0]) {
           return ACCEPTED_IMAGE_TYPES.includes(file[0]?.type)
         }
 
@@ -62,16 +62,17 @@ type UpdateProfileFormData = z.infer<typeof updateProfileFormSchema>
 export function UpdateProfileForm() {
   const [preview, setPreview] = useState<string | null>(null)
 
+  const { data: session, update } = useSession()
+
   const {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<UpdateProfileFormData>({
     resolver: zodResolver(updateProfileFormSchema),
   })
-
-  const { data: session, update } = useSession()
 
   function onFileSelected(event: ChangeEvent<HTMLInputElement>) {
     const { files } = event.target
@@ -83,6 +84,11 @@ export function UpdateProfileForm() {
     const previewURL = URL.createObjectURL(files[0])
 
     setPreview(previewURL)
+  }
+
+  function onFileRemove() {
+    setPreview(null)
+    setValue('file', null)
   }
 
   async function handleUpdateProfile(data: UpdateProfileFormData) {
@@ -132,7 +138,10 @@ export function UpdateProfileForm() {
       <div className="pt-10">
         <label htmlFor="">
           <Text>Username</Text>
-          <TextInput {...register('nickname')} />
+          <TextInput
+            {...register('nickname')}
+            defaultValue={session?.user.nickname || ''}
+          />
 
           {errors.nickname && (
             <Text color="red" size={'2'}>
@@ -166,17 +175,28 @@ export function UpdateProfileForm() {
           </label>
 
           {preview && (
-            <Avatar
-              radius="full"
-              color="orange"
-              variant="solid"
-              fallback={'A'}
-              src={preview}
-              size={{
-                initial: '6',
-                md: '7',
-              }}
-            />
+            <div className="relative">
+              <Avatar
+                radius="full"
+                color="orange"
+                variant="solid"
+                fallback={'A'}
+                src={preview}
+                size={{
+                  initial: '6',
+                  md: '7',
+                }}
+              />
+              <Button
+                isIconOnly
+                variant="light"
+                radius="full"
+                className="absolute -right-4 -top-4"
+                onClick={() => onFileRemove()}
+              >
+                <XCircle />
+              </Button>
+            </div>
           )}
         </div>
       </div>
