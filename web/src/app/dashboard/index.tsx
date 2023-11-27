@@ -14,8 +14,6 @@ interface DashboardProps {
   }
 }
 
-export const revalidate = 60 * 5 // 5 Minutes
-
 export default async function Dashboard({ searchParams }: DashboardProps) {
   const { page } = searchParams
   const totalPages = 791

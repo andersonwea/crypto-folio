@@ -2,8 +2,6 @@ import { Header } from '@/components/Header'
 import { Wallet } from './components/Wallet'
 import { getWalletCurrencies } from '@/actions/currencies/getWalletCurrencies'
 
-export const revalidate = 60 * 5 // 5 Minutes
-
 export default async function WalletLayout({
   children,
 }: {

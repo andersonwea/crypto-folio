@@ -14,8 +14,6 @@ export const metadata = {
   title: 'Lista de interesse | Crypto Folio',
 }
 
-export const revalidate = 60 * 5 // 5 Minutes
-
 export default async function Watchlist({ searchParams }: WatchlistProps) {
   const { page } = searchParams
 
