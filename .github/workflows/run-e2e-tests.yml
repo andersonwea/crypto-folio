@@ -18,9 +18,9 @@ jobs:
           POSTGRESQL_DATABASE: apisolid
 
     steps:
-      - run: cd server
-
       - uses: actions/checkout@v3
+      
+      - run: cd server
 
       - uses: actions/setup-node@v3
         with:
