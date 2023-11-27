@@ -4,7 +4,7 @@ import { MarketCurrency } from '@/@types'
 import { toggleWatchlist } from '@/actions/watchlist/toggleWatchlist'
 import { Button } from '@nextui-org/react'
 import { Star } from 'lucide-react'
-import { experimental_useOptimistic as useOptimistic } from 'react'
+import { experimental_useOptimistic as useOptimistic, useState } from 'react'
 
 interface WatchlistButtonProps {
   marketCurrency: MarketCurrency
@@ -15,6 +15,8 @@ export function WatchlistButton({
   marketCurrency,
   watchlist,
 }: WatchlistButtonProps) {
+  const [isSubmiting, setIsSubmiting] = useState(false)
+
   const [optimisticWatchlist, addOptimisticWatchlist] = useOptimistic(
     watchlist,
     (state, newWatchlist: MarketCurrency) => {
@@ -27,9 +29,13 @@ export function WatchlistButton({
   )
 
   async function handleToggleWatchlist(marketCurrency: MarketCurrency) {
+    setIsSubmiting(true)
+
     addOptimisticWatchlist(marketCurrency)
 
     await toggleWatchlist(marketCurrency.id)
+
+    setIsSubmiting(false)
   }
 
   const isWatchlisted = !!optimisticWatchlist?.find(
@@ -43,6 +49,7 @@ export function WatchlistButton({
       variant="light"
       radius="full"
       onClick={() => handleToggleWatchlist(marketCurrency)}
+      disabled={isSubmiting}
     >
       <Star
         size={20}
