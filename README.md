@@ -125,7 +125,7 @@ Inicie o servidor
 ```
 ## 🧪 Rodando os testes
 
-Para rodar os testes no Back-end, rode o seguinte comando:
+Para rodar os testes no Back-end, rode o seguinte comando
 
 Testes unitários
 
