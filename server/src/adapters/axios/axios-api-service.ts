@@ -41,7 +41,7 @@ export class AxiosApiService implements ApiService {
         (page - 1) * 7
       }`
     }
-    console.log(page, endpoint)
+
     const {
       data: { data },
     } = await this.api.get(endpoint)

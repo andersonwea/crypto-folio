@@ -89,15 +89,13 @@ export function CryptoList({
                   >
                     {marketCurrency.values.percentChange24h.toFixed(2)}%
                   </td>
+                  <td>{bigNumberFormatter(marketCurrency.values.marketCap)}</td>
+                  <td>{bigNumberFormatter(marketCurrency.values.volume24h)}</td>
                   <td>
-                    $ {bigNumberFormatter(marketCurrency.values.marketCap)}
-                  </td>
-                  <td>
-                    $ {bigNumberFormatter(marketCurrency.values.volume24h)}
-                  </td>
-                  <td>
-                    $ {bigNumberFormatter(marketCurrency.circulatingSupply)}{' '}
-                    <Text>{marketCurrency.symbol}</Text>
+                    {bigNumberFormatter(marketCurrency.circulatingSupply)}{' '}
+                    {marketCurrency.circulatingSupply && (
+                      <Text>{marketCurrency.symbol}</Text>
+                    )}
                   </td>
                 </tr>
               )
