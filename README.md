@@ -50,6 +50,7 @@ Para rodar esse projeto, você vai precisar adicionar as seguintes variáveis de
 DATABASE_URL=
 
 # Api de consulta de preços
+# https://cryptorank.io/public-api
 CRYPTO_RANK_API_KEY=
 
 # JWT config
