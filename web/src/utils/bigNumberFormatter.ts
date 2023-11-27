@@ -5,11 +5,15 @@ const suffixes: { [key: string]: string } = {
 }
 
 export function bigNumberFormatter(value: number) {
+  if (!value) {
+    return 'N/A'
+  }
+
   for (const suffix in suffixes) {
     if (value >= Number(suffix)) {
-      return (value / Number(suffix)).toFixed(2) + suffixes[suffix]
+      return '$ ' + (value / Number(suffix)).toFixed(2) + suffixes[suffix]
     }
   }
 
-  return value.toFixed(2)
+  return '$ ' + value.toFixed(2)
 }
