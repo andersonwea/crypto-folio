@@ -31,7 +31,7 @@ export async function Header({ title }: HeaderProps) {
           radius="full"
           color="orange"
           variant="solid"
-          fallback={'A'}
+          fallback={session?.user.nickname[0] || 'A'}
           size={{
             initial: '4',
             sm: '5',
