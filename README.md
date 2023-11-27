@@ -37,7 +37,7 @@ Você pode acessar o aplicativo em produção [AQUI](https://crypto-folio-beta.v
 ## 📕 Documentação da API
 
 Para consultar a documentação da API acesse o link.
-[Documentação](https://app.theneo.io/11f4c935-b4e8-45cc-857a-90c1b34ea750/crypto-folio-3/watchlist)
+[Documentação](https://app.theneo.io/11f4c935-b4e8-45cc-857a-90c1b34ea750/crypto-folio-3)
 
 
 ## ⚙️ Variáveis de Ambiente
