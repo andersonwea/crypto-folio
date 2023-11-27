@@ -1,3 +1,4 @@
+import { NicknameAlreadyExitsError } from '@/use-cases/errors/nickname-already-exists-error'
 import { makeUpdateUserProfileUseCase } from '@/use-cases/factories/users/make-update-user-profile-use-case'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { undefined, z } from 'zod'
@@ -29,8 +30,8 @@ export async function updateProfile(
       password_hash: undefined,
     })
   } catch (err) {
-    if (err instanceof Error) {
-      return reply.status(400).send({ message: err.message })
+    if (err instanceof NicknameAlreadyExitsError) {
+      return reply.status(409).send({ message: err.message })
     }
 
     throw err
