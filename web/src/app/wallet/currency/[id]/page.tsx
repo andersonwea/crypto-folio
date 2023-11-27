@@ -28,7 +28,7 @@ export const revalidate = 60 * 5 // 5 Minutes
 
 export default async function currency({ params, searchParams }: Props) {
   const currencyId = params.id
-  const { page } = searchParams ?? '1'
+  const { page } = searchParams
 
   const { walletCurrency } = await getWalletCurrency(currencyId)
 
@@ -44,10 +44,10 @@ export default async function currency({ params, searchParams }: Props) {
     transactionsTotalValueInCents / 100 / walletCurrency?.amount
 
   const transactionsPaginated = walletCurrency?.transactions.slice(
-    (Number(page) - 1) * 7,
-    Number(page) * 7,
+    (Number(page || 1) - 1) * 7,
+    Number(page || 1) * 7,
   )
-
+  console.log(page)
   return (
     <>
       <section className="pt-7">
