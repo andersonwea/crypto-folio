@@ -27,6 +27,8 @@ jobs:
 
       - run: npm ci
 
+      - run: cd server
+
       - run: npm run test:e2e
         env:
           JWT_SECRET: testing
