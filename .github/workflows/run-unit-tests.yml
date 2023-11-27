@@ -21,3 +21,12 @@ jobs:
 
       - run: npm run test
         working-directory: server
+        env:
+          DATABASE_URL: "postgresql://docker:docker@localhost:5432/apisolid?schema=public"
+          CRYPTO_RANK_API_KEY: ${{ secrets.CRYPTO_RANK_API_KEY }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          APP_AWS_ACCESS_KEY_ID: ${{ secrets.APP_AWS_ACCESS_KEY_ID }}
+          APP_AWS_SECRET_ACCESS_KEY: ${{ secrets.APP_AWS_SECRET_ACCESS_KEY }}
+          APP_AWS_REGION: ${{ secrets.APP_AWS_REGION }}
+          APP_AWS_BUCKET_NAME: ${{ secrets.APP_AWS_BUCKET_NAME }}
+          APP_AWS_BASE_URL: ${{ secrets.APP_AWS_BASE_URL }}
