@@ -77,7 +77,7 @@ export function CreateTransactionForm({
   }, [selectedMarketCurrency])
 
   const amount = watch('amount')
-  const currencyPrice = Number(watch('currencyPrice').toFixed(2))
+  const currencyPrice = watch('currencyPrice')
 
   async function handleCreateTransaction(data: CreateTransactionForm) {
     if (!selectedMarketCurrency) {
@@ -87,7 +87,7 @@ export function CreateTransactionForm({
 
     const { amount, createdAt } = data
     const { id, name, symbol, image } = selectedMarketCurrency
-    const value = amount * currencyPrice
+    const value = amount * data.currencyPrice
     const valueInCents = value * 100
 
     const addWalletCurrencyResponse = await addWalletCurrency({
@@ -154,11 +154,7 @@ export function CreateTransactionForm({
         <div className="flex gap-4 pt-4">
           <label htmlFor="" className="w-full space-y-1">
             <Text>Quantidade</Text>
-            <TextInput
-              placeholder="0.00"
-              type="number"
-              {...register('amount')}
-            />
+            <TextInput placeholder="0.00" {...register('amount')} />
 
             {errors.amount && (
               <Text color="red" size={'2'}>
