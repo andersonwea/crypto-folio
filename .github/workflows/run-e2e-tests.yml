@@ -18,6 +18,8 @@ jobs:
           POSTGRESQL_DATABASE: apisolid
 
     steps:
+      - run: cd server
+
       - uses: actions/checkout@v3
 
       - uses: actions/setup-node@v3
@@ -26,8 +28,6 @@ jobs:
           cache: 'npm'
 
       - run: npm ci
-
-      - run: cd server
 
       - run: npm run test:e2e
         env:
