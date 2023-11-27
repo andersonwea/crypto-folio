@@ -1,7 +1,9 @@
 import { ApiService } from '@/adapters/api-service'
 import { CurrenciesRepository } from '@/repositories/currencies-repository'
-import { calculateUserCurrenciesBalance } from '@/utils/calculate-user-currencies-balance'
-import { UserCurrencyWithBalance } from './fetch-user-currency'
+import {
+  UserCurrencyWithBalance,
+  calculateUserCurrenciesBalance,
+} from '@/utils/calculate-user-currencies-balance'
 
 interface SearchUserCurrencyUseCaseRequest {
   userId: string
