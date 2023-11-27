@@ -15,7 +15,7 @@ export async function ProfileCard() {
           radius="full"
           color="orange"
           variant="solid"
-          fallback={'A'}
+          fallback={session?.user.nickname[0] || 'A'}
           src={session?.user.avatarUrl ?? ''}
           size={{
             initial: '7',
