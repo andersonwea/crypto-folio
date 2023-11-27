@@ -19,13 +19,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      
-      - run: cd server
 
       - uses: actions/setup-node@v3
         with:
           node-version: 18
           cache: 'npm'
+          cache-dependency-path: server/package-lock.json
 
       - run: npm ci
 
